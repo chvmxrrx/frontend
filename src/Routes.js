@@ -22,6 +22,7 @@ import Proyecto from './user/Proyecto'
 import makeToast from './Toaster/Toaster';
 import { io } from 'socket.io-client';
 import { isAuthenticated } from './auth';
+import MisProyectos from './user/Misproyectos';
 
 const Routes = () => {
 
@@ -86,6 +87,7 @@ const Routes = () => {
                 <PrivateRoute path="/profile/:userId" exact component={Profile} />
                 <PrivateRoute path="/profile/publication/create/:userId" exact component={Publicacion} />
                 <PrivateRoute path="/profile/project/create/:userId" exact component={Proyecto} />
+                <PrivateRoute path="/profile/myprojects/:userId" exact component={MisProyectos} />
             </Switch>
         </BrowserRouter>
     );

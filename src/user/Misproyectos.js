@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import Layout from './Layout';
-import { getProjects } from './apiCore';
+import Layout from '../core/Layout';
+import { getMyProjects } from '../core/apiCore';
 import { isAuthenticated } from '../auth';
-import Card from './cardProjects';
+import Card from '../core/cardMyProjects';
 
-const Home = () => {
+const MisProyectos = () => {
 
     const [projects, setProjects] = useState([])
     const {dataUser, accessToken} = isAuthenticated()
     const [error, setError] = useState(false)
 
     const loadProjects = () => {
-        getProjects(dataUser.id, accessToken).then( data => {
+        getMyProjects(dataUser.id, accessToken).then( data => {
             if(data.error){
                 setError(data.error)
             } else {
@@ -25,8 +25,8 @@ const Home = () => {
     },[])
 
    return ( 
-   <Layout title="Home Page" description="Aplicacion Inkapp para tatuadores.">
-       <h2 className="mb4">Proyectos inkapp!</h2>
+   <Layout title="Mis proyectos" description="Estas viendo tus proyectos!">
+       <h2 className="mb4">Proyectos de {dataUser.nombre}</h2>
        <div className="row">
             { projects.map((project, id) => (
             <Card key={id} project={project}/>
@@ -38,4 +38,4 @@ const Home = () => {
 
 };
 
-export default Home;
+export default MisProyectos;
