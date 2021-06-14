@@ -62,3 +62,21 @@ export const createPublication = (id, accessToken, publication) => {
     });
     
 };
+
+export const createProject = (id, accessToken, project) => {
+    return fetch(`${API}/proyecto/crear/${id}`, {
+        method: "POST",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`
+        },
+        body: project
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        console.log(err);
+    });
+    
+};

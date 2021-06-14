@@ -14,7 +14,8 @@ const Dashboard = () => {
                 <ul className="list-group">
                     <li className="list-group-item">
                         <Link className="nav-link" to={`/profile/${id}`} >Editar perfil</Link> 
-                        <Link className="nav-link" to={`/profile/publication/create/${id}`} >Crear publicación</Link>  
+                        <Link className="nav-link" to={`/profile/publication/create/${id}`} >Crear publicación</Link>
+                        <Link className="nav-link" to={`/profile/project/create/${id}`} >Crear proyecto</Link>
                     </li>
                 </ul>
             </div>

@@ -16,14 +16,58 @@ import ManageRegion from './admin/ManageRegion';
 import UpdateRegion from './admin/updateRegion';
 import ManageEstado from './admin/ManageEstado';
 import ManageEstilo from './admin/ManageEstilo';
+import ChatroomPage from './chat/ChatroomPage';
+import ChatroomsMenuPage from './chat/ChatroomsMenuPage';
+import Proyecto from './user/Proyecto'
+import makeToast from './Toaster/Toaster';
+import { io } from 'socket.io-client';
+import { isAuthenticated } from './auth';
 
 const Routes = () => {
+
+    const [socket, setSocket] = React.useState(null) 
+  
+    const setupSocket = () =>{
+    
+    const {accessToken} = isAuthenticated()
+    if(accessToken && !socket){
+      const newSocket = io('http://localhost:4000', {
+        query: {
+            token: accessToken
+        }
+    })
+
+    newSocket.on('disconnect', () => {
+      setSocket(null)
+      setTimeout(setupSocket, 3000)
+      makeToast('error', 'Socket Disconnected!')
+    })
+
+    newSocket.on('connect', () => {
+      makeToast('success', 'Socket Connected!')
+    })
+
+    setSocket(newSocket)
+    }
+  }
+
+  React.useEffect(() => {
+    setupSocket()
+    //eslint-disable-next-line
+  }, [])
     return(
         <BrowserRouter>
             <Switch>
                 <Route path="/" exact component={Home}/>
                 <Route path="/singin" exact component={Singin}/>
                 <Route path="/singup" exact component={Singup}/>
+                <Route path='/chatroomsmenu' 
+                render={ () => <ChatroomsMenuPage setupSocket={setupSocket} exact/>} 
+                
+                />
+                <Route path='/chatroom/:id'
+                render = {() => <ChatroomPage socket={socket} exact/>}
+                 /> 
 
                 <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
 
@@ -41,6 +85,7 @@ const Routes = () => {
 
                 <PrivateRoute path="/profile/:userId" exact component={Profile} />
                 <PrivateRoute path="/profile/publication/create/:userId" exact component={Publicacion} />
+                <PrivateRoute path="/profile/project/create/:userId" exact component={Proyecto} />
             </Switch>
         </BrowserRouter>
     );

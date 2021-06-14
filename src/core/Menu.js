@@ -46,6 +46,18 @@ const Menu = ({ history }) => (
                 </Link>
             </li>
             )}
+
+            {isAuthenticated() && isAuthenticated() && (
+                <li className="nav items">
+                <Link
+                    className="nav-link"
+                    style={isActive(history, "/user/dashboard")}
+                    to="/chatroomsmenu"
+                >
+                    Chatrooms
+                </Link>
+            </li>
+            )}
             
             {isAuthenticated() && isAuthenticated().dataUser.tipo === 2 && (
                 <li className="nav items">
