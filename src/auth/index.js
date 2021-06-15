@@ -1,7 +1,6 @@
 import { API } from '../config';
 
  export const singup = user => {
-    console.log( user );
     return fetch(`${API}/register`, {
         method: "POST",
         headers: {

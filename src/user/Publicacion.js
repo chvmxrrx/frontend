@@ -61,7 +61,7 @@ const Publicacion = () => {
     const clickSubmit = event => {
         event.preventDefault();
         setValues({...values, error: '', loading:true })
-        console.log(formData);
+        console.log(values);
         createPublication(dataUser.id, accessToken, formData)
         .then(data => {
             if(data.error) {
@@ -77,7 +77,7 @@ const Publicacion = () => {
 
     const redirectUser = () =>{
         if(redirectToReferrer) {
-            return <Redirect to="/user/dashboard" />
+            return <Redirect to="/" />
         }
     }
 

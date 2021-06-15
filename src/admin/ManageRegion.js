@@ -3,6 +3,7 @@ import Layout from '../core/Layout';
 import { isAuthenticated } from './../auth/index';
 import { Link } from 'react-router-dom';
 import { getRegiones, deleteRegion } from './apiAdmin'
+import makeToast from '../Toaster/Toaster';
 
 const ManageRegion = () => {
 
@@ -25,6 +26,7 @@ const ManageRegion = () => {
             if(data.error){
                 console.log(data.eror);
             }else{
+                makeToast("success", "La region se ha borrado con éxito")
                 loadRegiones();
             }
         })
@@ -49,7 +51,7 @@ const ManageRegion = () => {
                             <Link to={`/manage/region/update/${data._id}`}>
                                 <span className="text-muted">modificar</span>
                             </Link>
-                            <span onClick={() => destroyRegion(data._id)} className="text-muted">Eliminar</span>
+                            <span onClick={() => destroyRegion(data._id)} className="text-muted" style={{cursor: "pointer"}}>Eliminar</span>
                        </li>
                    ))} 
                 </ul>

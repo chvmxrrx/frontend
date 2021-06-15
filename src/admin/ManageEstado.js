@@ -3,6 +3,7 @@ import Layout from '../core/Layout';
 import { isAuthenticated } from './../auth/index';
 import { Link } from 'react-router-dom';
 import { getEstados, deleteEstado } from './apiAdmin'
+import makeToast from '../Toaster/Toaster';
 
 const ManageEstado = () => {
 
@@ -15,6 +16,7 @@ const ManageEstado = () => {
             if(data.error) {
                 console.log(data.error);
             }else{
+                makeToast("success", "El estado se ha borrado con éxito")
                 setEstados(data.data);
             }
         })
@@ -46,10 +48,10 @@ const ManageEstado = () => {
                    {estados.map((data, i) => (
                        <li key={i} className="list-grop-item d-flex justify-content-between align-items-center">
                             <strong>{data.nombre}</strong>
-                            <Link to={`/manage/region/update/${data._id}`}>
-                                <span className="text-muted">modificar</span>
+                            <Link to={`/manage/estado/update/${data._id}`}>
+                                <span className="text-muted">Modificar</span>
                             </Link>
-                            <span onClick={() => destroyEstado(data._id)} className="text-muted">Eliminar</span>
+                            <span onClick={() => destroyEstado(data._id)} className="text-muted" style={{cursor: "pointer"}}>Eliminar</span>
                        </li>
                    ))} 
                 </ul>

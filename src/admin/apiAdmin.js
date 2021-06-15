@@ -119,7 +119,7 @@ export const getRegion = (idR, idU, accesToken) => {
 };
 
 //OBTENER/BUSCAR ESTADO
-export const getEstado = (idU, idE, accesToken) => {
+export const getEstado = (idE, idU, accesToken) => {
     return fetch(`${API}/estado/buscar/${idE}/${idU}`, {
         method: "GET",
         headers: {
@@ -135,7 +135,7 @@ export const getEstado = (idU, idE, accesToken) => {
 };
 
 //OBTENER/BUSCAR ESTILO DE TATUAJE
-export const getEstiloTatuaje = (idU, idET, accesToken) => {
+export const getEstiloTatuaje = (idET, idU, accesToken) => {
     return fetch(`${API}/tipoTatuajes/buscar/${idET}/${idU}`, {
         method: "GET",
         headers: {
@@ -152,7 +152,7 @@ export const getEstiloTatuaje = (idU, idET, accesToken) => {
 
 
 //ACTUALIZAR REGION
-export const updateRegion = (idU, idR, accessToken, region) => {
+export const updateRegion = (idR, idU, accessToken, region) => {
     return fetch(`${API}/region/modificar/${idR}/${idU}`, {
         method: "PUT",
         headers: {
@@ -171,7 +171,7 @@ export const updateRegion = (idU, idR, accessToken, region) => {
 };
 
 //ACTUALIZAR ESTADO
-export const updateEstado = (idU, idE, accessToken, estado) => {
+export const updateEstado = (idE, idU, accessToken, estado) => {
     return fetch(`${API}/estado/modificar/${idE}/${idU}`, {
         method: "PUT",
         headers: {
@@ -190,7 +190,7 @@ export const updateEstado = (idU, idE, accessToken, estado) => {
 };
 
 //ACTUALIZAR ESTILO DE TATUAJE
-export const updateEstiloTatuaje = (idU, idET, accessToken, estilo) => {
+export const updateEstiloTatuaje = (idET, idU, accessToken, estilo) => {
     return fetch(`${API}/tipoTatuajes/modificar/${idET}/${idU}`, {
         method: "PUT",
         headers: {

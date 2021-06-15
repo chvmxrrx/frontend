@@ -3,6 +3,7 @@ import Layout from '../core/Layout';
 import { isAuthenticated } from '../auth/index';
 import {Link} from 'react-router-dom';
 import { createEstado } from './apiAdmin';
+import makeToast from '../Toaster/Toaster';
 
 const AddEstado = () => {
     const [nombre, setNombre] = useState('');
@@ -36,13 +37,13 @@ const AddEstado = () => {
 
     const showSucces = () =>{
         if(succes) {
-            return <h4 className="text-succes">El estado "{nombre}" se ha creado con éxito.</h4>
+            return makeToast("success", `El estado ${nombre} se ha creado con éxito.`)
         }
     };
 
     const showError = () =>{
         if(error) {
-            return <h4 className="text-danger">El estado ingresado ya existe.</h4>
+            return makeToast("error", `${nombre} ya existe.`)
         }
     };
 

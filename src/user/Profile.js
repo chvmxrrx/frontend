@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../auth/index';
-import {Link, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
+import { getRegiones } from './../admin/apiAdmin';
 import { read, update, updateUser} from '../user/apiUser';
 
 const Profile = ({match}) => {
@@ -16,14 +17,14 @@ const Profile = ({match}) => {
         tipo: "",
         img: "",
         edad: "",
-        regiones: [],
+        Regiones: [],
         region: "",
         loading: false,
-        error: false,
+        error: "",
         redirectToReferrer: false,
         succes: false,
         formData: ""
-    })
+    });
 
     const { 
         userName, 
@@ -34,8 +35,8 @@ const Profile = ({match}) => {
         password, 
         confirmPassword, 
         tipo, 
-        edad, 
-        regiones, 
+        edad,
+        Regiones,
         region, 
         loading, 
         error,
@@ -45,6 +46,7 @@ const Profile = ({match}) => {
 
     const { accessToken, dataUser } = isAuthenticated()
 
+    //Cargar regiones y setear formData
     const init = (userId) =>{
         read(userId, accessToken ).then(data => {
             if(data.error) {
@@ -60,24 +62,42 @@ const Profile = ({match}) => {
                     tipo: data.user.tipo,
                     edad: data.user.edad,
                     region: data.user.region,
-                    img: data.user.img
+                    formData: new FormData()
                 })
+                initRegiones();
+            }
+            
+        })
+        
+    }
+
+    const initRegiones = () => {
+        getRegiones().then(data => {
+            if(data.error){
+                setValues({...values, error: data.error})
+            }else {
+                setValues({ Regiones: data.data, formData: new FormData()}) 
             }
         })
     }
 
     useEffect (() => {
-        init(match.params.userId)
+        init(match.params.userId);
     }, []); 
 
-    const handleChange = name => e => {
-        setValues({ ...values, error: false, [name]: e.target.value });
+    const handleChange = name => event => {
+        const value = 
+            name === "img" ? event.target.files[0] : event.target.value;
+        formData.set(name, value);
+        setValues({ ...values, [name]: value });
     }
 
     const clickSubmit = e => {
         e.preventDefault()
+        setValues({...values, error: "", loading: true});
+
         if(password === confirmPassword){
-            update(match.params.userId, accessToken, { userName, nombre, apellido, sexo, email, password, tipo, edad, region } )
+            update(dataUser.id, accessToken, formData )
             .then( data => {
                 if(data.error) {
                     console.log(data.error);
@@ -93,7 +113,8 @@ const Profile = ({match}) => {
                             tipo: data.tipo,
                             edad: data.edad,
                             region: data.region,
-                            succes: true
+                            succes: true,
+                            redirectToReferrer: true
                         })
                         console.log(values);
                     })
@@ -105,42 +126,86 @@ const Profile = ({match}) => {
         
     }
 
+    const showError = () => (
+        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    )
+
     const redirectUser = (succes) => {
         if(succes) {
-            return <Redirect to="/" />
+            return <Redirect to="/user/dashboard" />
         }
     }
 
     const profileUpdate = () => (
-        <form>
-            <div className="from-group">
+        <form className="mb-3" onSubmit={clickSubmit}>
+            
+            <div className="form-group">
                 <label className="text-muted">Username</label>
-                <input type="text" onChange={handleChange('userName')} className="form-control" value={userName}/>
+                <input
+                    onChange={handleChange('userName')}
+                    type="text"
+                    className="form-control"
+                    value={userName}
+                    required
+                />
             </div>
-            <div className="from-group">
+
+            <div className="form-group">
                 <label className="text-muted">Nombre</label>
-                <input type="text" onChange={handleChange('nombre')} className="form-control" value={nombre}/>
+                <input 
+                    onChange={handleChange('nombre')} 
+                    type="text" 
+                    className="form-control" 
+                    value={nombre}
+                    required
+                />
             </div>
-            <div className="from-group">
+
+            <div className="form-group">
                 <label className="text-muted">Apellido</label>
-                <input type="text" onChange={handleChange('apellido')} className="form-control" value={apellido}/>
-            </div>
-            <div className="from-group">
-                <label className="text-muted">Sexo</label>
-                <input type="text" onChange={handleChange('sexo')} className="form-control" value={sexo}/>
-            </div>
-            <div className="from-group">
-                <label className="text-muted">Email</label>
-                <input type="text" onChange={handleChange('email')} className="form-control" value={email}/>
+                <input 
+                    onChange={handleChange('apellido')} 
+                    type="text" 
+                    className="form-control" 
+                    value={apellido}
+                    required
+                />
             </div>
             
+            <div className="form-group">
+                <label className="text-muted">Sexo</label>
+                <select 
+                    onChange={handleChange("sexo")}
+                    className="form-control"
+                    required
+                >
+                    <option >Seleccione sexo...</option>
+                    <option value="F">Femenino</option>
+                    <option value="M">Masculino</option>
+                </select>
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">Email</label>
+                <input 
+                    onChange={handleChange('email')} 
+                    type="email" 
+                    className="form-control" 
+                    value={email}
+                    required
+                />
+            </div>
+
             <div className="form-group">
                 <label className="text-muted">Contraseña</label>
                 <input 
                     onChange={handleChange('password')} 
-                    type="text" 
+                    type="password" 
                     className="form-control" 
                     value={password}
+                    required
                 />
             </div>
 
@@ -148,9 +213,10 @@ const Profile = ({match}) => {
                 <label className="text-muted">Confirmar contraseña</label>
                 <input 
                     onChange={handleChange('confirmPassword')} 
-                    type="text" 
+                    type="password" 
                     className="form-control" 
                     value={confirmPassword}
+                    required
                 />
             </div>
 
@@ -159,6 +225,7 @@ const Profile = ({match}) => {
                 <select 
                     onChange={handleChange("tipo")}
                     className="form-control"
+                    required
                 >
                     <option >Seleccione un tipo de usuario...</option>
                     <option value="1">Soy tatuador</option>
@@ -169,34 +236,54 @@ const Profile = ({match}) => {
             <div className="form-group">
                 <label className="text-muted">Edad</label>
                 <input 
-                    onChange={handleChange("edad")} 
+                    onChange={handleChange('edad')} 
                     type="number" 
                     className="form-control" 
                     value={edad}
                     min="18"
                     max="100"
+                    required
                 />
             </div>
 
             <div className="form-group">
                 <label className="text-muted">Region</label>
                 <select 
-                    onChange={handleChange("tipo")}
+                    onChange={handleChange("region")}
                     className="form-control"
+                    required
                 >
-                    <option >Seleccione una region...</option>
-                    <option value="60b9637b9a6cf337c86f8ff1">Region Metropolitana</option>
-                    <option value="60b9637b9a6cf337c86f8ff1">Metropolitana</option>
+                    <option >Seleccione una región...</option>
+                    {Regiones.map((data, i) => (
+                            <option key={i} value={data._id}>{data.nombre}</option>
+                        )) 
+                    }
                 </select>
+
             </div>
 
-            <button onClick={clickSubmit} className="btn btn-primary">Actualizar</button>
+            <h5>Foto de perfil</h5>
+            <div className="form-group">
+                <label className="btn btn-secondary">
+                    <input 
+                        onChange={handleChange('img')}
+                        type="file" 
+                        name="img" 
+                        accept="image/*" 
+                        required
+                    />
+                </label>
+            </div>
+
+            <button onClick={clickSubmit} className="btn btn-primary">Modificar perfil!</button>
         </form>
     )
 
     return(
         <Layout title="Perfil" description="Actualiza tu perfil">
+            {showError()}
             {profileUpdate()}
+            {redirectUser()}
         </Layout>
     )
 }

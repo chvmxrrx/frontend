@@ -251,7 +251,6 @@ const Singup = () => {
             {showError()}
             {singupForm()}
             {redirectUser()}
-            {JSON.stringify(values)}
         </Layout>
     );
 

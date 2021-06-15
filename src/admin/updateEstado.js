@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../auth/index';
 import {Link} from 'react-router-dom';
-import { getRegion, updateRegion } from './apiAdmin';
+import { getEstado, updateEstado } from './apiAdmin';
 import makeToast from '../Toaster/Toaster';
 
-const UpdateRegion = ({ match }) => {
+const UpdateEstado = ({ match }) => {
 
     const [values, setValues] = useState({
         nombre: "",
@@ -18,8 +18,8 @@ const UpdateRegion = ({ match }) => {
     //Desestructurar informacion desde el sesion storage
     const { accessToken, dataUser } = isAuthenticated();
 
-    const init = (regionId) => {
-        getRegion(regionId, dataUser.id, accessToken).then(data=> {
+    const init = (estadoId) => {
+        getEstado(estadoId, dataUser.id, accessToken).then(data=> {
             if(data.error){
                 setValues({...values, error: true })
             } else {
@@ -29,7 +29,7 @@ const UpdateRegion = ({ match }) => {
     }
 
     useEffect(() =>{
-        init(match.params.regionId);
+        init(match.params.estadoId);
     }, []);
 
     const handleChange = name => event => {
@@ -38,7 +38,7 @@ const UpdateRegion = ({ match }) => {
 
     const clickSubmit = (e) => {
         e.preventDefault()
-        updateRegion(match.params.regionId, dataUser.id, accessToken, {nombre}).then(data => {
+        updateEstado(match.params.estadoId, dataUser.id, accessToken, {nombre}).then(data => {
             if(data.error){
                 showError(data.error)
             }else {
@@ -66,7 +66,7 @@ const UpdateRegion = ({ match }) => {
     );     
     
 
-    const UpdateRegionForm = () => (
+    const UpdateEstadoForm = () => (
         <form onSubmit={clickSubmit}>
             <div className="form-group">
                 <label className="text-muted">Nombre</label>
@@ -77,12 +77,12 @@ const UpdateRegion = ({ match }) => {
     )
 
     return (
-        <Layout title="Modificar region" description={ 'Modificar una region de la base de datos.'} >
+        <Layout title="Modificar estado" description={ 'Modificar un estado de la base de datos.'} >
             <div className="row">
                 <div className="col-md-8 offset-md-2">
                     {showSucces()}
                     {showError()}
-                    {UpdateRegionForm()}
+                    {UpdateEstadoForm()}
                     {goBack()}
                 </div>
             </div>
@@ -91,4 +91,4 @@ const UpdateRegion = ({ match }) => {
 
 }
 
-export default UpdateRegion;
+export default UpdateEstado;

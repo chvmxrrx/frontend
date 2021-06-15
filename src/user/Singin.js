@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Layout from '../core/Layout';
 import { Redirect } from 'react-router-dom';
 import { singin, authenticate, isAuthenticated } from './../auth/index';
+import { API } from '../config';
 
 const Singin = () => {
 
@@ -62,7 +63,7 @@ const Singin = () => {
             }
         }
         if(isAuthenticated()) {
-            return <Redirect to="/" />
+            return <Redirect to={`${API}/`} />
         }
     }
 

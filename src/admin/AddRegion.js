@@ -3,6 +3,7 @@ import Layout from '../core/Layout';
 import { isAuthenticated } from '../auth/index';
 import {Link} from 'react-router-dom';
 import { createRegion } from './apiAdmin';
+import makeToast from '../Toaster/Toaster';
 
 const AddRegion = () => {
     const [nombre, setNombre] = useState('');
@@ -36,13 +37,13 @@ const AddRegion = () => {
 
     const showSucces = () =>{
         if(succes) {
-            return <h4 className="text-succes">{nombre} se ha creado con éxito.</h4>
+            return makeToast("success", `La región ${nombre} se ha creado con éxito.`)
         }
     };
 
     const showError = () =>{
         if(error) {
-            return <h4 className="text-danger">La región ingresada ya existe.</h4>
+            return makeToast("error", `${nombre} ya existe.`)
         }
     };
 

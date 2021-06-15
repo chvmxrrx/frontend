@@ -11,11 +11,14 @@ import AddRegion from './admin/AddRegion';
 import AddEstado from './admin/AddEstado';
 import AddEstiloTatuaje from './admin/AddEstiloTatuaje';
 import Profile from './user/Profile';
-import Publicacion from './user/Publicacion';
+import createPublicacion from './user/Publicacion';
 import ManageRegion from './admin/ManageRegion';
-import UpdateRegion from './admin/updateRegion';
 import ManageEstado from './admin/ManageEstado';
 import ManageEstilo from './admin/ManageEstilo';
+import UpdateRegion from './admin/updateRegion';
+import UpdateEstilo from './admin/updateEstilo';
+import UpdateEstado from './admin/updateEstado';
+import PublicacionPage from './core/PublicacionPage';
 
 const Routes = () => {
     return(
@@ -35,12 +38,21 @@ const Routes = () => {
 
                 <AdminRoute path="/create/estado" exact component={AddEstado} />
                 <AdminRoute path="/manage/estado" exact component={ManageEstado} />
+                <AdminRoute path="/manage/estado/update/:estadoId" exact component={UpdateEstado} />
+                
 
                 <AdminRoute path="/create/estiloTatuaje" exact component={AddEstiloTatuaje} />
                 <AdminRoute path="/manage/estiloTatuaje" exact component={ManageEstilo} />
+                <AdminRoute path="/manage/estiloTatuaje/update/:estiloId" exact component={UpdateEstilo} />
 
                 <PrivateRoute path="/profile/:userId" exact component={Profile} />
-                <PrivateRoute path="/profile/publication/create/:userId" exact component={Publicacion} />
+                <PrivateRoute path="/profile/publication/create/:userId" exact component={createPublicacion} />
+                <PrivateRoute path="/profile/publication/view/:publicacionId" exact component={PublicacionPage} />
+                
+
+
+
+
             </Switch>
         </BrowserRouter>
     );

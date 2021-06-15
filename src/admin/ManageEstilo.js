@@ -3,6 +3,7 @@ import Layout from '../core/Layout';
 import { isAuthenticated } from './../auth/index';
 import { Link } from 'react-router-dom';
 import { getEstilosTatuajes, deleteEstiloTatuaje } from './apiAdmin'
+import makeToast from '../Toaster/Toaster';
 
 const ManageEstilo = () => {
 
@@ -25,6 +26,7 @@ const ManageEstilo = () => {
             if(data.error){
                 console.log(data.eror);
             }else{
+                makeToast("success", "El estilo se ha borrado con éxito")
                 loadEstilos();
             }
         })
@@ -46,10 +48,10 @@ const ManageEstilo = () => {
                    {estilos.map((data, i) => (
                        <li key={i} className="list-grop-item d-flex justify-content-between align-items-center">
                             <strong>{data.nombre}</strong>
-                            <Link to={`/manage/region/update/${data._id}`}>
+                            <Link to={`/manage/estiloTatuaje/update/${data._id}`}>
                                 <span className="text-muted">modificar</span>
                             </Link>
-                            <span onClick={() => destroyEstilo(data._id)} className="text-muted">Eliminar</span>
+                            <span onClick={() => destroyEstilo(data._id)} className="text-muted" style={{cursor: "pointer"}}>Eliminar</span>
                        </li>
                    ))} 
                 </ul>
