@@ -5,7 +5,7 @@ import {Redirect} from 'react-router-dom';
 import { getRegiones } from './../admin/apiAdmin';
 import { read, update, updateUser} from '../user/apiUser';
 
-const Profile = ({match}) => {
+const Profile = ({ match }) => {
     const [values, setValues] = useState({
         userName: "",
         nombre: "",
@@ -284,6 +284,7 @@ const Profile = ({match}) => {
             {showError()}
             {profileUpdate()}
             {redirectUser()}
+            {JSON.stringify(values)}
         </Layout>
     )
 }

@@ -57,6 +57,7 @@ const CardPublicacionPage = ({ publicacion }) => {
                 <ShowImage image={publicacion} url="publicacion"/>
                 <p className="lead mt-2">{publicacion.nombre}</p>
                 <p className="lead mt-2">{publicacion.descripcion.substring(0, 100)}</p>
+                
                 <p className="black-9">
                     {`Estilo del tatuaje: ${estilo.nombre}`}
                 </p>

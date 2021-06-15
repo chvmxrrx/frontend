@@ -25,7 +25,7 @@ export const getAllPublicaciones = () => {
         return response.json()
     })
     .catch(err => {
-        console.log(err);
+        return err
     })
 };
 

@@ -60,5 +60,20 @@ export const createPublication = (id, accessToken, publication) => {
     .catch( err => {
         console.log(err);
     });
-    
+};
+
+export const search = (user) => {
+    return fetch(`${API}/perfil/buscar/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({user: user})
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
 };

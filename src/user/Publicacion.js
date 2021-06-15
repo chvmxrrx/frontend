@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { authenticate, isAuthenticated } from './../auth/index';
 import { Redirect } from 'react-router-dom';
-import { createPublication } from './apiUser';
+import { createPublication, search } from './apiUser';
 import { getEstilosTatuajes } from '../admin/apiAdmin';
 import makeToast from '../Toaster/Toaster';
 
 const Publicacion = () => {
 
+    const [users, setUsers] = useState([]);
+    const [user, setUser] = useState([]);
     const [values, setValues] = useState({
         nombre: "",
         descripcion: "",
@@ -32,7 +34,7 @@ const Publicacion = () => {
         loading, 
         error,
         redirectToReferrer,
-        formData 
+        formData
     } = values;
 
     const { dataUser, accessToken } = isAuthenticated();
@@ -57,6 +59,11 @@ const Publicacion = () => {
             name === "img" ? event.target.files[0] : event.target.value;
         formData.set(name, value);
         setValues({ ...values, [name]: value });
+    }
+
+    const handleChangeSearch = name => event => {
+        const value = event.target.value;
+        setUser(value);
     }
 
     const clickSubmit = event => {
@@ -89,8 +96,29 @@ const Publicacion = () => {
         }
     };
 
+    const labusqueda = () => {
+        search(user).then(data =>{
+            console.log(data);
+            if(data.error){
+                makeToast("error","Ha ocurrido un error.")
+            }else{
+                setUsers(data.users)
+            }
+        })
+    }
+
+    const searchUsers = event =>{
+        event.preventDefault();
+        console.log(user);
+        labusqueda();
+    }
+
+    const rellenarCampo = (userId) =>{
+        setValues({...values, etiquetado: userId})
+    }
+
     const createPublicationForm = () => (
-        <form className="mb-3" onSubmit={clickSubmit}>
+        <form className="mb-3" >
             
             <h5>Foto</h5>
             <div className="form-group">
@@ -142,26 +170,45 @@ const Publicacion = () => {
             <div className="form-group">
                 <label className="text-muted">Etiquetar a un usuario (opcional)</label>
                 <input 
-                    onChange={HandleChange('etiquetado')} 
+                    onChange={handleChangeSearch('busqueda')} 
                     type="text" 
                     className="form-control" 
-                    value={etiquetado}
+                    value={user}
                 />
-            </div>
+                <br/>
 
-            <button onClick={clickSubmit} className="btn btn-primary">Subir publicación!</button>
+                {users && users.map((data, i) => ( 
+                    <button key={i} value={data._id} onClick={(event) => {
+                        event.preventDefault()
+                        setUser(data.userName)
+                        setValues({...values, etiquetado: data._id, busqueda: user})
+                        console.log(values);
+                    }}>
+                        {data.userName}
+                </button>
+                ))}
+
+                <button onClick={searchUsers} className="btn btn-secondary">Buscar usuario</button>
+                
+            </div>
+            <br/>
+            <div align="center">
+                <button onClick={clickSubmit} className="btn btn-primary">Subir publicación!</button>
+            </div>
+            
         </form>
     );
 
     return (
         <Layout
-            title="Registro"
-            description="Formulario de registro de Inkapp, aplicacion para tatuadores."
+            title="Publicación"
+            description="Crear una nueva publicación."
             className="container col-md-8 offset-md-2"
         >
             {showError()}
             {createPublicationForm()}
             {redirectUser()}
+            {JSON.stringify(values.etiquetado)}
         </Layout>
     );
 
