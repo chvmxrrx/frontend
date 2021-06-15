@@ -25,8 +25,8 @@ import ProjectView from './user/ProjectView'
 import ProjectsOffers from './user/ProjectsOfferts';
 import DoOffer from './user/DoOffer'
 import AllProjects from './user/AllProjects'
+import MyOffers from './user/MyOffers'
 
-import makeToast from './Toaster/Toaster';
 import { io } from 'socket.io-client';
 import { isAuthenticated } from './auth';
 import RespuestaOferta from './user/RespuestaOferta';
@@ -49,11 +49,11 @@ const Routes = () => {
     newSocket.on('disconnect', () => {
       setSocket(null)
       setTimeout(setupSocket, 3000)
-      makeToast('error', 'Socket Disconnected!')
+      
     })
 
     newSocket.on('connect', () => {
-      makeToast('success', 'Socket Connected!')
+      
     })
 
     setSocket(newSocket)
@@ -102,6 +102,7 @@ const Routes = () => {
                 <PrivateRoute path="/profile/project/doOffert/:projectId" exact component={DoOffer} />
                 <PrivateRoute path="/profile/project/doOffert/:projectId/:offerId/:response"
                 exact component={RespuestaOferta} />
+                <PrivateRoute path="/profile/offers/myoffers/:userId" exact component={MyOffers} />
             </Switch>
         </BrowserRouter>
     );

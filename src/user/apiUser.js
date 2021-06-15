@@ -142,3 +142,25 @@ export const createOffer = (idUser, accessToken, projectId, valor, descripcion) 
     
 };
 
+export const deleteProject = (idUser, accessToken, projectId) => {
+    
+    return fetch(`${API}/proyecto/eliminar/${projectId}/${idUser}`, {
+        
+        method: "DELETE",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`,
+            "Content-Type": "application/json"
+        }
+        
+    })
+    .then( response => {
+        
+        return response.json(); 
+    })
+    .catch( err => {
+        
+        return err
+    });
+    
+}

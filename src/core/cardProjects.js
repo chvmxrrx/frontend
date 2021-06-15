@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import ShowImage from './ShowImage'
-
+import moment from 'moment'
 const Card = ({ project }) => {
     return ( 
         <div className="col-4 mb-3">
@@ -14,6 +14,7 @@ const Card = ({ project }) => {
                     <p>Tamaño: {project.tamaño}</p>
                     <p>Estado: {project.estado.nombre}</p>
                     <p>Estilo: {project.estiloTatuaje.nombre}</p>
+                    <p>{moment(project.createdAt).fromNow()}</p>
                     <Link to={`/profile/project/${project._id}`}>
                         <button className="btn btn-outline-primary mt-2 mb-2">
                             Ver proyecto

@@ -15,7 +15,7 @@ export const getProjects = (id, accessToken) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err.error);
+        return err
     });
 }
 
@@ -33,6 +33,24 @@ export const getMyProjects = (id, accessToken) => {
         return response.json(); 
     })
     .catch( err => {
-        return err.json()
+        return err
+    });
+};
+
+export const getMyOffers = (id, accessToken) => {
+    
+    return fetch(`${API}/oferta/misOfertas/${id}`, {
+        method: "GET",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        }
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err
     });
 };

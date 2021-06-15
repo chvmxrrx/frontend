@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import ShowImage from './ShowImage'
 import { isAuthenticated } from '../auth/index'
-
+import moment from 'moment'
 const Card = ({project}) => {
 
     const { dataUser, accessToken } = isAuthenticated()
@@ -26,6 +26,7 @@ const Card = ({project}) => {
                                             <h2>Username: {data.ofertante.userName} </h2>
                                             <h2>Descripcion: {data.descripcion} </h2>
                                             <h2>Valor: ${data.valor}</h2>
+                                            <h2>{moment(data.createdAt).fromNow()}</h2>
                                         </div>
                                         <div>
                                             <Link to={`/profile/project/doOffert/${project._id}/${data._id}/${'aceptar'}`}>
