@@ -5,11 +5,13 @@ import { getEstiloTatuaje } from '../admin/apiAdmin';
 import { isAuthenticated } from '../auth';
 import moment from 'moment';
 import { deletePublicacion } from './apiCore';
+import makeToast from '../Toaster/Toaster'; 
 
 const CardPublicacionPage = ({ publicacion }) => {
 
     const [estilo, setEstilo] = useState('');
     const [redirect, setRedirect] = useState(false);
+    const [comentarios, setComentarios] = useState([]);
 
     const { accessToken, dataUser } = isAuthenticated();
 
@@ -34,20 +36,26 @@ const CardPublicacionPage = ({ publicacion }) => {
 
     const redirectTo = () => {
         if(redirect){
-            return <Redirect to="/" />
+            makeToast("success","Publicacion eliminada correctamente.")
+            return <Redirect to={`/myprofile/${dataUser.id}`} />
         }
         
     }
 
     useEffect(() => {
+        console.log(publicacion);
         init()
+        setComentarios(publicacion.comentarios)
+        console.log(comentarios);
     }, []);
 
     return(
-        <div className="card">
-            <div className="card-header">{publicacion.nombre}</div>
+        <div>
+            <div className="card">
+            <div className="card-header">{publicacion.creador.userName}</div>
             <div className="card-body">
                 <ShowImage image={publicacion} url="publicacion"/>
+                <p className="lead mt-2">{publicacion.nombre}</p>
                 <p className="lead mt-2">{publicacion.descripcion.substring(0, 100)}</p>
                 <p className="black-9">
                     {`Estilo del tatuaje: ${estilo.nombre}`}
@@ -55,13 +63,21 @@ const CardPublicacionPage = ({ publicacion }) => {
                 <p className="black-8">
                     {moment(publicacion.updatedAt).fromNow()}
                 </p>
-
-                <button className="btn btn-outline-warning mt-2 mb-2" onClick={() => eliminarPublicacion(publicacion._id)}>
-                    Eliminar publicacion
-                </button>
+                {isAuthenticated() && isAuthenticated().dataUser.id === publicacion.creador._id ? (
+                    <button className="btn btn-outline-warning mt-2 mb-2" onClick={() => eliminarPublicacion(publicacion._id)}>
+                        Eliminar publicacion
+                    </button>
+                ) : ( <div></div> )  
+                }
+                
             </div>
+            <div>
+
+            </div>
+        </div>
             {redirectTo()}
         </div>
+        
         
     );
 };

@@ -135,12 +135,9 @@ export const getEstado = (idE, idU, accesToken) => {
 };
 
 //OBTENER/BUSCAR ESTILO DE TATUAJE
-export const getEstiloTatuaje = (idET, idU, accesToken) => {
-    return fetch(`${API}/tipoTatuajes/buscar/${idET}/${idU}`, {
+export const getEstiloTatuaje = (idET) => {
+    return fetch(`${API}/tipoTatuajes/buscar/${idET}`, {
         method: "GET",
-        headers: {
-            Authorization: `${accesToken}`
-        }
     })
     .then( response => {
         return response.json()

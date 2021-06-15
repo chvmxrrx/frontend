@@ -18,6 +18,7 @@ const PublicacionPage = props => {
                 setError(data.error);
             }else{
                 setPublicacion(data);
+                console.log(publicacion);
             }
         })
     }
@@ -29,7 +30,7 @@ const PublicacionPage = props => {
 
     return (
         <Layout 
-            title={`Publicación de ${dataUser.user}`} 
+            title={`Publicación`} 
             description={""} 
             className="container-fluid"
         >

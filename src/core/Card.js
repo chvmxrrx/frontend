@@ -9,10 +9,9 @@ import { deletePublicacion } from './apiCore';
 const Card = ({ publicacion }) => {
 
     const [estilo, setEstilo] = useState('');
-    const { accessToken, dataUser } = isAuthenticated();
 
     const init = () => {
-        getEstiloTatuaje(publicacion.estiloTatuaje._id, dataUser.id, accessToken).then(data =>{
+        getEstiloTatuaje(publicacion.estiloTatuaje._id).then(data =>{
             if(data.error){
                 console.log(data.error);
             }else{
@@ -27,9 +26,10 @@ const Card = ({ publicacion }) => {
 
     return(
         <div className="card">
-            <div className="card-header">{publicacion.nombre}</div>
+            <div className="card-header">{publicacion.creador.userName}</div>
             <div className="card-body">
                 <ShowImage image={publicacion} url="publicacion"/>
+                <p className="lead mt-2">{publicacion.nombre}</p>
                 <p className="lead mt-2">{publicacion.descripcion}</p>
                 <p className="black-9">
                     {`Estilo del tatuaje: ${estilo.nombre}`}

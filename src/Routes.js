@@ -19,6 +19,7 @@ import UpdateRegion from './admin/updateRegion';
 import UpdateEstilo from './admin/updateEstilo';
 import UpdateEstado from './admin/updateEstado';
 import PublicacionPage from './core/PublicacionPage';
+import MyProfile from './core/MyProfile';
 
 const Routes = () => {
     return(
@@ -29,6 +30,7 @@ const Routes = () => {
                 <Route path="/singup" exact component={Singup}/>
 
                 <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
+                <PrivateRoute path="/myprofile/:userId" exact component={MyProfile} />
 
                 <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
 

@@ -1,12 +1,25 @@
 import { API } from '../config';
 
-//LISTADO PUBLICACIONES
+//LISTADO MIS PUBLICACIONES
 export const getPublicaciones = (idU, accesToken) => {
     return fetch(`${API}/publicacion/misPublicaciones/${idU}`, {
         method: "GET",
         headers: {
             Authorization: `${accesToken}`
         }
+    })
+    .then( response => {
+        return response.json()
+    })
+    .catch(err => {
+        console.log(err);
+    })
+};
+
+//LISTADO TODAS LAS PUBLICACIONES
+export const getAllPublicaciones = () => {
+    return fetch(`${API}/inicio/`, {
+        method: "GET"
     })
     .then( response => {
         return response.json()

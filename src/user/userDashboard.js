@@ -13,6 +13,7 @@ const Dashboard = () => {
                 <h3 className="card-header">User links</h3>
                 <ul className="list-group">
                     <li className="list-group-item">
+                        <Link className="nav-link" to={`/myprofile/${id}`} >Mi Perfil</Link>  
                         <Link className="nav-link" to={`/profile/${id}`} >Editar perfil</Link> 
                         <Link className="nav-link" to={`/profile/publication/create/${id}`} >Crear publicación</Link>  
                     </li>

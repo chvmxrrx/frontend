@@ -4,6 +4,7 @@ import { authenticate, isAuthenticated } from './../auth/index';
 import { Redirect } from 'react-router-dom';
 import { createPublication } from './apiUser';
 import { getEstilosTatuajes } from '../admin/apiAdmin';
+import makeToast from '../Toaster/Toaster';
 
 const Publicacion = () => {
 
@@ -67,6 +68,7 @@ const Publicacion = () => {
             if(data.error) {
                  setValues({...values, error: data.error});
             }else{
+                makeToast("success", "La publicación se ha creado correctamente.")
                 setValues({
                     ...values, 
                     redirectToReferrer: true
