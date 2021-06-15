@@ -16,7 +16,9 @@ const Dashboard = () => {
                         <Link className="nav-link" to={`/profile/${id}`} >Editar perfil</Link> 
                         <Link className="nav-link" to={`/profile/publication/create/${id}`} >Crear publicación</Link>
                         <Link className="nav-link" to={`/profile/project/create/${id}`} >Crear proyecto</Link>
-                        <Link className="nav-link" to={`/profile/myprojects/${id}`}>Mis proyectos</Link>
+                        <Link className="nav-link" to={`/profile/myprojects/${id}`}>Mis Proyectos</Link>
+                        <Link className="nav-link" to={`/profile/project/projects/list`}>Proyectos</Link>
+                        
                     </li>
                 </ul>
             </div>

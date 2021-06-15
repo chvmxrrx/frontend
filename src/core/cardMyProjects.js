@@ -17,13 +17,13 @@ const Card = ({ project }) => {
                             Modificar proyecto
                         </button>
                     </Link>
-                    <Link to='/'>
+                    <Link to={`/profile/project/delete/${project.creador._id}`}>
                         <button className="btn btn-outline-warning mt-2 mb-2">
                             Eliminar proyecto
                         </button>
                     </Link>
                     <div>
-                    <Link to='/'>
+                    <Link to={`/profile/project/offerts/${project._id}`}>
                         <button className="btn btn-outline-warning mt-2 mb-2">
                             Ver ofertas
                         </button>

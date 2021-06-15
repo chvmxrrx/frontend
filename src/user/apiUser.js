@@ -76,7 +76,69 @@ export const createProject = (id, accessToken, project) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        console.log( err.error);
     });
     
 };
+
+export const readProject = (id, accessToken, project) => {
+        
+    return fetch(`${API}/proyecto/buscar/${project}/${id}`, {
+        method: "GET",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        }
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        console.log(err.error);
+    });
+};
+
+export const resOferta = (idUser, accessToken, projectId, offerId, response) => {
+    return fetch(`${API}/oferta/respuesta/${projectId}/${offerId}/${idUser}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({respuesta: response})
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err
+    });
+};
+
+
+export const createOffer = (idUser, accessToken, projectId, valor, descripcion) => {
+    
+    return fetch(`${API}/oferta/crear/${projectId}/${idUser}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({valor: valor.valor,
+        descripcion: descripcion.descripcion
+    })
+    })
+    .then( response => {
+        
+        return response.json(); 
+    })
+    .catch( err => {
+        
+        return err
+    });
+    
+};
+

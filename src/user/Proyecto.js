@@ -36,7 +36,6 @@ const Proyecto = () => {
 
     const { dataUser, accessToken } = isAuthenticated();
 
-    //Cargar estilos y setear formData
     const init = () => {
         getEstilosTatuajes(dataUser.id, accessToken).then(data => {
             if(data.error){
@@ -49,7 +48,7 @@ const Proyecto = () => {
 
     useEffect(() => {
         
-        init()
+      init()
     }, []);
 
     const HandleChange = name => event => {
@@ -61,8 +60,7 @@ const Proyecto = () => {
 
     const clickSubmit = event => {
         event.preventDefault();
-        setValues({...values, estado: 'En espera' , error: '', loading:true })
-        console.log(values);
+        setValues({...values , error: '', loading:true })
         createProject(dataUser.id, accessToken, formData)
         .then(data => {
             if(data.error) {

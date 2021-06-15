@@ -61,7 +61,6 @@ const Publicacion = () => {
     const clickSubmit = event => {
         event.preventDefault();
         setValues({...values, error: '', loading:true })
-        console.log(formData);
         createPublication(dataUser.id, accessToken, formData)
         .then(data => {
             if(data.error) {

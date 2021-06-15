@@ -19,10 +19,18 @@ import ManageEstilo from './admin/ManageEstilo';
 import ChatroomPage from './chat/ChatroomPage';
 import ChatroomsMenuPage from './chat/ChatroomsMenuPage';
 import Proyecto from './user/Proyecto'
+import MisProyectos from './user/Misproyectos';
+import EliminarProyecto from './user/Eliminarproyecto'
+import ProjectView from './user/ProjectView'
+import ProjectsOffers from './user/ProjectsOfferts';
+import DoOffer from './user/DoOffer'
+import AllProjects from './user/AllProjects'
+
 import makeToast from './Toaster/Toaster';
 import { io } from 'socket.io-client';
 import { isAuthenticated } from './auth';
-import MisProyectos from './user/Misproyectos';
+import RespuestaOferta from './user/RespuestaOferta';
+
 
 const Routes = () => {
 
@@ -64,7 +72,6 @@ const Routes = () => {
                 <Route path="/singup" exact component={Singup}/>
                 <Route path='/chatroomsmenu' 
                 render={ () => <ChatroomsMenuPage setupSocket={setupSocket} exact/>} 
-                
                 />
                 <Route path='/chatroom/:id'
                 render = {() => <ChatroomPage socket={socket} exact/>}
@@ -88,6 +95,13 @@ const Routes = () => {
                 <PrivateRoute path="/profile/publication/create/:userId" exact component={Publicacion} />
                 <PrivateRoute path="/profile/project/create/:userId" exact component={Proyecto} />
                 <PrivateRoute path="/profile/myprojects/:userId" exact component={MisProyectos} />
+                <PrivateRoute path="/profile/project/delete/:userId" exact component={EliminarProyecto} />
+                <PrivateRoute path="/profile/project/:projectId" exact component={ProjectView} />
+                <PrivateRoute path="/profile/project/offerts/:projectId" exact component={ProjectsOffers} />
+                <PrivateRoute path="/profile/project/projects/list" exact component={AllProjects} />
+                <PrivateRoute path="/profile/project/doOffert/:projectId" exact component={DoOffer} />
+                <PrivateRoute path="/profile/project/doOffert/:projectId/:offerId/:response"
+                exact component={RespuestaOferta} />
             </Switch>
         </BrowserRouter>
     );

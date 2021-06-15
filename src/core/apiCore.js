@@ -15,7 +15,7 @@ export const getProjects = (id, accessToken) => {
         return response.json(); 
     })
     .catch( err => {
-        return err.json()
+        console.log(err.error);
     });
 }
 

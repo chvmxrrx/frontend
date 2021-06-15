@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import ShowImage from './ShowImage'
+
 const Card = ({ project }) => {
     return ( 
         <div className="col-4 mb-3">
@@ -12,12 +13,13 @@ const Card = ({ project }) => {
                     <p>Parte: {project.parteCuerpo}</p>
                     <p>Tamaño: {project.tamaño}</p>
                     <p>Estado: {project.estado.nombre}</p>
-                    <Link to='/'>
+                    <p>Estilo: {project.estiloTatuaje.nombre}</p>
+                    <Link to={`/profile/project/${project._id}`}>
                         <button className="btn btn-outline-primary mt-2 mb-2">
                             Ver proyecto
                         </button>
                     </Link>
-                    <Link to='/'>
+                    <Link to={`/profile/project/doOffert/${project._id}`}>
                         <button className="btn btn-outline-warning mt-2 mb-2">
                             Realizar oferta
                         </button>
@@ -27,4 +29,5 @@ const Card = ({ project }) => {
         </div>
         )
 }
+
 export default Card
