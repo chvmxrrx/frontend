@@ -2,21 +2,18 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { authenticate, isAuthenticated } from './../auth/index';
 import { Redirect } from 'react-router-dom';
-import { createPublication, search } from './apiUser';
-import { getEstilosTatuajes } from '../admin/apiAdmin';
-import makeToast from '../Toaster/Toaster';
+import { createProject } from './apiUser';
+import { getEstados, getEstilosTatuajes } from '../admin/apiAdmin';
 
-const Publicacion = () => {
+const Proyecto = () => {
 
-    const [users, setUsers] = useState([]);
-    const [user, setUser] = useState([]);
     const [values, setValues] = useState({
         nombre: "",
-        descripcion: "",
+        parteCuerpo: "",
+        tamaño: "",
         img: "",
         EstilosTatuaje: [],
         estiloTatuaje: "",
-        etiquetado: "",
         loading: false,
         error: "",
         redirectToReferrer: false,
@@ -26,20 +23,19 @@ const Publicacion = () => {
 
     const { 
         nombre,
-        descripcion,
+        parteCuerpo,
+        tamaño,
         img,
         EstilosTatuaje,
         estiloTatuaje,
-        etiquetado,
         loading, 
         error,
         redirectToReferrer,
-        formData
+        formData 
     } = values;
 
     const { dataUser, accessToken } = isAuthenticated();
 
-    //Cargar estilos y setear formData
     const init = () => {
         getEstilosTatuajes(dataUser.id, accessToken).then(data => {
             if(data.error){
@@ -51,7 +47,8 @@ const Publicacion = () => {
     }
 
     useEffect(() => {
-        init()
+        
+      init()
     }, []);
 
     const HandleChange = name => event => {
@@ -61,20 +58,14 @@ const Publicacion = () => {
         setValues({ ...values, [name]: value });
     }
 
-    const handleChangeSearch = name => event => {
-        const value = event.target.value;
-        setUser(value);
-    }
-
     const clickSubmit = event => {
         event.preventDefault();
-        setValues({...values, error: '', loading:true })
-        createPublication(dataUser.id, accessToken, formData)
+        setValues({...values , error: '', loading:true })
+        createProject(dataUser.id, accessToken, formData)
         .then(data => {
             if(data.error) {
                  setValues({...values, error: data.error});
             }else{
-                makeToast("success", "La publicación se ha creado correctamente.")
                 setValues({
                     ...values, 
                     redirectToReferrer: true
@@ -85,7 +76,7 @@ const Publicacion = () => {
 
     const redirectUser = () =>{
         if(redirectToReferrer) {
-            return <Redirect to="/" />
+            return <Redirect to="/user/dashboard" />
         }
     }
 
@@ -95,29 +86,8 @@ const Publicacion = () => {
         }
     };
 
-    const labusqueda = () => {
-        search(user).then(data =>{
-            console.log(data);
-            if(data.error){
-                makeToast("error","Ha ocurrido un error.")
-            }else{
-                setUsers(data.users)
-            }
-        })
-    }
-
-    const searchUsers = event =>{
-        event.preventDefault();
-        console.log(user);
-        labusqueda();
-    }
-
-    const rellenarCampo = (userId) =>{
-        setValues({...values, etiquetado: userId})
-    }
-
-    const createPublicationForm = () => (
-        <form className="mb-3" >
+    const createProjectForm = () => (
+        <form className="mb-3" onSubmit={clickSubmit}>
             
             <h5>Foto</h5>
             <div className="form-group">
@@ -142,17 +112,27 @@ const Publicacion = () => {
             </div>
 
             <div className="form-group">
-                <label className="text-muted">Descripción</label>
+                <label className="text-muted">¿Donde quieres tu tatuaje?</label>
                 <textarea 
-                    onChange={HandleChange('descripcion')} 
+                    placeholder="Ej. pectoral, brazo derecho"
+                    onChange={HandleChange('parteCuerpo')} 
                     type="text" 
                     className="form-control" 
-                    value={descripcion}
+                    value={parteCuerpo}
                 />
             </div>
-
             <div className="form-group">
-                <label className="text-muted">¿Que estilo es el tatuaje?</label>
+                <label className="text-muted">¿Que tamaño deseas para tu tatuaje?</label>
+                <input 
+                    placeholder="Ej. 10 x 10"
+                    onChange={HandleChange('tamaño')} 
+                    type="text" 
+                    className="form-control" 
+                    value={tamaño}
+                />
+            </div>
+            <div className="form-group">
+                <label className="text-muted">¿Que estilo de tatuaje deseas para tu proyecto?</label>
                 <select 
                     onChange={HandleChange('estiloTatuaje')}
                     className="form-control"
@@ -167,50 +147,27 @@ const Publicacion = () => {
             </div>
 
             <div className="form-group">
-                <label className="text-muted">Etiquetar a un usuario (opcional)</label>
-                <input 
-                    onChange={handleChangeSearch('busqueda')} 
-                    type="text" 
-                    className="form-control" 
-                    value={user}
-                />
-                <br/>
-
-                {users && users.map((data, i) => ( 
-                    <button key={i} value={data._id} onClick={(event) => {
-                        event.preventDefault()
-                        setUser(data.userName)
-                        setValues({...values, etiquetado: data._id, busqueda: user})
-                        console.log(values);
-                    }}>
-                        {data.userName}
-                </button>
-                ))}
-
-                <button onClick={searchUsers} className="btn btn-secondary">Buscar usuario</button>
-                
-            </div>
-            <br/>
-            <div align="center">
-                <button onClick={clickSubmit} className="btn btn-primary">Subir publicación!</button>
+                <label className="text-muted">Tu proyecto estará en espera</label>
             </div>
             
+
+            <button onClick={clickSubmit} className="btn btn-primary">Subir proyecto!</button>
         </form>
     );
 
     return (
         <Layout
-            title="Publicación"
-            description="Crear una nueva publicación."
+            title="Registro"
+            description="Formulario de registro de Inkapp, aplicacion para tatuadores."
             className="container col-md-8 offset-md-2"
         >
             {showError()}
-            {createPublicationForm()}
+            {createProjectForm()}
             {redirectUser()}
-            {JSON.stringify(values.etiquetado)}
+            
         </Layout>
     );
 
 };
 
-export default Publicacion;
+export default Proyecto;

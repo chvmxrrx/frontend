@@ -251,6 +251,7 @@ const Singup = () => {
             {showError()}
             {singupForm()}
             {redirectUser()}
+
         </Layout>
     );
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import ShowImage from './showImage';
+import ShowImage from './ShowImage';
 import { getEstiloTatuaje } from '../admin/apiAdmin';
 import { isAuthenticated } from '../auth';
 import moment from 'moment';
