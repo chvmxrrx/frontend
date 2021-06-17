@@ -23,6 +23,7 @@ import MyProfile from './core/MyProfile';
 import ChatroomPage from './chat/ChatroomPage';
 import ChatroomsMenuPage from './chat/ChatroomsMenuPage';
 import Proyecto from './user/Proyecto'
+import UpdateProject from './user/UpdateProject'
 import MisProyectos from './user/Misproyectos';
 import EliminarProyecto from './user/Eliminarproyecto'
 import ProjectView from './user/ProjectView'
@@ -98,6 +99,7 @@ const Routes = () => {
                 <PrivateRoute path="/profile/publication/create/:userId" exact component={createPublicacion} />
                 <PrivateRoute path="/profile/publication/view/:publicacionId" exact component={PublicacionPage} />
                 <PrivateRoute path="/profile/project/create/:userId" exact component={Proyecto} />
+                <PrivateRoute path="/profile/project/update/:projectId" exact component={UpdateProject} />
                 <PrivateRoute path="/profile/myprojects/:userId" exact component={MisProyectos} />
                 <PrivateRoute path="/profile/project/delete/:userId" exact component={EliminarProyecto} />
                 <PrivateRoute path="/profile/project/:projectId" exact component={ProjectView} />

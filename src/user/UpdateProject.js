@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import {  isAuthenticated } from './../auth/index';
 import { Redirect } from 'react-router-dom';
-import { createProject } from './apiUser';
-import {  getEstilosTatuajes } from '../admin/apiAdmin';
+import {  updateProject , readProject} from './apiUser';
+import { getEstilosTatuajes } from '../admin/apiAdmin';
 import makeToast from '../Toaster/Toaster';
 
-const Proyecto = () => {
+const UpdateProject = ({match}) => {
 
     const [values, setValues] = useState({
         nombre: "",
@@ -37,19 +37,36 @@ const Proyecto = () => {
 
     const { dataUser, accessToken } = isAuthenticated();
 
-    const init = () => {
+    const init = (projectId) => {
+        readProject(dataUser.id, accessToken, projectId).then(data => {
+            if(data.error){
+                makeToast('error', data.error)
+            } else {
+                setValues({
+                    ...values, 
+                    nombre: data.nombre,
+                    parteCuerpo: data.parteCuerpo,
+                    tamaño: data.tamaño,
+                    formData: new FormData()     
+                }
+                )
+                initEstilos()
+            }
+        })
+    }
+    const initEstilos = () => {
         getEstilosTatuajes(dataUser.id, accessToken).then(data => {
             if(data.error){
                 setValues({...values, error: data.error})
             }else {
-                setValues({...values, EstilosTatuaje: data.data, formData: new FormData()}) 
+                setValues({ EstilosTatuaje: data.data, formData: new FormData()}) 
             }
         })
     }
 
     useEffect(() => {
-        
-      init()
+      
+      init(match.params.projectId)
     }, []);
 
     const HandleChange = name => event => {
@@ -62,7 +79,7 @@ const Proyecto = () => {
     const clickSubmit = event => {
         event.preventDefault();
         setValues({...values , error: '', loading:true })
-        createProject(dataUser.id, accessToken, formData)
+        updateProject(dataUser.id, accessToken, match.params.projectId,formData)
         .then(data => {
             if(data.error) {
                 makeToast('error', data.error)
@@ -82,10 +99,8 @@ const Proyecto = () => {
             if(!error){
                 return <Redirect to={`/profile/myprojects/${dataUser.id}`} />
             }
-            
         }
     }
-
 
     const createProjectForm = () => (
         <form className="mb-3" onSubmit={clickSubmit}>
@@ -152,7 +167,7 @@ const Proyecto = () => {
             </div>
             
 
-            <button onClick={clickSubmit} className="btn btn-primary">Subir proyecto!</button>
+            <button onClick={clickSubmit} className="btn btn-primary">modificar proyecto</button>
         </form>
     );
 
@@ -171,4 +186,4 @@ const Proyecto = () => {
 
 };
 
-export default Proyecto;
+export default UpdateProject;

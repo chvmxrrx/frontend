@@ -9,21 +9,12 @@ import makeToast from '../Toaster/Toaster';
 
 const CardPublicacionPage = ({ publicacion }) => {
 
-    const [estilo, setEstilo] = useState('');
+    
     const [redirect, setRedirect] = useState(false);
     const [comentarios, setComentarios] = useState([]);
 
     const { accessToken, dataUser } = isAuthenticated();
 
-    const init = () => {
-        getEstiloTatuaje(publicacion.estiloTatuaje, dataUser.id, accessToken).then(data =>{
-            if(data.error){
-                console.log(data.error);
-            }else{
-                setEstilo(data);
-            }
-        })
-    }
 
     const eliminarPublicacion = (idP) => {
         deletePublicacion(idP, dataUser.id, accessToken).then(data =>{
@@ -43,10 +34,10 @@ const CardPublicacionPage = ({ publicacion }) => {
     }
 
     useEffect(() => {
-        console.log(publicacion);
-        init()
+        
+        
         setComentarios(publicacion.comentarios)
-        console.log(comentarios);
+        
     }, []);
 
     return(
@@ -59,7 +50,7 @@ const CardPublicacionPage = ({ publicacion }) => {
                 <p className="lead mt-2">{publicacion.descripcion.substring(0, 100)}</p>
                 
                 <p className="black-9">
-                    {`Estilo del tatuaje: ${estilo.nombre}`}
+                    {`Estilo del tatuaje: ${publicacion.estiloTatuaje.nombre}`}
                 </p>
                 <p className="black-8">
                     {moment(publicacion.updatedAt).fromNow()}

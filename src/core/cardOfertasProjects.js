@@ -17,6 +17,7 @@ const Card = ({project}) => {
                     <h2> Tamaño: {project.tamaño}</h2>
                     <h2> Estilo: {project.estiloTatuaje.nombre}</h2>
                     <h2> Estado: {project.estado.nombre}</h2>
+                    <p>{moment(project.createdAt).fromNow()}</p>
                     <h1>Ofertas </h1>
                     {project.oferta.map((data, i) => (
                             <div>
@@ -54,6 +55,7 @@ const Card = ({project}) => {
                                             <h2>Descripción: {data.descripcion} </h2>
                                             <h2>Valor: ${data.valor}</h2>
                                             <h2>Estado: {data.estado.nombre}</h2>
+                                            <p>{moment(data.createdAt).fromNow()}</p>
                                         </div>
                                         <div>
                                             <Link to={`/`}>

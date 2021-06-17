@@ -112,7 +112,7 @@ export const readProject = (id, accessToken, project) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err.error);
+        return err
     });
 };
 
@@ -182,3 +182,24 @@ export const deleteProject = (idUser, accessToken, projectId) => {
     
 }
 
+export const updateProject = (idUser, accessToken, projectId, project) => {
+    
+    return fetch(`${API}/proyecto/modificar/${projectId}/${idUser}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`,
+            
+        },
+        body: project
+    })
+    .then( response => {
+        
+        return response.json(); 
+    })
+    .catch( err => {
+        
+        return err
+    });
+    
+};

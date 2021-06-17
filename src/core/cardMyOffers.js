@@ -47,6 +47,7 @@ const Card = ({ offer }) => {
                     <p>Descripción: {offer.descripcion}</p>
                     <p>valor: {offer.valor}</p>
                     <p>Estado: {offer.estado.nombre}</p>
+                    
                     {/* <Link to='/'>
                         <button className="btn btn-outline-primary mt-2 mb-2">
                             Eliminar
