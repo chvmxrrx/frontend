@@ -13,7 +13,7 @@ export const read = (id, accessToken) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err
     });
 };
 
@@ -58,13 +58,13 @@ export const createPublication = (id, accessToken, publication) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err
     });
 
 };
 
 export const search = (user) => {
-    return fetch(`${API}/perfil/buscar/`, {
+    return fetch(`${API}/perfil/buscar`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -93,7 +93,7 @@ export const createProject = (id, accessToken, project) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log( err.error);
+        return err
     });
     
 };
@@ -112,7 +112,24 @@ export const readProject = (id, accessToken, project) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err.error);
+        return err
+    });
+};
+
+export const updateProject = (id, accessToken, projectId, project) => {
+    return fetch(`${API}/proyecto/modificar/${projectId}/${id}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`
+        },
+        body: project
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err
     });
 };
 

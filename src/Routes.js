@@ -33,6 +33,7 @@ import MyOffers from './user/MyOffers'
 import { io } from 'socket.io-client';
 import { isAuthenticated } from './auth';
 import RespuestaOferta from './user/RespuestaOferta';
+import UpdateProject from './user/UpdateProject';
 
 
 const Routes = () => {
@@ -98,6 +99,7 @@ const Routes = () => {
                 <PrivateRoute path="/profile/publication/create/:userId" exact component={createPublicacion} />
                 <PrivateRoute path="/profile/publication/view/:publicacionId" exact component={PublicacionPage} />
                 <PrivateRoute path="/profile/project/create/:userId" exact component={Proyecto} />
+                <PrivateRoute path="/profile/project/update/:projectId" exact component={UpdateProject} />
                 <PrivateRoute path="/profile/myprojects/:userId" exact component={MisProyectos} />
                 <PrivateRoute path="/profile/project/delete/:userId" exact component={EliminarProyecto} />
                 <PrivateRoute path="/profile/project/:projectId" exact component={ProjectView} />

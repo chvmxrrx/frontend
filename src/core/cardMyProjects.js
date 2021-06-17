@@ -63,7 +63,7 @@ const Card = ({ project }) => {
                     <p>Tamaño: {project.tamaño}</p>
                     <p>Estado: {project.estado.nombre}</p>
                     <p>{moment(project.createdAt).fromNow()}</p>
-                    <Link to='/'>
+                    <Link to={`/profile/project/update/${project._id}`}>
                         <button className="btn btn-outline-primary mt-2 mb-2">
                             Modificar proyecto
                         </button>
