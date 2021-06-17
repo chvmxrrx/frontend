@@ -98,43 +98,6 @@ export const createProject = (id, accessToken, project) => {
     
 };
 
-export const readProject = (id, accessToken, project) => {
-        
-    return fetch(`${API}/proyecto/buscar/${project}/${id}`, {
-        method: "GET",
-        headers: {
-            Accept: 'aplication/json',
-            "Content-Type": "application/json",
-            Authorization: `${accessToken}`
-        }
-    })
-    .then( response => {
-        return response.json(); 
-    })
-    .catch( err => {
-        return err
-
-    });
-};
-
-export const updateProject = (id, accessToken, projectId, project) => {
-    return fetch(`${API}/proyecto/modificar/${projectId}/${id}`, {
-        method: "PUT",
-        headers: {
-            Accept: 'aplication/json',
-            Authorization: `${accessToken}`
-        },
-        body: project
-    })
-    .then( response => {
-        return response.json(); 
-    })
-    .catch( err => {
-        return err
-
-    });
-};
-
 export const resOferta = (idUser, accessToken, projectId, offerId, response) => {
     return fetch(`${API}/oferta/respuesta/${projectId}/${offerId}/${idUser}`, {
         method: "PUT",
