@@ -98,6 +98,9 @@ export const createProject = (id, accessToken, project) => {
     
 };
 
+
+
+
 export const resOferta = (idUser, accessToken, projectId, offerId, response) => {
     return fetch(`${API}/oferta/respuesta/${projectId}/${offerId}/${idUser}`, {
         method: "PUT",
@@ -184,4 +187,21 @@ export const updateProject = (idUser, accessToken, projectId, project) => {
         return err
     });
     
+};
+
+export const readProject = (id, accessToken, projectId) => {
+    return fetch(`${API}/proyecto/buscar/${projectId}/${id}`, {
+        method: "GET",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        }
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err
+    });
 };
