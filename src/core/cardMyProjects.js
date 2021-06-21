@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import ShowImage from './ShowImage'
+import ShowImage from './showImage'
 import { deleteProject } from '../user/apiUser'
 import { isAuthenticated } from '../auth'
 import Swal from 'sweetalert2'

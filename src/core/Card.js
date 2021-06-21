@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import ShowImage from './ShowImage';
+import ShowImage from './showImage';
 import { getEstiloTatuaje } from '../admin/apiAdmin';
 import { isAuthenticated } from '../auth';
 import moment from 'moment';
@@ -9,6 +9,8 @@ import { deletePublicacion } from './apiCore';
 const Card = ({ publicacion }) => {
 
     const [estilo, setEstilo] = useState('');
+    
+    const { dataUser, accessToken } = isAuthenticated();
 
     const init = () => {
         getEstiloTatuaje(publicacion.estiloTatuaje._id).then(data =>{
@@ -26,7 +28,22 @@ const Card = ({ publicacion }) => {
 
     return(
         <div className="card">
-            <div className="card-header">{publicacion.creador.userName}</div>
+            <div className="card-header">
+            
+            {
+                (!dataUser && !accessToken) ? (
+                    <div>{publicacion.creador.userName}</div>
+                ) : (
+                    <p>
+                        <Link to={`/profile/${publicacion.creador._id}`}><button className="btn btn-outline-primary mt-2 mb-2">{publicacion.creador.userName}</button>
+                        </Link>
+                    </p>
+
+                )
+
+            }
+
+            </div>
             <div className="card-body">
                 <ShowImage image={publicacion} url="publicacion"/>
                 <p className="lead mt-2">{publicacion.nombre}</p>

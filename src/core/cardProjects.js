@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import ShowImage from './ShowImage'
+import ShowImage from './showImage'
 import moment from 'moment'
 const Card = ({ project }) => {
     return ( 

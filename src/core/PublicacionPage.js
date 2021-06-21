@@ -18,7 +18,6 @@ const PublicacionPage = props => {
                 setError(data.error);
             }else{
                 setPublicacion(data);
-                console.log(publicacion);
             }
         })
     }

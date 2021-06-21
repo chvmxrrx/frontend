@@ -15,7 +15,7 @@ export const createRegion = (id, accesToken, region) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(JSON.parse(err));
+        return err;
     });
 };
 
@@ -34,7 +34,7 @@ export const createEstado = (id, accesToken, estado) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err;
     });
 };
 
@@ -53,7 +53,7 @@ export const createEstiloTatuaje = (id, accesToken, estilo) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err;
     });
 };
 
@@ -65,9 +65,9 @@ export const getRegiones = () => {
     .then( response => {
         return response.json()
     })
-    .catch(err => {
-        console.log(err);
-    })
+    .catch( err => {
+        return err;
+    });
 };
 
 //OBTENER LISTADO ESTADOS
@@ -81,9 +81,9 @@ export const getEstados = (id, accesToken) => {
     .then( response => {
         return response.json()
     })
-    .catch(err => {
-        console.log(err);
-    })
+    .catch( err => {
+        return err;
+    });
 };
 
 //OBTENER LISTADO ESTILOS DE TATUAJE
@@ -97,9 +97,9 @@ export const getEstilosTatuajes = (id, accesToken) => {
     .then( response => {
         return response.json()
     })
-    .catch(err => {
-        console.log(err);
-    })
+    .catch( err => {
+        return err;
+    });
 };
 
 //OBTENER/BUSCAR REGION
@@ -113,9 +113,9 @@ export const getRegion = (idR, idU, accesToken) => {
     .then( response => {
         return response.json()
     })
-    .catch(err => {
-        console.log(err);
-    })
+    .catch( err => {
+        return err;
+    });
 };
 
 //OBTENER/BUSCAR ESTADO
@@ -129,9 +129,9 @@ export const getEstado = (idE, idU, accesToken) => {
     .then( response => {
         return response.json()
     })
-    .catch(err => {
-        console.log(err);
-    })
+    .catch( err => {
+        return err;
+    });
 };
 
 //OBTENER/BUSCAR ESTILO DE TATUAJE
@@ -142,9 +142,9 @@ export const getEstiloTatuaje = (idET) => {
     .then( response => {
         return response.json()
     })
-    .catch(err => {
-        console.log(err);
-    })
+    .catch( err => {
+        return err;
+    });
 };
 
 
@@ -163,7 +163,7 @@ export const updateRegion = (idR, idU, accessToken, region) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err;
     });
 };
 
@@ -182,7 +182,7 @@ export const updateEstado = (idE, idU, accessToken, estado) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err;
     });
 };
 
@@ -201,7 +201,7 @@ export const updateEstiloTatuaje = (idET, idU, accessToken, estilo) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err;
     });
 };
 
@@ -218,7 +218,7 @@ export const deleteRegion = (idR, idU, accessToken) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err;
     });
 };
 
@@ -235,7 +235,7 @@ export const deleteEstado = (idE, idU, accessToken) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err;
     });
 };
 
@@ -252,6 +252,6 @@ export const deleteEstiloTatuaje = (idET, idU, accessToken) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err;
     });
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import ShowImage from './ShowImage'
+import ShowImage from './showImage'
 import { isAuthenticated } from '../auth/index'
 import moment from 'moment'
 const Card = ({project}) => {

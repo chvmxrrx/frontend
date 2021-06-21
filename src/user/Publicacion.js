@@ -72,7 +72,7 @@ const Publicacion = () => {
         createPublication(dataUser.id, accessToken, formData)
         .then(data => {
             if(data.error) {
-                 setValues({...values, error: data.error});
+                 makeToast("error", data.error);
             }else{
                 makeToast("success", "La publicación se ha creado correctamente.")
                 setValues({
@@ -85,15 +85,9 @@ const Publicacion = () => {
 
     const redirectUser = () =>{
         if(redirectToReferrer) {
-            return <Redirect to="/" />
+            return <Redirect to={`/profile/${dataUser.id}`} />
         }
     }
-
-    const showError = () =>{
-        if(error) {
-            return <h4 className="text-danger">{error}</h4>
-        }
-    };
 
     const labusqueda = () => {
         search(user).then(data =>{
@@ -119,7 +113,7 @@ const Publicacion = () => {
     const createPublicationForm = () => (
         <form className="mb-3" >
             
-            <h5>Foto</h5>
+            <h5>Foto (*)</h5>
             <div className="form-group">
                 <label className="btn btn-secondary">
                     <input 
@@ -132,7 +126,7 @@ const Publicacion = () => {
             </div>
 
             <div className="form-group">
-                <label className="text-muted">Titulo</label>
+                <label className="text-muted">Titulo (*)</label>
                 <input 
                     onChange={HandleChange('nombre')} 
                     type="text" 
@@ -142,7 +136,7 @@ const Publicacion = () => {
             </div>
 
             <div className="form-group">
-                <label className="text-muted">Descripción</label>
+                <label className="text-muted">Descripción (*)</label>
                 <textarea 
                     onChange={HandleChange('descripcion')} 
                     type="text" 
@@ -152,7 +146,7 @@ const Publicacion = () => {
             </div>
 
             <div className="form-group">
-                <label className="text-muted">¿Que estilo es el tatuaje?</label>
+                <label className="text-muted">¿Que estilo es el tatuaje/diseño? (*)</label>
                 <select 
                     onChange={HandleChange('estiloTatuaje')}
                     className="form-control"
@@ -204,10 +198,8 @@ const Publicacion = () => {
             description="Crear una nueva publicación."
             className="container col-md-8 offset-md-2"
         >
-            {showError()}
             {createPublicationForm()}
             {redirectUser()}
-            {JSON.stringify(values.etiquetado)}
         </Layout>
     );
 

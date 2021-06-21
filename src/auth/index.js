@@ -12,7 +12,7 @@ import { API } from '../config';
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err;
     });
     
 };
@@ -30,7 +30,7 @@ export const singin = user => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err;
     });
 };
 
@@ -51,7 +51,9 @@ export const singout = (next) => {
         .then( response => {
             console.log('deslogeo', response);
         })
-        .catch( err => console.console.log(err) )
+        .catch( err => {
+            return err;
+        });
     }
 };
 

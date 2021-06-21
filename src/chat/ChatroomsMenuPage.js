@@ -18,7 +18,7 @@ import Layout from '../core/Layout'
         
         
         if(accessToken && !socket){
-        const newSocket = io('http://localhost:4000', {
+        const newSocket = io('http://localhost:8000', {
 
             query: {
                 token: accessToken

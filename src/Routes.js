@@ -10,7 +10,7 @@ import AdminDashboard from './user/adminDashboard';
 import AddRegion from './admin/AddRegion';
 import AddEstado from './admin/AddEstado';
 import AddEstiloTatuaje from './admin/AddEstiloTatuaje';
-import Profile from './user/Profile';
+import editProfile from './user/editProfile';
 import createPublicacion from './user/Publicacion';
 import ManageRegion from './admin/ManageRegion';
 import ManageEstado from './admin/ManageEstado';
@@ -19,7 +19,6 @@ import UpdateRegion from './admin/updateRegion';
 import UpdateEstilo from './admin/updateEstilo';
 import UpdateEstado from './admin/updateEstado';
 import PublicacionPage from './core/PublicacionPage';
-import MyProfile from './core/MyProfile';
 import ChatroomPage from './chat/ChatroomPage';
 import ChatroomsMenuPage from './chat/ChatroomsMenuPage';
 import Proyecto from './user/Proyecto'
@@ -34,7 +33,7 @@ import MyOffers from './user/MyOffers'
 import { io } from 'socket.io-client';
 import { isAuthenticated } from './auth';
 import RespuestaOferta from './user/RespuestaOferta';
-import UpdateProject from './user/UpdateProject';
+import Profile from './core/Profile';
 
 
 const Routes = () => {
@@ -81,9 +80,9 @@ const Routes = () => {
                 <Route path='/chatroom/:id'
                 render = {() => <ChatroomPage socket={socket} exact/>}
                  /> 
+                <Route path="/profile/:userId" exact component={Profile}/>
 
                 <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
-                <PrivateRoute path="/myprofile/:userId" exact component={MyProfile} />
 
                 <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
                 <AdminRoute path="/create/region" exact component={AddRegion} />
@@ -96,7 +95,7 @@ const Routes = () => {
                 <AdminRoute path="/manage/estiloTatuaje" exact component={ManageEstilo} />
                 <AdminRoute path="/manage/estiloTatuaje/update/:estiloId" exact component={UpdateEstilo} />
 
-                <PrivateRoute path="/profile/:userId" exact component={Profile} />
+                <PrivateRoute path="/profile/edit/:userId" exact component={editProfile} />
                 <PrivateRoute path="/profile/publication/create/:userId" exact component={createPublicacion} />
                 <PrivateRoute path="/profile/publication/view/:publicacionId" exact component={PublicacionPage} />
                 <PrivateRoute path="/profile/project/create/:userId" exact component={Proyecto} />

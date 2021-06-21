@@ -13,7 +13,7 @@ export const read = (id, accessToken) => {
         return response.json(); 
     })
     .catch( err => {
-        return err
+        return err;
     });
 };
 
@@ -30,7 +30,7 @@ export const update = (id, accessToken, user) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err;
     });
 };
 
@@ -38,7 +38,7 @@ export const updateUser = (user, next) => {
     if(typeof window !== 'undefined') {
         if(sessionStorage.getItem("jwt")) {
             let auth = JSON.parse(sessionStorage.getItem("jwt"));
-            auth.dataUser = user;
+            auth.dataUser = user.dataUser;
             sessionStorage.setItem("jwt", JSON.stringify(auth));
             next();
         }
@@ -58,7 +58,7 @@ export const createPublication = (id, accessToken, publication) => {
         return response.json(); 
     })
     .catch( err => {
-        return err
+        return err;
     });
 
 };
@@ -93,13 +93,12 @@ export const createProject = (id, accessToken, project) => {
         return response.json(); 
     })
     .catch( err => {
-        return err
+        return err;
     });
     
 };
 
 export const readProject = (id, accessToken, project) => {
-        
     return fetch(`${API}/proyecto/buscar/${project}/${id}`, {
         method: "GET",
         headers: {
@@ -112,8 +111,7 @@ export const readProject = (id, accessToken, project) => {
         return response.json(); 
     })
     .catch( err => {
-        return err
-
+        return err;
     });
 };
 
@@ -130,8 +128,7 @@ export const updateProject = (id, accessToken, projectId, project) => {
         return response.json(); 
     })
     .catch( err => {
-        return err
-
+        return err;
     });
 };
 
@@ -149,13 +146,12 @@ export const resOferta = (idUser, accessToken, projectId, offerId, response) => 
         return response.json(); 
     })
     .catch( err => {
-        return err
+        return err;
     });
 };
 
 
 export const createOffer = (idUser, accessToken, projectId, valor, descripcion) => {
-    
     return fetch(`${API}/oferta/crear/${projectId}/${idUser}`, {
         method: "PUT",
         headers: {
@@ -168,18 +164,15 @@ export const createOffer = (idUser, accessToken, projectId, valor, descripcion) 
     })
     })
     .then( response => {
-        
         return response.json(); 
     })
     .catch( err => {
-        
-        return err
+        return err;
     });
     
 };
 
 export const deleteProject = (idUser, accessToken, projectId) => {
-    
     return fetch(`${API}/proyecto/eliminar/${projectId}/${idUser}`, {
         
         method: "DELETE",
@@ -188,37 +181,84 @@ export const deleteProject = (idUser, accessToken, projectId) => {
             Authorization: `${accessToken}`,
             "Content-Type": "application/json"
         }
-        
     })
     .then( response => {
-        
         return response.json(); 
     })
     .catch( err => {
-        
-        return err
+        return err;
     });
     
 }
 
-export const updateProject = (idUser, accessToken, projectId, project) => {
-    
-    return fetch(`${API}/proyecto/modificar/${projectId}/${idUser}`, {
+export const addComentario = (idU, idUP, accessToken, comentario) => {
+    return fetch(`${API}/perfil/comentario/${idU}/${idUP}`, {
         method: "PUT",
         headers: {
             Accept: 'aplication/json',
-            Authorization: `${accessToken}`,
-            
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
         },
-        body: project
+        body: JSON.stringify(comentario)
     })
     .then( response => {
-        
         return response.json(); 
     })
     .catch( err => {
-        
-        return err
+        return err;
     });
-    
+};
+
+export const addRespuesta = (idU, idUC, accessToken, respuesta) => {
+    return fetch(`${API}/perfil/comentario/respuesta/${idU}/${idUC}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        },
+        body: JSON.stringify(respuesta)
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+};
+
+export const deleteComentario = (idU, idUC, accessToken, body) => {
+    return fetch(`${API}/perfil/comentario/eliminar/${idU}/${idUC}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        },
+        body: JSON.stringify(body)
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+};
+
+export const deleteRespuesta = (idU, idUP, accessToken, body) => {
+    return fetch(`${API}/perfil/comentario/respuesta/eliminar/${idU}/${idUP}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        },
+        body: JSON.stringify(body)
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
 };
