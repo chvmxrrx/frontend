@@ -288,4 +288,25 @@ export const likePerfil = (idUser, accessToken, perfilId) => {
         
 }
 
+export const likePublicacion = (idUser, accessToken, publicacionId) => {
+    
+    return fetch(`${API}/publicacion/like/${idUser}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ idPublicacion: publicacionId  })
+    })
+    .then( response => {
+        
+        return response.json(); 
+    })
+    .catch( err => {
+        
+        return err
+    });
+    
+};
 
