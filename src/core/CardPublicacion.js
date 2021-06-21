@@ -8,7 +8,8 @@ import { likePublicacion } from '../user/apiUser';
 import { Favorite } from '@material-ui/icons';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import { deletePublicacion, addComentario, getPublicacion, addRespuesta, deleteComentario, deleteRespuesta } from './apiCore';
-import { InputGroup, FormControl, Button, ListGroup, Accordion } from 'react-bootstrap';
+import { InputGroup, FormControl, ListGroup, Accordion } from 'react-bootstrap';
+import { Button } from '@material-ui/core';
 
 const CardPublicacionPage = ({ publicacion }) => {
 
@@ -145,9 +146,9 @@ const CardPublicacionPage = ({ publicacion }) => {
             <div className="card">
             <div className="card-header">
                 <Link to={`/`}>
-                    <button className="btn btn-outline-primary mt-2 mb-2">
+                    <Button color="primary" size="medium">
                         {publicacion.creador.userName}
-                    </button>
+                    </Button>    
                 </Link>
             </div>
             <div className="card-body">

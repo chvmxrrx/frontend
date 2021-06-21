@@ -106,10 +106,10 @@ const Routes = () => {
                 <PrivateRoute path="/profile/project/create/:userId" exact component={Proyecto} />
                 <PrivateRoute path="/profile/project/update/:projectId" exact component={UpdateProject} />
                 <PrivateRoute path="/profile/myprojects/:userId" exact component={MisProyectos} />
-                <PrivateRoute path="/profile/project/offerts/:projectId" exact component={ProjectsOffers} />
+                <PrivateRoute path="/profile/project/offers/:projectId" exact component={ProjectsOffers} />
                 <PrivateRoute path="/profile/project/projects/list" exact component={AllProjects} />
-                <PrivateRoute path="/profile/project/doOffert/:projectId" exact component={DoOffer} />
-                <PrivateRoute path="/profile/project/doOffert/:projectId/:offerId/:response"
+                <PrivateRoute path="/profile/project/doOffer/:projectId" exact component={DoOffer} />
+                <PrivateRoute path="/profile/project/doOffer/:projectId/:offerId/:response"
                 exact component={RespuestaOferta} />
                 <PrivateRoute path="/profile/offers/myoffers/:userId" exact component={MyOffers} />
                 <PrivateRoute path="/profile/do-reserve/:userId" exact component={DoReserve} />

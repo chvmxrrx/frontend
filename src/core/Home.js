@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from './Layout';
-import { Link } from 'react-router-dom';
 import { getAllPublicaciones } from './apiCore';
-import { isAuthenticated } from '../auth';
 import Card from './Card';
 
 const Home = () => {

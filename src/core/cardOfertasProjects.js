@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import ShowImage from './showImage'
 import moment from 'moment'
+import { Button } from '@material-ui/core'
 const Card = ({project}) => {
 
     
@@ -23,23 +24,23 @@ const Card = ({project}) => {
                                     <div>
                                         <div>
                                             <h2>Username: 
-                                                <Link to={`/`}>
-                                                    <button className="btn btn-outline-primary mt-2 mb-2">
-                                                        {data.ofertante.userName} 
-                                                    </button>
-                                                </Link>
+                                                <Link to={`/profile/${data.ofertante._id}`}>
+                                                    <Button color="primary" size="medium">
+                                                        {data.ofertante.userName}
+                                                    </Button>   
+                                                </Link> 
                                             </h2>
                                             <h2>Descripcion: {data.descripcion} </h2>
                                             <h2>Valor: ${data.valor}</h2>
                                             <h2>{moment(data.createdAt).fromNow()}</h2>
                                         </div>
                                         <div>
-                                            <Link to={`/profile/project/doOffert/${project._id}/${data._id}/${'aceptar'}`}>
+                                            <Link to={`/profile/project/doOffer/${project._id}/${data._id}/${'aceptar'}`}>
                                                 <button className="btn btn-outline-primary mt-2 mb-2">
                                                     Aceptar oferta
                                                 </button>
                                             </Link>
-                                            <Link to={`/profile/project/doOffert/${project._id}/${data._id}/${'rechazar'}`}>
+                                            <Link to={`/profile/project/doOffer/${project._id}/${data._id}/${'rechazar'}`}>
                                                 <button className="btn btn-outline-warning mt-2 mb-2">
                                                     Rechazar oferta
                                                 </button>
@@ -55,7 +56,13 @@ const Card = ({project}) => {
                                 {data.estado.nombre === 'Aceptado' && project.estado.nombre === 'Terminado' ? (
                                     <div>
                                         <div>
-                                            <h2>Tienes una oferta aceptada, comunicate con: {data.ofertante.userName} </h2>
+                                            <h2>Tienes una oferta aceptada, comunicate con:
+                                                <Link to={`/profile/${data.ofertante._id}`}>
+                                                    <Button color="primary" size="medium">
+                                                        {data.ofertante.userName}
+                                                    </Button>   
+                                                </Link> 
+                                            </h2>
                                             <h2>Descripción: {data.descripcion} </h2>
                                             <h2>Valor: ${data.valor}</h2>
                                             <h2>Estado: {data.estado.nombre}</h2>

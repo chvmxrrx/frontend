@@ -4,7 +4,7 @@ import ShowImage from './showImage'
 import moment from 'moment'
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import { isAuthenticated } from '../auth';
-
+import { Button } from '@material-ui/core';
 const Card = ({ project }) => {
     const {dataUser} = isAuthenticated()
     return ( 
@@ -13,7 +13,13 @@ const Card = ({ project }) => {
                 <div className="card-header">{project.nombre}</div>
                 <div className="card-body">
                 <ShowImage image={project} url="proyecto" />
-                    <p>Creador: {project.creador.nombre}</p>
+                    <p>Creador: 
+                        <Link to={`/profile/${project.creador._id}`}>
+                            <Button color="primary" size="medium">
+                                {project.creador.nombre}
+                            </Button>   
+                        </Link>
+                    </p>
                     <p>Descripción: {project.descripcion}</p>
                     <p>Tamaño: {project.tamaño}</p>
                     <p>Parte seleccionada: {project.parteCuerpo.nombre}</p>
@@ -25,7 +31,7 @@ const Card = ({ project }) => {
                             (project.estado.nombre === "Terminado" || project.creador._id === dataUser.id)  ? (
                                 <div></div>
                             ) : (
-                                <Link to={`/profile/project/doOffert/${project._id}`}>
+                                <Link to={`/profile/project/doOffer/${project._id}`}>
                                     <button className="btn btn-outline-warning mt-2 mb-2">
                                         Realizar oferta
                                     </button>

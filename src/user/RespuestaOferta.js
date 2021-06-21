@@ -26,7 +26,7 @@ const RespuestaOferta = (props) => {
 
     const redirectUser = () =>{
         if(redirectToReferrer) {
-            return <Redirect to={`/profile/project/offerts/${projectId}`} />
+            return <Redirect to={`/profile/project/offers/${projectId}`} />
         }
     }
 
@@ -49,7 +49,7 @@ const RespuestaOferta = (props) => {
                 Confirmar
             </button>
             <div></div>   
-            <Link to={`/profile/project/offerts/${projectId}`}>                   
+            <Link to={`/profile/project/offers/${projectId}`}>                   
             <button className="btn btn-outline-warning mt-2 mb-2">
                 Volver
             </button>

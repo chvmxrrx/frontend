@@ -6,6 +6,8 @@ import { isAuthenticated } from '../auth'
 import Swal from 'sweetalert2'
 import moment from 'moment'
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import { Button } from '@material-ui/core'
+
 const Card = ({ project }) => {
     const {dataUser, accessToken} = isAuthenticated()
 
@@ -51,25 +53,24 @@ const Card = ({ project }) => {
                 <div className="card-header">{project.nombre}</div>
                 <div className="card-body">
                 <ShowImage image={project} url="proyecto" />
-                    <p>Creador: {project.creador.nombre}</p>
                     <p>Descripción: {project.descripcion}</p>
                     <p>Tamaño: {project.tamaño}</p>
                     <p>Parte seleccionada: {project.parteCuerpo.nombre}</p>
                     <p>Estilo de tatuaje: {project.estiloTatuaje.nombre}</p>
                     <p>Estado: {project.estado.nombre}</p>
                     <p><AccessTimeIcon color="action" fontSize="small"/> {moment(project.createdAt).fromNow()}</p>
-                    <Link to={`/profile/project/update/${project._id}`}>
-                        <button className="btn btn-outline-primary mt-2 mb-2">
-                            Modificar proyecto
-                        </button>
-                    </Link>
+                <Link to={`/profile/project/update/${project._id}`}>
+                    <button className="btn btn-outline-primary mt-2 mb-2">
+                        Modificar proyecto
+                    </button>
+                </Link>
                     
-                        <button className="btn btn-outline-warning mt-2 mb-2" onClick={clickSubmit}>
-                            Eliminar proyecto
-                        </button>
+                    <button className="btn btn-outline-warning mt-2 mb-2" onClick={clickSubmit}>
+                        Eliminar proyecto
+                    </button>
                     
                     <div>
-                    <Link to={`/profile/project/offerts/${project._id}`}>
+                    <Link to={`/profile/project/offers/${project._id}`}>
                         <button className="btn btn-outline-warning mt-2 mb-2">
                             Ver ofertas
                         </button>

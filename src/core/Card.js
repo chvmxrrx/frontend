@@ -7,6 +7,7 @@ import { isAuthenticated } from '../auth';
 import makeToast from '../Toaster/Toaster';
 import { Favorite } from '@material-ui/icons';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import { Button } from '@material-ui/core';
 const Card = ({ publicacion }) => {
 
     const {dataUser, accessToken} = isAuthenticated()
@@ -32,7 +33,9 @@ const Card = ({ publicacion }) => {
                 ) : (
                     <p>
                         <Link to={`/profile/${publicacion.creador._id}`}>
-                            <button className="btn btn-outline-primary mt-2 mb-2">{publicacion.creador.userName}</button>
+                            <Button color="primary" size="medium">
+                                {publicacion.creador.userName}
+                            </Button>   
                         </Link>
                     </p>
 
