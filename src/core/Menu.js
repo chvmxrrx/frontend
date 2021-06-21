@@ -35,7 +35,7 @@ const Menu = ({ history }) => (
             </li>
             )}
 
-            {isAuthenticated() && isAuthenticated().dataUser.tipo === 1 && (
+            {isAuthenticated() && (isAuthenticated().dataUser.tipo === 1 || isAuthenticated().dataUser.tipo === 2) && (
                 <li className="nav items">
                 <Link
                     className="nav-link"
@@ -58,21 +58,6 @@ const Menu = ({ history }) => (
                 </Link>
             </li>
             )}
-            
-            {isAuthenticated() && isAuthenticated().dataUser.tipo === 2 && (
-                <li className="nav items">
-                <Link
-                    className="nav-link"
-                    style={isActive(history, "/user/dashboard")}
-                    to="/user/dashboard"
-                >
-                    Dashboard
-                </Link>
-            </li>
-            )}
-
-            
-
 
             {!isAuthenticated() && (
                 <Fragment>

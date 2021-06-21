@@ -22,8 +22,7 @@ const Profile = ({ match }) => {
         region: "",
         loading: false,
         error: "",
-        redirectToReferrer: false,
-        succes: false,
+        redirectToDashboard: false,
         formData: ""
     });
 
@@ -41,7 +40,7 @@ const Profile = ({ match }) => {
         region, 
         loading, 
         error,
-        redirectToReferrer,
+        redirectToDashboard,
         formData 
     } = values;
 
@@ -101,7 +100,7 @@ const Profile = ({ match }) => {
             update(dataUser.id, accessToken, formData )
             .then( data => {
                 if(data.error) {
-                    console.log(data.error);
+                    makeToast("error", data.error);
                 } else{
                     updateUser(data, () => {
                         setValues({
@@ -114,8 +113,7 @@ const Profile = ({ match }) => {
                             tipo: data.tipo,
                             edad: data.edad,
                             region: data.region,
-                            succes: true,
-                            redirectToReferrer: true
+                            redirectToDashboard: true
                         })
                         console.log(values);
                     })
@@ -133,8 +131,8 @@ const Profile = ({ match }) => {
         </div>
     )
 
-    const redirectUser = (succes) => {
-        if(succes) {
+    const redirectUser = () => {
+        if(redirectToDashboard) {
             return <Redirect to="/user/dashboard" />
         }
     }

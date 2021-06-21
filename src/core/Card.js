@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link} from 'react-router-dom';
-import ShowImage from './ShowImage';
-import { getEstiloTatuaje } from '../admin/apiAdmin';
+import ShowImage from './showImage';
 import moment from 'moment';
 import { likePublicacion } from '../user/apiUser';
 import { isAuthenticated } from '../auth';
@@ -30,17 +29,15 @@ const Card = ({ publicacion }) => {
             {
                 (!dataUser && !accessToken) ? (
                     <div>{publicacion.creador.userName}</div>
-                    ) 
-                    : (
-                        <p>
-                            <Link to={`/`}>
-                                <button className="btn btn-outline-primary mt-2 mb-2">{publicacion.creador.userName}</button>
-                            </Link>
-                        </p>
-                    )
-                            
+                ) : (
+                    <p>
+                        <Link to={`/profile/${publicacion.creador._id}`}>
+                            <button className="btn btn-outline-primary mt-2 mb-2">{publicacion.creador.userName}</button>
+                        </Link>
+                    </p>
+
+                )
             }
-                
             </div>
             <div className="card-body">
                 <ShowImage image={publicacion} url="publicacion"/>
@@ -55,9 +52,7 @@ const Card = ({ publicacion }) => {
                                 </p>
                             )
                             
-                    }
-                   
-                   
+                    }   
                 </p>
                 <p className="lead mt-2">{publicacion.descripcion}</p>
                 <p className="black-9">

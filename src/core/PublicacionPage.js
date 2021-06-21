@@ -2,23 +2,20 @@ import React, { useEffect, useState } from 'react';
 import Layout from './Layout';
 import { getPublicacion } from './apiCore';
 import { isAuthenticated } from '../auth';
-import Card from './Card';
 import CardPublicacionPage from './CardPublicacion';
+import makeToast from '../Toaster/Toaster';
 
 const PublicacionPage = props => {
 
     const [publicacion, setPublicacion] = useState({});
-    const [error, setError] = useState({});
-
     const {accessToken, dataUser} = isAuthenticated();
 
     const loadPublicacion = publicacionId => {
         getPublicacion(publicacionId, dataUser.id, accessToken).then(data => {
             if(data.error) {
-                setError(data.error);
+                makeToast('error', data.error)
             }else{
                 setPublicacion(data);
-                console.log(publicacion);
             }
         })
     }
