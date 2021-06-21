@@ -115,3 +115,18 @@ export const getMyOffers = (id, accessToken) => {
         return err
     });
 };
+
+export const deleteOffer = (idOffer, idUser, accessToken) => {
+    return fetch(`${API}/oferta/eliminar/${idOffer}/${idUser}`, {
+        method: "DELETE",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`
+        }
+    }).then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err
+    });
+};

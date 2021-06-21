@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import ShowImage from './ShowImage'
 import { isAuthenticated } from '../auth/index'
@@ -13,7 +13,7 @@ const Card = ({project}) => {
                 <div className="card-header">{project.nombre}</div>
                 <div className="card-body">
                 <ShowImage image={project} url="proyecto" />
-                    <h2> Parte: {project.parteCuerpo}</h2>
+                    <h2> Parte seleccionada: {project.parteCuerpo.nombre}</h2>
                     <h2> Tamaño: {project.tamaño}</h2>
                     <h2> Estilo: {project.estiloTatuaje.nombre}</h2>
                     <h2> Estado: {project.estado.nombre}</h2>
@@ -24,7 +24,13 @@ const Card = ({project}) => {
                                 {data.estado.nombre === 'En espera' && project.estado.nombre === 'En espera' ? (
                                     <div>
                                         <div>
-                                            <h2>Username: {data.ofertante.userName} </h2>
+                                            <h2>Username: 
+                                                <Link to={`/`}>
+                                                    <button className="btn btn-outline-primary mt-2 mb-2">
+                                                        {data.ofertante.userName} 
+                                                    </button>
+                                                </Link>
+                                            </h2>
                                             <h2>Descripcion: {data.descripcion} </h2>
                                             <h2>Valor: ${data.valor}</h2>
                                             <h2>{moment(data.createdAt).fromNow()}</h2>

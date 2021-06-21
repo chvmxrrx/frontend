@@ -4,6 +4,7 @@ import { isAuthenticated } from '../auth/index';
 import {Redirect} from 'react-router-dom';
 import { getRegiones } from './../admin/apiAdmin';
 import { read, update, updateUser} from '../user/apiUser';
+import makeToast from '../Toaster/Toaster';
 
 const Profile = ({ match }) => {
     const [values, setValues] = useState({
@@ -121,7 +122,7 @@ const Profile = ({ match }) => {
                 }
             })
         }else{
-            console.log("las constraseñas no coinciden");
+            makeToast('error', 'Contraseñas no coinciden')
         }
         
     }

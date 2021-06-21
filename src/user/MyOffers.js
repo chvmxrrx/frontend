@@ -3,6 +3,7 @@ import Layout from '../core/Layout';
 import { getMyOffers } from '../core/apiCore';
 import { isAuthenticated } from '../auth';
 import Card from '../core/cardMyOffers';
+import { Link } from 'react-router-dom';
 
 const MisOfertas = () => {
 
@@ -24,15 +25,24 @@ const MisOfertas = () => {
         
     },[])
 
+    const showError = () => (
+        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+            <Link to={`/profile/project/projects/list`}>
+                <p>Ver proyectos de Inkapp</p>
+            </Link>
+        </div>
+    )
+
    return ( 
    <Layout title="Mis ofertas" description="Estas viendo las ofertas que haz realizado">
        <h2 className="mb4" align="center">Ofertas de {dataUser.nombre}</h2>
        <div className="row">
             { offers.map((offer, id) => (
-            <Card key={id} offer={offer}/>
+                <Card key={id} offer={offer}/>
             ))}
         </div>
-      
+      {showError()}
     </Layout>
     )
 

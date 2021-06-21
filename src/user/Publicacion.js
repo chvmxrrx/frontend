@@ -97,9 +97,9 @@ const Publicacion = () => {
 
     const labusqueda = () => {
         search(user).then(data =>{
-            console.log(data);
+            
             if(data.error){
-                makeToast("error","Ha ocurrido un error.")
+                makeToast("error",data.error)
             }else{
                 setUsers(data.users)
             }
@@ -108,7 +108,6 @@ const Publicacion = () => {
 
     const searchUsers = event =>{
         event.preventDefault();
-        console.log(user);
         labusqueda();
     }
 
@@ -207,7 +206,7 @@ const Publicacion = () => {
             {showError()}
             {createPublicationForm()}
             {redirectUser()}
-            {JSON.stringify(values.etiquetado)}
+            
         </Layout>
     );
 

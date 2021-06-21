@@ -3,13 +3,13 @@ import Layout from '../core/Layout';
 import { Redirect } from 'react-router-dom';
 import { singin, authenticate, isAuthenticated } from './../auth/index';
 import { API } from '../config';
+import makeToast from '../Toaster/Toaster';
 
 const Singin = () => {
 
     const [values, setValues] = useState({
         email: "",
         password: "",
-        error: "",
         loading: false,
         redirectToReferrer: false
     });
@@ -27,6 +27,7 @@ const Singin = () => {
         singin({ email, password }).then(data => {
             console.log(data);
             if(data.error) {
+                makeToast('error' , data.error)
                 setValues({...values, error: data.error, loading: false});
             }else {
                 authenticate (data, () => {

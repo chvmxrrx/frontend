@@ -3,16 +3,17 @@ import Layout from '../core/Layout';
 import {  isAuthenticated } from './../auth/index';
 import { Redirect } from 'react-router-dom';
 import {  updateProject , readProject} from './apiUser';
-import { getEstilosTatuajes } from '../admin/apiAdmin';
+import { getEstilosTatuajes, getPartes } from '../admin/apiAdmin';
 import makeToast from '../Toaster/Toaster';
 
 const UpdateProject = ({match}) => {
-
+    const [PartesCuerpo, setPartesCuerpo ] = useState([])
     const [values, setValues] = useState({
         nombre: "",
-        parteCuerpo: "",
+        descripcion: "",
         tamaño: "",
         img: "",
+        parteCuerpo: "",
         EstilosTatuaje: [],
         estiloTatuaje: "",
         loading: false,
@@ -24,9 +25,10 @@ const UpdateProject = ({match}) => {
 
     const { 
         nombre,
-        parteCuerpo,
+        descripcion,
         tamaño,
         img,
+        parteCuerpo,
         EstilosTatuaje,
         estiloTatuaje,
         loading, 
@@ -45,12 +47,13 @@ const UpdateProject = ({match}) => {
                 setValues({
                     ...values, 
                     nombre: data.nombre,
-                    parteCuerpo: data.parteCuerpo,
+                    descripcion: data.descripcion,
                     tamaño: data.tamaño,
                     formData: new FormData()     
                 }
                 )
                 initEstilos()
+                initPartesCuerpo()
             }
         })
     }
@@ -63,9 +66,19 @@ const UpdateProject = ({match}) => {
             }
         })
     }
+    const initPartesCuerpo = () => {
+        getPartes(dataUser.id, accessToken).then(data => {
+            if(data.error){
+                makeToast('error', data.error)
+                setValues({...values, error: data.error})
+            }else {
+                setPartesCuerpo(data.data) 
+            }
+        })
+    }
 
     useEffect(() => {
-      
+
       init(match.params.projectId)
     }, []);
 
@@ -128,13 +141,13 @@ const UpdateProject = ({match}) => {
             </div>
 
             <div className="form-group">
-                <label className="text-muted">¿Donde quieres tu tatuaje?</label>
+                <label className="text-muted">Descripción</label>
                 <textarea 
-                    placeholder="Ej. pectoral, brazo derecho"
-                    onChange={HandleChange('parteCuerpo')} 
+                    placeholder="Describe lo que deseas para tu proyecto!"
+                    onChange={HandleChange('descripcion')} 
                     type="text" 
                     className="form-control" 
-                    value={parteCuerpo}
+                    value={descripcion}
                 />
             </div>
             <div className="form-group">
@@ -156,6 +169,21 @@ const UpdateProject = ({match}) => {
                 >
                     <option >Seleccione un estilo de tatuaje...</option>
                     {EstilosTatuaje.map((data, i) => (
+                            <option key={i} value={data._id}>{data.nombre}</option>
+                        )) 
+                    }
+                </select>
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">¿Que parte del cuerpo deseas para tu tatuaje?</label>
+                <select 
+                    onChange={HandleChange('parteCuerpo')}
+                    className="form-control"
+                    required
+                >
+                    <option >Seleccione un estilo de tatuaje...</option>
+                    {PartesCuerpo.map((data, i) => (
                             <option key={i} value={data._id}>{data.nombre}</option>
                         )) 
                     }

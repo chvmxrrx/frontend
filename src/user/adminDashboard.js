@@ -18,6 +18,9 @@ const AdminDashboard = () => {
                         <Link className="nav-link" to="/create/region">Crear region</Link>
                         <Link className="nav-link" to="/manage/region">Administrar regiones</Link>
 
+                        <Link className="nav-link" to="/create/parte">Crear partes del cuerpo</Link>
+                        <Link className="nav-link" to="/manage/parte">Administrar partes del cuerpo</Link>
+
                         <Link className="nav-link" to="/create/estado">Crear estado</Link>
                         <Link className="nav-link" to="/manage/estado">Administrar Estados</Link>
 

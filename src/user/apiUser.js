@@ -30,7 +30,7 @@ export const update = (id, accessToken, user) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err
     });
 };
 
@@ -167,16 +167,35 @@ export const deleteProject = (idUser, accessToken, projectId) => {
     
 }
 
-export const updateProject = (idUser, accessToken, projectId, project) => {
+
+export const updateProject = (id, accessToken, projectId, project) => {
+    return fetch(`${API}/proyecto/modificar/${projectId}/${id}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`
+        },
+        body: project
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+}
+export const likePublicacion = (idUser, accessToken, publicacionId) => {
     
-    return fetch(`${API}/proyecto/modificar/${projectId}/${idUser}`, {
+    return fetch(`${API}/publicacion/like/${idUser}`, {
         method: "PUT",
         headers: {
             Accept: 'aplication/json',
             Authorization: `${accessToken}`,
-            
+
+            "Content-Type": "application/json"
         },
-        body: project
+        body: JSON.stringify({ idPublicacion: publicacionId  })
+
     })
     .then( response => {
         
@@ -203,5 +222,29 @@ export const readProject = (id, accessToken, projectId) => {
     })
     .catch( err => {
         return err
-    });
+    })
 };
+
+export const likePerfil = (idUser, accessToken, perfilId) => {
+    
+        return fetch(`${API}/perfil/like/${idUser}`, {
+            method: "PUT",
+            headers: {
+                Accept: 'aplication/json',
+                Authorization: `${accessToken}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ idUser: perfilId  })
+        })
+        .then( response => {
+            
+            return response.json(); 
+        })
+        .catch( err => {
+            
+            return err
+        });
+        
+    }
+
+
