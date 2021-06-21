@@ -5,7 +5,7 @@ import { deleteProject } from '../user/apiUser'
 import { isAuthenticated } from '../auth'
 import Swal from 'sweetalert2'
 import moment from 'moment'
-
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 const Card = ({ project }) => {
     const {dataUser, accessToken} = isAuthenticated()
     const [redirectToReferrer, setRedirectToReferrer] = useState(false)
@@ -59,10 +59,12 @@ const Card = ({ project }) => {
                 <div className="card-body">
                 <ShowImage image={project} url="proyecto" />
                     <p>Creador: {project.creador.nombre}</p>
-                    <p>Parte: {project.parteCuerpo}</p>
+                    <p>Descripción: {project.descripcion}</p>
                     <p>Tamaño: {project.tamaño}</p>
+                    <p>Parte seleccionada: {project.parteCuerpo.nombre}</p>
+                    <p>Estilo de tatuaje: {project.estiloTatuaje.nombre}</p>
                     <p>Estado: {project.estado.nombre}</p>
-                    <p>{moment(project.createdAt).fromNow()}</p>
+                    <p><AccessTimeIcon color="action" fontSize="small"/> {moment(project.createdAt).fromNow()}</p>
                     <Link to={`/profile/project/update/${project._id}`}>
                         <button className="btn btn-outline-primary mt-2 mb-2">
                             Modificar proyecto

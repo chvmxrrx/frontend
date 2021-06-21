@@ -28,7 +28,7 @@ const AllProjects = () => {
        <h2 className="mb4" align="center">Proyectos</h2>
        <div className="row">
             { projects.map((project, id) => (
-            <Card key={id} project={project}/>
+                <Card key={id} project={project}/>
             ))}
         </div>
       

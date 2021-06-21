@@ -6,6 +6,7 @@ import '../styles/chatroom.css'
 import Layout from '../core/Layout'
 
 const ChatroomPage = ( { match, socket}) => {
+    
     const chatroomId = match.params.id
     const [messages, setMessages] = React.useState([])
     const messageRef = React.useRef()
@@ -13,14 +14,14 @@ const ChatroomPage = ( { match, socket}) => {
     const {accessToken, dataUser} = isAuthenticated()
     
     const sendMessage = () =>{
-        // if(socket){
+
             socket.emit('chatroomMessage', {
                 chatroomId,
                 message: messageRef.current.value
                 
             })
             messageRef.current.value = ""
-        // }
+
     }
     React.useEffect(() => {
         
@@ -34,7 +35,7 @@ const ChatroomPage = ( { match, socket}) => {
                 setMessages(newMessages)
             })
         }
-        //eslint-disable-next-line
+       
     },[messages])
 
     React.useEffect(() => {
@@ -56,6 +57,7 @@ const ChatroomPage = ( { match, socket}) => {
         //eslint-disable-next-line
     }, [])
     return (
+        
         <Layout
             title="Chatrooms de inkapp"
             description="Sietete libre de chatear con los demás usuarios"
@@ -83,6 +85,7 @@ const ChatroomPage = ( { match, socket}) => {
                 </div>
             </div>
         </div>
+        
         </Layout>
     )
 }

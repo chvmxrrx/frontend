@@ -20,7 +20,7 @@ const Dashboard = () => {
                         <Link className="nav-link" to={`/profile/myprojects/${id}`}>Mis Proyectos</Link>
                         <Link className="nav-link" to={`/profile/project/projects/list`}>Proyectos</Link>
                         <Link className="nav-link" to={`/profile/offers/myoffers/${id}`}>Mis ofertas</Link>
-                        
+                        <Link className="nav-link" to={`/profile/do-reserve/${id}`}>Crear agenda de atención</Link>
                     </li>
                 </ul>
             </div>

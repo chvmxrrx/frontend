@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
-import { authenticate, isAuthenticated } from './../auth/index';
+import {  isAuthenticated } from './../auth/index';
 import { Redirect } from 'react-router-dom';
 import { createProject } from './apiUser';
-import { getEstados, getEstilosTatuajes } from '../admin/apiAdmin';
+import {  getEstilosTatuajes, getParte, getPartes } from '../admin/apiAdmin';
+import makeToast from '../Toaster/Toaster';
 
 const Proyecto = () => {
-
+    const [PartesCuerpo, setPartesCuerpo ] = useState([])
     const [values, setValues] = useState({
         nombre: "",
-        parteCuerpo: "",
+        descripcion: "",
         tamaño: "",
         img: "",
         EstilosTatuaje: [],
         estiloTatuaje: "",
+        parteCuerpo: "",
         loading: false,
         error: "",
         redirectToReferrer: false,
@@ -23,11 +25,12 @@ const Proyecto = () => {
 
     const { 
         nombre,
-        parteCuerpo,
+        descripcion,
         tamaño,
         img,
         EstilosTatuaje,
         estiloTatuaje,
+        parteCuerpo,
         loading, 
         error,
         redirectToReferrer,
@@ -37,18 +40,35 @@ const Proyecto = () => {
     const { dataUser, accessToken } = isAuthenticated();
 
     const init = () => {
+
         getEstilosTatuajes(dataUser.id, accessToken).then(data => {
             if(data.error){
                 setValues({...values, error: data.error})
             }else {
+                console.log(data.data);
                 setValues({...values, EstilosTatuaje: data.data, formData: new FormData()}) 
+                
             }
         })
+       
     }
 
+    const initPartesCuerpo = () => {
+        getPartes().then(data => {
+            if(data.error){
+                setValues({...values, error: data.error})
+            }else {
+                console.log(data.data);
+                setPartesCuerpo(data.data) 
+                
+            }
+        })
+    } 
+
+
     useEffect(() => {
-        
       init()
+      initPartesCuerpo()
     }, []);
 
     const HandleChange = name => event => {
@@ -61,11 +81,14 @@ const Proyecto = () => {
     const clickSubmit = event => {
         event.preventDefault();
         setValues({...values , error: '', loading:true })
+        console.log('aaaa');
         createProject(dataUser.id, accessToken, formData)
         .then(data => {
             if(data.error) {
+                makeToast('error', data.error)
                  setValues({...values, error: data.error});
             }else{
+                console.log('bbbbb');
                 setValues({
                     ...values, 
                     redirectToReferrer: true
@@ -79,12 +102,6 @@ const Proyecto = () => {
             return <Redirect to="/user/dashboard" />
         }
     }
-
-    const showError = () =>{
-        if(error) {
-            return <h4 className="text-danger">{error}</h4>
-        }
-    };
 
     const createProjectForm = () => (
         <form className="mb-3" onSubmit={clickSubmit}>
@@ -112,13 +129,13 @@ const Proyecto = () => {
             </div>
 
             <div className="form-group">
-                <label className="text-muted">¿Donde quieres tu tatuaje?</label>
+                <label className="text-muted">Describe tu proyecto</label>
                 <textarea 
-                    placeholder="Ej. pectoral, brazo derecho"
-                    onChange={HandleChange('parteCuerpo')} 
+                    placeholder="Describe lo que deseas para tu proyecto!"
+                    onChange={HandleChange('descripcion')} 
                     type="text" 
                     className="form-control" 
-                    value={parteCuerpo}
+                    value={descripcion}
                 />
             </div>
             <div className="form-group">
@@ -131,6 +148,21 @@ const Proyecto = () => {
                     value={tamaño}
                 />
             </div>
+            <div className="form-group">
+                <label className="text-muted">¿En que parte te tatuarás/realizarás el tatuaje?</label>
+                <select 
+                    onChange={HandleChange('parteCuerpo')}
+                    className="form-control"
+                    required
+                >
+                    <option>Seleccione una parte de su cuerpo</option>
+                    {PartesCuerpo.map((data, i) => (
+                            <option key={i} value={data._id}>{data.nombre}</option>
+                        )) 
+                    }
+                </select>
+            </div>
+
             <div className="form-group">
                 <label className="text-muted">¿Que estilo de tatuaje deseas para tu proyecto?</label>
                 <select 
@@ -146,6 +178,8 @@ const Proyecto = () => {
                 </select>
             </div>
 
+            
+
             <div className="form-group">
                 <label className="text-muted">Tu proyecto estará en espera</label>
             </div>
@@ -157,11 +191,11 @@ const Proyecto = () => {
 
     return (
         <Layout
-            title="Registro"
-            description="Formulario de registro de Inkapp, aplicacion para tatuadores."
+            title="Proyectos"
+            description="Estás creando un nuevo proyecto"
             className="container col-md-8 offset-md-2"
         >
-            {showError()}
+            
             {createProjectForm()}
             {redirectUser()}
             

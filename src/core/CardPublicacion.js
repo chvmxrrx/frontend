@@ -6,23 +6,27 @@ import { isAuthenticated } from '../auth';
 import moment from 'moment';
 import { deletePublicacion } from './apiCore';
 import makeToast from '../Toaster/Toaster'; 
+import { likePublicacion } from '../user/apiUser';
+import { Favorite } from '@material-ui/icons';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
 const CardPublicacionPage = ({ publicacion }) => {
-
-    const [estilo, setEstilo] = useState('');
+const { accessToken, dataUser } = isAuthenticated();
     const [redirect, setRedirect] = useState(false);
     const [comentarios, setComentarios] = useState([]);
+    
+    const [likes, setLikes] = useState(publicacion.likes.length);
+    const likeHandler = () =>{
 
-    const { accessToken, dataUser } = isAuthenticated();
-
-    const init = () => {
-        getEstiloTatuaje(publicacion.estiloTatuaje, dataUser.id, accessToken).then(data =>{
+        likePublicacion(dataUser.id, accessToken, publicacion._id).then(data => {
             if(data.error){
-                console.log(data.error);
-            }else{
-                setEstilo(data);
+                makeToast('error', data.error)
+            } else if (data.mensaje === "like") {
+                setLikes(likes +1)
+            } else{
+                setLikes(likes -1)
             }
-        })
+        }) 
     }
 
     const eliminarPublicacion = (idP) => {
@@ -43,26 +47,30 @@ const CardPublicacionPage = ({ publicacion }) => {
     }
 
     useEffect(() => {
-        console.log(publicacion);
-        init()
         setComentarios(publicacion.comentarios)
-        console.log(comentarios);
+        
     }, []);
 
     return(
         <div>
             <div className="card">
-            <div className="card-header">{publicacion.creador.userName}</div>
+            <div className="card-header">
+                <Link to={`/`}>
+                    <button className="btn btn-outline-primary mt-2 mb-2">
+                        {publicacion.creador.userName}
+                    </button>
+                </Link>
+            </div>
             <div className="card-body">
                 <ShowImage image={publicacion} url="publicacion"/>
-                <p className="lead mt-2">{publicacion.nombre}</p>
+                <p className="lead mt-2">{publicacion.nombre} <Favorite onClick={likeHandler} color="secondary"/>{likes}</p>
                 <p className="lead mt-2">{publicacion.descripcion.substring(0, 100)}</p>
-                
                 <p className="black-9">
-                    {`Estilo del tatuaje: ${estilo.nombre}`}
+                    Estilo del tatuaje: {publicacion.estiloTatuaje.nombre}
                 </p>
+                
                 <p className="black-8">
-                    {moment(publicacion.updatedAt).fromNow()}
+                   <AccessTimeIcon color="action" fontSize="small"/> {moment(publicacion.updatedAt).fromNow()}
                 </p>
                 {isAuthenticated() && isAuthenticated().dataUser.id === publicacion.creador._id ? (
                     <button className="btn btn-outline-warning mt-2 mb-2" onClick={() => eliminarPublicacion(publicacion._id)}>

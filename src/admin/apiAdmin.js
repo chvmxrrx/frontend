@@ -15,7 +15,25 @@ export const createRegion = (id, accesToken, region) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(JSON.parse(err));
+        return err
+    });
+};
+
+export const createParte = (id, accesToken, parte) => {
+    return fetch(`${API}/parte/crear/${id}`, {
+        method: "POST",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accesToken}`
+        },
+        body: JSON.stringify(parte)
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err
     });
 };
 
@@ -34,7 +52,7 @@ export const createEstado = (id, accesToken, estado) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err
     });
 };
 
@@ -53,7 +71,7 @@ export const createEstiloTatuaje = (id, accesToken, estilo) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err
     });
 };
 
@@ -66,7 +84,19 @@ export const getRegiones = () => {
         return response.json()
     })
     .catch(err => {
-        console.log(err);
+        return err
+    })
+};
+
+export const getPartes = () => {
+    return fetch(`${API}/parte/listado`, {
+        method: "GET"
+    })
+    .then( response => {
+        return response.json()
+    })
+    .catch(err => {
+        return err
     })
 };
 
@@ -98,7 +128,7 @@ export const getEstilosTatuajes = (id, accesToken) => {
         return response.json()
     })
     .catch(err => {
-        console.log(err);
+        return err
     })
 };
 
@@ -114,7 +144,22 @@ export const getRegion = (idR, idU, accesToken) => {
         return response.json()
     })
     .catch(err => {
-        console.log(err);
+        return err
+    })
+};
+
+export const getParte = (idP, idU, accesToken) => {
+    return fetch(`${API}/parte/buscar/${idP}/${idU}`, {
+        method: "GET",
+        headers: {
+            Authorization: `${accesToken}`
+        }
+    })
+    .then( response => {
+        return response.json()
+    })
+    .catch(err => {
+        return err
     })
 };
 
@@ -164,6 +209,24 @@ export const updateRegion = (idR, idU, accessToken, region) => {
     })
     .catch( err => {
         console.log(err);
+    });
+};
+
+export const updateParte = (idP, idU, accessToken, parte) => {
+    return fetch(`${API}/parte/modificar/${idP}/${idU}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        },
+        body: JSON.stringify(parte)
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err
     });
 };
 
@@ -219,6 +282,22 @@ export const deleteRegion = (idR, idU, accessToken) => {
     })
     .catch( err => {
         console.log(err);
+    });
+};
+
+export const deleteParte = (idP, idU, accessToken) => {
+    return fetch(`${API}/parte/eliminar/${idP}/${idU}`, {
+        method: "DELETE",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`
+        }
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err
     });
 };
 
