@@ -310,3 +310,222 @@ export const likePublicacion = (idUser, accessToken, publicacionId) => {
     
 };
 
+export const createHora = (id, accessToken, fecha, fechaFin) => {
+    return fetch(`${API}/reserva/crear/${id}`, {
+        method: "POST",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fecha: fecha,
+            fechaFin: fechaFin
+        })
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+    
+};
+
+export const readAgenda = (id, accessToken) => {
+    return fetch(`${API}/reserva/miagenda/${id}`, {
+        method: "GET",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        }
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+};
+
+export const deleteAgenda = (idUser, accessToken, projectId) => {
+    return fetch(`${API}/reserva/eliminar/${idUser}/${projectId}`, {
+        
+        method: "DELETE",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`,
+            "Content-Type": "application/json"
+        }
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+    
+}
+
+export const modificarAgenda = (idUser, accessToken, agendaId, fecha) => {
+    
+    return fetch(`${API}/reserva/modificar/${idUser}/${agendaId}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ fecha: fecha })
+    })
+    .then( response => {
+        
+        return response.json(); 
+    })
+    .catch( err => {
+        
+        return err
+    });
+    
+};
+
+export const buscarFecha = (idUser, accessToken, idReserva) => {
+    return fetch(`${API}/reserva/buscar/${idUser}/${idReserva} `, {
+        method: "GET",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        }
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+}
+
+export const listarAgenda = (idUser, accessToken, idPerfil) => {
+
+    return fetch(`${API}/reserva/agenda/${idUser}`, {
+        method: "POST",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        },
+        body: JSON.stringify({idPerfil: idPerfil}) 
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+}
+
+export const enviarOfertaReserva = (idUser, accessToken, descripcion, idReserva, proyecto) => {
+    if(proyecto == null){
+        return fetch(`${API}/oferta-hora/crear/${idUser}`, {
+            method: "PUT",
+            headers: {
+                Accept: 'aplication/json',
+                Authorization: `${accessToken}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ 
+                descripcion: descripcion, 
+                reservaId: idReserva 
+            })
+        })
+        .then( response => {
+            
+            return response.json(); 
+        })
+        .catch( err => {
+            
+            return err
+        });
+    } else {
+        return fetch(`${API}/oferta-hora/crear/${idUser}`, {
+            method: "PUT",
+            headers: {
+                Accept: 'aplication/json',
+                Authorization: `${accessToken}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ 
+                descripcion: descripcion, 
+                reservaId: idReserva,
+                idProyecto: proyecto._id 
+            })
+        })
+        .then( response => {
+            
+            return response.json(); 
+        })
+        .catch( err => {
+            
+            return err
+        });
+    }
+    
+    
+};
+
+export const readReserve = (idUser, accessToken, idReserva) => {
+    return fetch(`${API}/reserva/listado/ofertas/${idUser} `, {
+        method: "POST",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        },
+        body: JSON.stringify({idReserva: idReserva})
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+}
+
+export const resOfertaReserva = (idUser, accessToken, reservaId, offerId, response) => {
+    return fetch(`${API}/oferta-hora/respuesta/${reservaId}/${offerId}/${idUser}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({respuesta: response})
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+};
+
+export const deleteOfferReserve = (idUser, accessToken, offerId) => {
+    return fetch(`${API}/oferta-hora/eliminar/${offerId}/${idUser}`, {
+        
+        method: "DELETE",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`,
+            "Content-Type": "application/json"
+        }
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+    
+}

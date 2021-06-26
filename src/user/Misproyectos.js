@@ -35,7 +35,7 @@ const MisProyectos = () => {
     
    return ( 
    <Layout title="Mis proyectos" description="Estas viendo tus proyectos!">
-       <h2 className="mb4">Proyectos de {dataUser.nombre}</h2>
+       <h2 className="mb4">Proyectos de {dataUser.user}</h2>
        <div className="row">
             { projects.map((project, id) => (
             <Card key={id} project={project}/>

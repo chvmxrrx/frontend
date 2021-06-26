@@ -12,8 +12,8 @@ const Card = ({ publicacion }) => {
 
     const {dataUser, accessToken} = isAuthenticated()
     const [likes, setLikes] = useState(publicacion.likes.length);
+    
     const likeHandler = () =>{
-
         likePublicacion(dataUser.id, accessToken, publicacion._id).then(data => {
             if(data.error){
                 makeToast('error', data.error)

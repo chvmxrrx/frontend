@@ -36,8 +36,12 @@ import { isAuthenticated } from './auth';
 import RespuestaOferta from './user/RespuestaOferta';
 import DoReserve from './user/DoReserve';
 import Profile from './core/Profile';
-
-
+import modificarReserve from './user/modificarReserve'
+import AgendaTatuadores from './core/AgendaTatuadores'
+import DoOfferReserve from './user/DoOfferReserve';
+import ReserveOffers from './user/ReserveOffers';
+import RespuestaOfertaReserva from './user/RespuestaOfertaReserva';
+import MyReserveOffers from './user/MyReserveOffers';
 const Routes = () => {
 
     const [socket, setSocket] = React.useState(null) 
@@ -111,8 +115,15 @@ const Routes = () => {
                 <PrivateRoute path="/profile/project/doOffer/:projectId" exact component={DoOffer} />
                 <PrivateRoute path="/profile/project/doOffer/:projectId/:offerId/:response"
                 exact component={RespuestaOferta} />
+                <PrivateRoute path="/profile/agenda/modificar/:idFecha" exact component={modificarReserve}/>
                 <PrivateRoute path="/profile/offers/myoffers/:userId" exact component={MyOffers} />
                 <PrivateRoute path="/profile/do-reserve/:userId" exact component={DoReserve} />
+                <PrivateRoute path="/profile/agenda/:userId" exact component={AgendaTatuadores} />
+                <PrivateRoute path="/profile/do-reserve-hour/:agendaId" exact component={DoOfferReserve} />
+                <PrivateRoute path="/profile/agenda/offers/:agendaId" exact component={ReserveOffers} />
+                <PrivateRoute path="/profile/agenda/offers/:agendaId/:offerId/:response"
+                exact component={RespuestaOfertaReserva} />
+                <PrivateRoute path="/profile/reserve/myoffers/:userId" exact component={MyReserveOffers} />
             </Switch>
         </BrowserRouter>
     );

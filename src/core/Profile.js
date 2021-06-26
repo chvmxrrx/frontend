@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from './Layout';
-import { read } from '../user/apiUser';
+import { listarAgenda, read } from '../user/apiUser';
 import { isAuthenticated } from '../auth';
 import { getPublicaciones } from './apiCore';
 import Card from './Card';
@@ -119,9 +119,9 @@ const Profile = ({ match }) => {
                 setComentarios(data.user.comentarios);
                 //ACTUALIZA LA CANTIDAD DE LIKES QUEE TIENE EL USUARIO
                 setLikes(data.user.likes.length)
-                loadPublicaciones(userId);
+                loadPublicaciones(userId);      
             }
-        })
+        })  
     };
     
     const likeHandler = () =>{
@@ -139,6 +139,7 @@ const Profile = ({ match }) => {
 
     useEffect (() => {
         init(match.params.userId);
+        
     }, []); 
 
     return (
@@ -149,14 +150,27 @@ const Profile = ({ match }) => {
 
             {/*TITULO*/}
             {
-                dataUser.id ===   match.params.userId ? (
+                dataUser.id  ===   match.params.userId ? (
                     <h2 className="mb-4">Mis publicaciones</h2>
                 ) : (
                     <h2 className="mb-4">{`Publicaciones de ${user.userName}`}</h2>
                 )
             }
+
+            {/* BOTON DE LIKES SI USUARIO INGRESA UN LIKE SE SUMA, SI REPITE EL LIKE SE RESTA */}
             <Favorite onClick={likeHandler} color="secondary" />{likes}
 
+            {/* EVALUA QUE EL USUARIO SEA UN TATUADOR PARA QUE APAREZCA EL BOTÓN DE VER AGENDA */}
+            {
+                (user.tipo === 1 && match.params.userId !== dataUser.id)? (
+                    <Link to={`/profile/agenda/${user._id}`}> 
+                        <button>Ver agenda</button> 
+                    </Link>
+                ) : (
+                <p></p>
+                )
+            }
+            
             {/*CARD PUBLICACIONES*/}
             <div className="row">
                 { publicaciones.map((publicacion, i) => (

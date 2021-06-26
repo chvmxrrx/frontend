@@ -201,3 +201,21 @@ export const deleteRespuesta = (idP, idU, accessToken, body) => {
         return err;
     });
 };
+
+export const getMyOffersReserve = (id, accessToken) => {
+    
+    return fetch(`${API}/oferta-hora/misofertas/${id}`, {
+        method: "GET",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        }
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+};

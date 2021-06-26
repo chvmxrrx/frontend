@@ -1,189 +1,242 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import {  isAuthenticated } from '../auth/index';
-import { Redirect } from 'react-router-dom';
-import { createOffer } from './apiUser';
-import makeToast from '../Toaster/Toaster';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '@material-ui/pickers';
+import SaveIcon from '@material-ui/icons/Save';
+import {List, ListItem, ListItemText, ListItemAvatar, Badge, Button} from '@material-ui/core';
+import { createHora, deleteAgenda, readAgenda } from './apiUser';
+import makeToast from '../Toaster/Toaster'
+import moment from 'moment';
+import { AccessTime, Edit, CalendarToday, Done} from '@material-ui/icons';
+import { IconButton, Grid } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Link } from 'react-router-dom';
 
-
-const DoReserve = (props) => {
-    const [selectedDate, handleDateChange] = useState(new Date());
-    const [values, setValues] = useState({
-        descripcion: "",
-        valor: "",
-        loading: false,
-        error: "",
-        redirectToReferrer: false,
-        succes: false,
-        formData: ""
-    });
-    
-    const { 
-        descripcion,
-        valor,
-        loading, 
-        error,
-        redirectToReferrer,
-        formData 
-    } = values;
-
+const DoReserve = ({match}) => {
+  moment.locale('es')
+    const [selectedDate, handleDateChange] = useState()
+    const [selectedTermino, handleTerminoChange] = useState()
+    const [agenda, setAgenda] = useState([])
     const { dataUser, accessToken } = isAuthenticated();
-    const [id,setId] = useState('')
     
-
     useEffect(() => {
-        setValues({...values, formData: new FormData()})
-        setId(props.match.params.projectId)
+        loadHoras()
     }, []);
-    
-    const HandleChange = name => event => {
-        const value = 
-            name === "img" ? event.target.files[0] : event.target.value;
-        formData.set(name, value);
-        setValues({ ...values, [name]: value });
-    }
-
 
     const clickSubmit = event => {
-
-        event.preventDefault();
-        setValues({...values, error: '', loading:true })
-        createOffer(dataUser.id, accessToken, id ,{valor}, {descripcion})
-        .then(data => {
-            if(data.error) {
-                 makeToast('error', data.error)
-                 setValues({...values, error: data.error});
-            }else{
-                makeToast('success', data.mensaje)
-                setValues({
-                    ...values, 
-                    redirectToReferrer: true
-                });
+      event.preventDefault();
+      
+      if(selectedDate && selectedTermino){
+        const fechaInicio = moment(selectedDate).format('MMMM Do YYYY, hh:mm a')
+        const fechaTermino = moment(selectedDate)
+        .set("hour", selectedTermino.getHours())
+        .set("minute", selectedTermino.getMinutes())
+        .set("seconds", selectedTermino.getSeconds())
+        .format('MMMM Do YYYY, hh:mm a')
+        agenda.length > 0 ? (
+          agenda.map((data) => {
+            if((fechaInicio >= moment(data.fecha).format('MMMM Do YYYY, hh:mm a') && fechaInicio <= moment(data.fechaFin).format('MMMM Do YYYY, hh:mm a')) 
+            || (fechaTermino >= moment(data.fecha).format('MMMM Do YYYY, hh:mm a') && fechaTermino <= moment(data.fechaFin).format('MMMM Do YYYY, hh:mm a'))) {
+              return console.log('hello');
+            } else {
+              return console.log('Hola');
             }
+          } 
+        )
+        ) : (
+          console.log(agenda.length)
+        )
+        
+      } else {
+        makeToast('error', 'Debe seleccionar horas y fechas correspondientes')
+        // console.log(fechaInicio)
+        // // console.log(fechaTermino);
+        // console.log(moment(agenda[0].fecha).format('MMMM Do YYYY, hh:mm a'));
+        // console.log(moment(agenda[0].fechaFin).format('MMMM Do YYYY, hh:mm a'));
+        // console.log(moment(agenda[0].fecha).format('MMMM Do YYYY, hh:mm a') < fechaInicio);
+        // console.log(moment(fechaInicio).isBetween(moment(agenda[0].fecha).format('MMMM Do YYYY, hh:mm a'),moment(agenda[0].fechaFin).format('MMMM Do YYYY, hh:mm a')));
+      }
+      
+      // agenda.map((data, i) => (
+      //   // console.log(moment(data.fecha).format('MMMM Do YYYY, hh:mm a'))
+      //   console.log(moment(fechaInicio).isBetween(moment(data.fecha).format('MMMM Do YYYY, hh:mm a'), moment(data.fechaFinal).format('MMMM Do YYYY, h:mm a')))
+      //   // console.log(moment(fechaInicio).isBetween(moment(data.fecha).format('MMMM Do YYYY, hh:mm a'), moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')))
+      
+      //   ))
+      // const dateTermino = moment(selectedDate)
+      //   .set("hour", selectedTermino.getHours())
+      //   .set("minute", selectedTermino.getMinutes())
+      //   .set("seconds", selectedTermino.getSeconds())
+    //     if(!selectedDate || !selectedTermino){
+    //       makeToast('error', 'Debe seleccionar su horario')
+    //   // } else if ( moment(selectedDate).format('MMMM Do YYYY, h:mm a') < moment(dateTermino).format('MMMM Do YYYY, h:mm a') ) {
+    //   //     makeToast('error', 'Hora de termino debe ser superior a la de inicio')
+    //   // 
+    //     } else if (agenda.length > 0 && agenda){ 
+    //       agenda.map((data, i) => (
+            
+    //         (moment(selectedDate).isBetween(moment(data.Fecha).format('MMMM Do YYYY, h:mm a'), moment(data.FechaFin).format('MMMM Do YYYY, h:mm a')) 
+    //         || moment(dateTermino).isBetween(moment(data.Fecha).format('MMMM Do YYYY, h:mm a'), moment(data.FechaFin).format('MMMM Do YYYY, h:mm a')))
+    //         ? (
+    //           // makeToast('error', 'Fecha esta agendada')
+              
+    //           console.log(moment(selectedDate).isBetween(moment(data.Fecha).format('MMMM Do YYYY, h:mm a'), moment(data.FechaFin).format('MMMM Do YYYY, h:mm a')))
+    //         ) : (
+    //           console.log(moment(selectedDate).isBetween(moment(data.Fecha).format('MMMM Do YYYY, h:mm a'), moment(data.FechaFin).format('MMMM Do YYYY, h:mm a')))
+    //           // createHora(dataUser.id, accessToken, selectedDate, dateTermino).then(data => {
+    //           //   if(data.error){
+    //           //     makeToast('error', data.error)
+    //           //   } else {
+    //           //     makeToast('success', data.mensaje)
+    //           //     loadHoras()
+    //           //   }
+    //           // })
+    //         )
+    //       ))}
+    //     }
+    // //   } else {
+    // //         createHora(dataUser.id, accessToken, selectedDate, dateTermino).then(data => {
+    // //           if(data.error){
+    // //             makeToast('error', data.error)
+    // //           } else {
+    // //             makeToast('success', data.mensaje)
+    // //             loadHoras()
+    // //           }
+    // //         })
+    // //       }
+    // // }      
+    }
+    const loadHoras = () => {
+        readAgenda(dataUser.id, accessToken).then(data => {
+          if(data.error){
+            makeToast('error', data.error)
+          }else{
+            setAgenda(data.data)
+          }
         })
     }
 
-    const redirectUser = () =>{
-        if(redirectToReferrer) {
-            return <Redirect to="/user/dashboard" />
+    const deleteHora = idHora => event => {
+      event.preventDefault()
+      deleteAgenda(dataUser.id, accessToken, idHora).then(data =>{
+        if(data.error){
+          makeToast('error', data.error)
+        }else {
+          makeToast('success', data.mensaje)
+          loadHoras()
         }
+      })
     }
-
-    const showError = () =>{
-        if(error) {
-            return <h4 className="text-danger">{error}</h4>
-        }
-    };
+    
 
     const createOfferForm = () => (
         <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-        Agenda
+      <Typography variant="h4" gutterBottom align="center">
+        Calendario 
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={3}>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="lastName"
-            name="lastName"
-            label="Last name"
-            fullWidth
-            autoComplete="family-name"
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            required
-            id="address1"
-            name="address1"
-            label="Address line 1"
-            fullWidth
-            autoComplete="shipping address-line1"
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            id="address2"
-            name="address2"
-            label="Address line 2"
-            fullWidth
-            autoComplete="shipping address-line2"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-        <TextField id="state" name="state" label="State/Province/Region" fullWidth />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-        <TextField id="state" name="state" label="State/Province/Region" fullWidth />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="country"
-            name="country"
-            label="Country"
-            fullWidth
-            autoComplete="shipping country"
-          />
-        </Grid>
         <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-            label="Use this address for payment details"
-          />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="dd/MM/yyyy"
+          margin="normal"
+          minDate={Date.now()}
+          maxDate="12/31/2025"
+          id="date-picker-inline"
+          label="Seleccione día"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        <KeyboardTimePicker
+          margin="normal"
+          id="time-picker"
+          label="Seleccione hora de inicio"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change time',
+          }}
+        />
+        <KeyboardTimePicker
+          margin="normal"
+          id="time-picker"
+          label="Seleccione hora de termino"
+          value={selectedTermino}
+          onChange={handleTerminoChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change time',
+          }}
+        />
+        </MuiPickersUtilsProvider>
+        <Grid item xs={12} align="center">
+         <button onClick={clickSubmit} className="btn btn-primary"><SaveIcon />Agendar hora</button>
         </Grid>
+        <Typography variant="body2" align="center" style={{color: 'black'}}>
+          *Puedes agendar hasta 5 horas como máximo*
+        </Typography>
+        </Grid >
+        <Grid item xs={12} direction="row"
+            justify="center"
+            alignItems="center">
+        <Typography variant="h6" gutterBottom align="center">
+          Horas agendadas
+        </Typography>
+        <List>
+        {agenda.map((data, i) => (
+          <ListItem>
+              <ListItemAvatar>
+                <AccessTime />
+              </ListItemAvatar>
+            <ListItemText primary="Inicio" secondary={moment(data.fecha).format('MMMM Do YYYY, h:mm a')} variant="h1"/>
+            <ListItemText primary="Termino" secondary={moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')} variant="body2"/>
+            <Link to={`/profile/agenda/offers/${data._id}`}>
+                {
+                  data.estado.nombre === 'Agendada' ? (
+                    <Button>
+                      <Done fontSize="small" style={{color: 'green'}}/> 
+                    </Button>
+                  ) : (
+                    <Button>
+                      <Badge color="secondary" badgeContent={data.oferta.length}>
+                        <CalendarToday fontSize="small"/>
+                      </Badge>
+                    </Button>
+                  )
+                }
+              
+            </Link>
+              <IconButton aria-label="delete" onClick={deleteHora(data._id)}>
+                <DeleteIcon fontSize="small" color="error"/>
+              </IconButton>
+              <Link to={`/profile/agenda/modificar/${data._id}`}>
+                <IconButton aria-label="delete">
+                  <Edit fontSize="small" color="primary"/>
+                </IconButton>
+              </Link>
+          </ListItem>       
+            )) 
+            } 
+        </List> 
+        </Grid>
+        
       </Grid>
     </React.Fragment>
-        // <form className="mb-3" onSubmit={clickSubmit}>
-
-        //     <div className="form-group">
-        //             <label className="text-muted">Describe tu oferta</label>
-        //             <textarea 
-        //                 placeholder="Ej. me gusto mucho tu idea, me manejo con ese estilo de tatuajes ;)"
-        //                 onChange={HandleChange('descripcion')} 
-        //                 type="text" 
-        //                 className="form-control" 
-        //                 value={descripcion}
-        //             />
-        //     </div>
-        //     <div className="form-group">
-        //         <label className="text-muted">Valor de tu oferta</label>
-        //         <input 
-        //             placeholder="Ej. 200000"
-        //             onChange={HandleChange('valor')} 
-        //             type="text" 
-        //             className="form-control" 
-        //             value={valor}
-        //         />
-        //     </div>
-            
-            
-        //     <div className="form-group">
-        //         <label className="text-muted">Tu Oferta estará en espera</label>
-        //     </div>
-            
-
-        //     <button onClick={clickSubmit} className="btn btn-primary">Publicar oferta</button>
-        // </form>
     );
 
     return (
         <Layout
-            title="Ingreso de oferta"
-            description="Publica tu oferta!"
-            className="container col-md-8 offset-md-2"
+          title="Mi agenda"
+          description="Estás creando tu agenda." 
+          className="container col-md-8 offset-md-2"
         >
-            {showError()}
             {createOfferForm()}
-            {redirectUser()}
-            
         </Layout>
     );
 

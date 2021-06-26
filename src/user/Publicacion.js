@@ -36,7 +36,7 @@ const Publicacion = () => {
         redirectToReferrer,
         formData
     } = values;
-
+    
     const { dataUser, accessToken } = isAuthenticated();
 
     //Cargar estilos y setear formData
@@ -174,7 +174,7 @@ const Publicacion = () => {
                         event.preventDefault()
                         setUser(data.userName)
                         setValues({...values, etiquetado: data._id, busqueda: user})
-                        console.log(values);
+                        
                     }}>
                         {data.userName}
                 </button>

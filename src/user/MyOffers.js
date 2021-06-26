@@ -36,7 +36,7 @@ const MisOfertas = () => {
 
    return ( 
    <Layout title="Mis ofertas" description="Estas viendo las ofertas que haz realizado">
-       <h2 className="mb4" align="center">Ofertas de {dataUser.nombre}</h2>
+       <h2 className="mb4" align="center">Ofertas de {dataUser.user}</h2>
        <div className="row">
             { offers.map((offer, id) => (
                 <Card key={id} offer={offer}/>

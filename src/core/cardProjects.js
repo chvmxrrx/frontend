@@ -16,7 +16,7 @@ const Card = ({ project }) => {
                     <p>Creador: 
                         <Link to={`/profile/${project.creador._id}`}>
                             <Button color="primary" size="medium">
-                                {project.creador.nombre}
+                                {project.creador.userName}
                             </Button>   
                         </Link>
                     </p>

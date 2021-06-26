@@ -4,8 +4,6 @@ import ShowImage from './showImage'
 import moment from 'moment'
 import { Button } from '@material-ui/core'
 const Card = ({project}) => {
-
-    
     return ( 
         
             <div className="card" align="center">
