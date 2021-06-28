@@ -10,8 +10,6 @@ import ShowImage from './showImage';
 import Swal from 'sweetalert2';
 import { deleteOfferReserve } from '../user/apiUser';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import { useState } from 'react';
-import makeToast from '../Toaster/Toaster';
 
 const useStyles = makeStyles({
     root: {

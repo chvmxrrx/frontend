@@ -36,7 +36,7 @@ const ReserveOffers = (props) => {
                 <Layout title={`Agendando hora`} 
                 description={`Desde: ${moment(reserva.fecha).format('MMMM Do YYYY, h:mm a')} Hasta: ${moment(reserva.fechaFin).format('MMMM Do YYYY, h:mm a')}`} 
                 className="containter-fluid">
-                    <Grid container spacing={3}>
+                    <Grid container spacing={3} >
                         <Grid item xs={12}> 
                             <Typography variant="h5" component="h2" align="center">Ofertas</Typography>
                         </Grid>

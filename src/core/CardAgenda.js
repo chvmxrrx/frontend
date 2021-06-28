@@ -8,10 +8,12 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Grid } from '@material-ui/core';
 
+const CardProject = ({ horas }) => {
 const useStyles = makeStyles({
     root: {
-      minWidth: 275,
+      minWidth: 190,
     },
     title: {
       fontSize: 14,
@@ -21,14 +23,14 @@ const useStyles = makeStyles({
       marginBottom: 12,
     },
   });
-
-    
-export default function SimpleCard( {horas} ) {
-        const classes = useStyles();
+  const classes = useStyles();
       
-        return (
-
-          <Card className={classes.root, classes.pos}>
+  return (
+  
+    horas ? (
+      horas.estado.nombre !== 'Agendada' ? (
+        <Grid item xs={3}>
+          <Card>
             <CardContent>
               <Typography variant="h5" component="h2" align="center">
               {moment(horas.fecha).format('Do MMMM')}
@@ -49,5 +51,33 @@ export default function SimpleCard( {horas} ) {
               </Link>
             </CardActions>
           </Card>
-        );
+      </Grid>
+      ) : (
+        <Grid item xs={3}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5" component="h2" align="center">
+              {moment(horas.fecha).format('Do MMMM')}
+              </Typography>
+              <Typography className={classes.pos} color="textSecondary">
+                {horas.estado.nombre}
+              </Typography>
+              <Typography variant="body2" component="p">
+                Desde: {moment(horas.fecha).format('h:mm a')}
+              </Typography>
+              <Typography variant="body2" component="p">
+                Hasta: {moment(horas.fechaFinal).format('h:mm a')}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      )
+    ) : (
+      <Typography>
+        Lo sentimos, este usuario aún no crea su agenda.
+      </Typography>
+    )
+  
+  );
 }
+export default CardProject

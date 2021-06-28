@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 
 const Dashboard = () => {
 
-    const {dataUser: { id, user, nombre, email}} = isAuthenticated();
+    const {dataUser: { id, user, nombre, email, tipo}} = isAuthenticated();
 
     const userLinks = () => {
         return(
@@ -20,8 +20,12 @@ const Dashboard = () => {
                         <Link className="nav-link" to={`/profile/myprojects/${id}`}>Mis Proyectos</Link>
                         <Link className="nav-link" to={`/profile/project/projects/list`}>Proyectos</Link>
                         <Link className="nav-link" to={`/profile/offers/myoffers/${id}`}>Mis ofertas</Link>
-                        <Link className="nav-link" to={`/profile/do-reserve/${id}`}>Administrar agenda</Link>
                         <Link className="nav-link" to={`/profile/reserve/myoffers/${id}`}>Ofertas de reserva</Link>
+                        {
+                            tipo === 1 ? 
+                            <Link className="nav-link" to={`/profile/do-reserve/${id}`}>Administrar agenda</Link> 
+                            : <p></p>
+                        }
                     </li>
                 </ul>
             </div>

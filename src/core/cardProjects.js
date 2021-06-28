@@ -5,28 +5,57 @@ import moment from 'moment'
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import { isAuthenticated } from '../auth';
 import { Button } from '@material-ui/core';
-const Card = ({ project }) => {
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import { Grid } from '@material-ui/core';
+const CardProject = ({ project }) => {
     const {dataUser} = isAuthenticated()
+    const useStyles = makeStyles({
+        root: {
+          maxWidth: 345,
+        },
+      });
+    const classes = useStyles();
     return ( 
-        <div className="col-4 mb-3">
-            <div className="card">
-                <div className="card-header">{project.nombre}</div>
-                <div className="card-body">
-                <ShowImage image={project} url="proyecto" />
-                    <p>Creador: 
+        
+        <Grid item xs={3}>
+            <Card className={classes.root}>
+                    <Grid item xs={6}>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {project.nombre}
+                        
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={6}>
                         <Link to={`/profile/${project.creador._id}`}>
                             <Button color="primary" size="medium">
                                 {project.creador.userName}
                             </Button>   
                         </Link>
-                    </p>
-                    <p>Descripción: {project.descripcion}</p>
-                    <p>Tamaño: {project.tamaño}</p>
-                    <p>Parte seleccionada: {project.parteCuerpo.nombre}</p>
-                    <p>Estilo: {project.estiloTatuaje.nombre}</p>
-                    <p>Estado: {project.estado.nombre}</p>
-                    <p><AccessTimeIcon color="action" fontSize="small"/> {moment(project.createdAt).fromNow()} </p>
-                    <div align="center">
+                    </Grid>
+                <CardMedia />
+                <ShowImage image={project} url="proyecto" />
+                <CardContent>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        {project.descripcion}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        Tamaño: {project.tamaño}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        Parte seleccionada: {project.parteCuerpo.nombre}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        Estilo: {project.estiloTatuaje.nombre}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        {project.estado.nombre}
+                    </Typography>
+                    <Grid item xs={12} align="center">
+                    <Button size="small" color="primary">
                         {
                             (project.estado.nombre === "Terminado" || project.creador._id === dataUser.id)  ? (
                                 <div></div>
@@ -38,11 +67,16 @@ const Card = ({ project }) => {
                                 </Link>
                             )
                         }    
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </Button>
+                    </Grid>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        <AccessTimeIcon color="action" fontSize="small"/> {moment(project.createdAt).fromNow()}
+                    </Typography>
+                </CardContent>
+        
+            </Card>
+        </Grid>
         )
 }
 
-export default Card
+export default CardProject

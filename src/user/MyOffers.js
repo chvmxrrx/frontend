@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import Layout from '../core/Layout';
 import { getMyOffers } from '../core/apiCore';
 import { isAuthenticated } from '../auth';
-import Card from '../core/cardMyOffers';
 import { Link } from 'react-router-dom';
-
+import { Grid, Typography } from '@material-ui/core';
+import CardOffer from '../core/cardMyOffers';
 const MisOfertas = () => {
 
     const [offers, setOffers] = useState([])
@@ -36,13 +36,15 @@ const MisOfertas = () => {
 
    return ( 
    <Layout title="Mis ofertas" description="Estas viendo las ofertas que haz realizado">
-       <h2 className="mb4" align="center">Ofertas de {dataUser.user}</h2>
-       <div className="row">
-            { offers.map((offer, id) => (
-                <Card key={id} offer={offer}/>
-            ))}
-        </div>
-      {showError()}
+       <Grid container spacing= {3}  justify="center" direction="row" alignItem="center">
+            <Grid item xs={12}> 
+                <Typography variant="h5" component="h2" align="center">Tus ofertas</Typography>
+            </Grid>
+                { offers.map((offer, id) => (
+                    <CardOffer key={id} offer={offer}/>
+                ))}
+        </Grid>
+        {showError()}
     </Layout>
     )
 

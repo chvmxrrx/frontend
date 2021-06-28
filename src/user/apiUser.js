@@ -368,7 +368,7 @@ export const deleteAgenda = (idUser, accessToken, projectId) => {
     
 }
 
-export const modificarAgenda = (idUser, accessToken, agendaId, fecha) => {
+export const modificarAgenda = (idUser, accessToken, agendaId, fecha, fechaFin) => {
     
     return fetch(`${API}/reserva/modificar/${idUser}/${agendaId}`, {
         method: "PUT",
@@ -377,7 +377,8 @@ export const modificarAgenda = (idUser, accessToken, agendaId, fecha) => {
             Authorization: `${accessToken}`,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ fecha: fecha })
+        body: JSON.stringify({ fecha: fecha ,
+        fechaFin: fechaFin})
     })
     .then( response => {
         

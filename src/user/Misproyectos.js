@@ -2,8 +2,10 @@ import React, {useState, useEffect} from 'react';
 import Layout from '../core/Layout';
 import { getMyProjects } from '../core/apiCore';
 import { isAuthenticated } from '../auth';
-import Card from '../core/cardMyProjects';
 import { Link } from 'react-router-dom';
+import CardProject from '../core/cardMyProjects';
+import { Grid } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 const MisProyectos = () => {
 
     const [projects, setProjects] = useState([])
@@ -35,13 +37,17 @@ const MisProyectos = () => {
     
    return ( 
    <Layout title="Mis proyectos" description="Estas viendo tus proyectos!">
-       <h2 className="mb4">Proyectos de {dataUser.user}</h2>
-       <div className="row">
-            { projects.map((project, id) => (
-            <Card key={id} project={project}/>
-            ))}
-        </div>
+       <Grid container spacing={3} direction="row" justify="center" alignItems="center">
+            <Grid item xs={12}>
+                <Typography variant="h5" component="h2" align="center">
+                    Proyectos de {dataUser.user}
+                </Typography>
+            </Grid>
+                { projects.map((project, id) => (
+                    <CardProject key={id} project={project}/>
+                ))}
       {showError()}
+      </Grid>
     </Layout>
     )
 

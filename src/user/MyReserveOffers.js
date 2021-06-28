@@ -11,13 +11,7 @@ const MyReserveOffers = () => {
     const [offers, setOffers] = useState([])
     const {dataUser, accessToken} = isAuthenticated()
     const [error, setError] = useState(false)
-    const [redirectToReferer, setRedirectToReferer] = useState(false)
 
-    const redirect = () => {
-        if(redirectToReferer) {
-            return <Redirect to= {`/profile/project/projects/list`}/>
-        }
-    }
     const loadOffers = () => {
         getMyOffersReserve(dataUser.id, accessToken).then( data => {
             if(data.error){
@@ -40,7 +34,6 @@ const MyReserveOffers = () => {
             </Link>
         </div>
     )
-
    return ( 
    <Layout title="Mis ofertas" description="Estas viendo las ofertas que haz realizado">
        
@@ -54,6 +47,7 @@ const MyReserveOffers = () => {
                         <Card key={id} offer={offer}/>
                     ))}
             <Grid item xs={12} align="center"> 
+            {showError()}
                 <Link to={`/user/dashboard`}>
                     <Button variant="contained" color="primary">
                         <ArrowBack>
@@ -63,8 +57,8 @@ const MyReserveOffers = () => {
                 </Link>
             </Grid>
         </Grid>
-       {showError()}
-       {redirect()}
+       
+      
     </Layout>
     )
 

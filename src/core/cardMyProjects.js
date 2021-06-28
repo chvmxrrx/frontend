@@ -6,11 +6,28 @@ import { isAuthenticated } from '../auth'
 import Swal from 'sweetalert2'
 import moment from 'moment'
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import { Button } from '@material-ui/core'
-
-const Card = ({ project }) => {
+import { Button, makeStyles } from '@material-ui/core'
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import { Grid } from '@material-ui/core';
+import { Badge } from 'react-bootstrap'
+const CardProject = ({ project }) => {
     const {dataUser, accessToken} = isAuthenticated()
-    
+    const useStyles = makeStyles({
+        root: {
+          minWidth: 275,
+        },
+        title: {
+          fontSize: 14,
+        },
+        pos: {
+          marginTop: 12,
+          marginBottom: 12,
+        },
+      });
+    const classes = makeStyles()
     const clickSubmit = event => {
         
             event.preventDefault()
@@ -32,54 +49,59 @@ const Card = ({ project }) => {
                                 'error'
                               )
                         }else {
-                            Swal.fire(
-                                'Eliminado!',
-                                data.mensaje,
-                                'success'
-                              )
-                              window.location.reload()
+                            window.location.reload()
                         }
                     })
                 }
               })
-        
-    }
-
+        }
     return ( 
-        
-        <div className="col-4 mb-3">
-            
-            <div className="card">
-                <div className="card-header">{project.nombre}</div>
-                <div className="card-body">
+        <Grid item xs={3}>
+            <Card>
+                <Typography gutterBottom variant="h5" component="h2" align="center">
+                    {project.nombre}
+                </Typography>
+                <CardMedia />
                 <ShowImage image={project} url="proyecto" />
-                    <p>Descripción: {project.descripcion}</p>
-                    <p>Tamaño: {project.tamaño}</p>
-                    <p>Parte seleccionada: {project.parteCuerpo.nombre}</p>
-                    <p>Estilo de tatuaje: {project.estiloTatuaje.nombre}</p>
-                    <p>Estado: {project.estado.nombre}</p>
-                    <p><AccessTimeIcon color="action" fontSize="small"/> {moment(project.createdAt).fromNow()}</p>
-                <Link to={`/profile/project/update/${project._id}`}>
-                    <button className="btn btn-outline-primary mt-2 mb-2">
-                        Modificar proyecto
-                    </button>
-                </Link>
-                    
-                    <button className="btn btn-outline-warning mt-2 mb-2" onClick={clickSubmit}>
-                        Eliminar proyecto
-                    </button>
-                    
-                    <div>
-                    <Link to={`/profile/project/offers/${project._id}`}>
-                        <button className="btn btn-outline-warning mt-2 mb-2">
-                            Ver ofertas
-                        </button>
+                <CardContent>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        {project.descripcion}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        Tamaño: {project.tamaño}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        Parte seleccionada: {project.parteCuerpo.nombre}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        Estilo: {project.estiloTatuaje.nombre}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        {project.estado.nombre}
+                    </Typography>
+                    <Grid item xs={12} align="center">
+                    <Link to={`/profile/project/update/${project._id}`}>
+                        <Button variant="outlined" color="primary">
+                            Modificar proyecto
+                        </Button>
                     </Link>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    <Button variant="outlined" color="secondary" onClick={clickSubmit}>
+                        Eliminar proyecto
+                    </Button>
+                    <Link to={`/profile/project/offers/${project._id}`}>
+                            <Button variant="outlined" color="dafault">
+                                Ver ofertas
+                            </Button>
+                    </Link>
+                    </Grid>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        <AccessTimeIcon color="action" fontSize="small"/> {moment(project.createdAt).fromNow()}
+                    </Typography>
+                </CardContent>
+        
+            </Card>
+        </Grid>
         
         )
 }
-export default Card
+export default CardProject

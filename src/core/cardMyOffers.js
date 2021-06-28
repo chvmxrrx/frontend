@@ -5,8 +5,9 @@ import Swal from 'sweetalert2'
 import moment from 'moment'
 import { deleteOffer } from './apiCore'
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import { Card, CardContent, Grid, Typography, Button } from '@material-ui/core'
 
-const Card = ({ offer }) => {
+const CardOffer = ({ offer }) => {
     
     const {dataUser, accessToken} = isAuthenticated()
     const [redirectToReferrer, setRedirectToReferrer] = useState(false)
@@ -27,6 +28,7 @@ const Card = ({ offer }) => {
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si, eliminala!'
+
               }).then((result) => {
                 if (result.isConfirmed) {
                     deleteOffer(offer._id, dataUser.id, accessToken).then((data) =>{
@@ -37,41 +39,41 @@ const Card = ({ offer }) => {
                                 'error'
                               )
                         } else {
-                            setRedirectToReferrer(true)
-                            Swal.fire(
-                                'Eliminada!',
-                                data.mensaje,
-                                'success'
-                              )
+                            window.location.reload()
                          }   
                     })
-                  
                 }
               })
-        
     }
     
     return ( 
-        
-        <div className="col-4 mb-3">
-            
-            <div className="card">
-                <div className="card-header"><AccessTimeIcon color="action" fontSize="small"/> {moment(offer.createdAt).fromNow()}</div>
-                <div className="card-body">
-            
-                    <p>Descripción: {offer.descripcion}</p>
-                    <p>valor: {offer.valor}</p>
-                    <p>Estado: {offer.estado.nombre}</p>
-                    <div align="center">
-                        <button className="btn btn-outline-primary mt-2 mb-2" onClick={clickSubmit}>
-                            Eliminar 
-                        </button>
-                    </div>
-                </div>
-            </div>
-            {redirectUser()}
-        </div>
+        <Grid item xs={3}>
+            <Card>
+                <CardContent>
+                <Typography variant="h5" component="h2" align="center">  
+                    {offer.estado.nombre}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        {offer.descripcion}
+                </Typography>
+                
+                <Typography variant="body2" color="textSecondary" component="p" align="center">
+                    ${offer.valor}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" align="center">
+                    <AccessTimeIcon color="action" fontSize="small"/>
+                    {moment(offer.createdAt).fromNow()}
+                </Typography>
+                <Grid item xs={12} align="center">
+                    <Button variant="outlined" color="secondary" onClick={clickSubmit} >
+                        Eliminar oferta
+                    </Button>
+                </Grid>
+                </CardContent>
+            </Card>
+        {redirectUser()}
+        </Grid>
         
         )
 }
-export default Card
+export default CardOffer

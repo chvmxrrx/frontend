@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '@material-ui/pickers';
 import SaveIcon from '@material-ui/icons/Save';
-import {List, ListItem, ListItemText, ListItemAvatar, Badge, Button} from '@material-ui/core';
+import { Badge, Button} from '@material-ui/core';
 import { createHora, deleteAgenda, readAgenda } from './apiUser';
 import makeToast from '../Toaster/Toaster'
 import moment from 'moment';
@@ -13,6 +13,14 @@ import { AccessTime, Edit, CalendarToday, Done} from '@material-ui/icons';
 import { IconButton, Grid } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 const DoReserve = ({match}) => {
   moment.locale('es')
@@ -25,89 +33,51 @@ const DoReserve = ({match}) => {
         loadHoras()
     }, []);
 
-    const clickSubmit = event => {
+    const  clickSubmit = event => {
       event.preventDefault();
-      
+      var existe = false   
       if(selectedDate && selectedTermino){
-        const fechaInicio = moment(selectedDate).format('MMMM Do YYYY, hh:mm a')
+        const formato = 'MMMM Do YYYY HH:mm a'
+        const fechaInicio = moment(selectedDate)
         const fechaTermino = moment(selectedDate)
         .set("hour", selectedTermino.getHours())
         .set("minute", selectedTermino.getMinutes())
         .set("seconds", selectedTermino.getSeconds())
-        .format('MMMM Do YYYY, hh:mm a')
-        agenda.length > 0 ? (
-          agenda.map((data) => {
-            if((fechaInicio >= moment(data.fecha).format('MMMM Do YYYY, hh:mm a') && fechaInicio <= moment(data.fechaFin).format('MMMM Do YYYY, hh:mm a')) 
-            || (fechaTermino >= moment(data.fecha).format('MMMM Do YYYY, hh:mm a') && fechaTermino <= moment(data.fechaFin).format('MMMM Do YYYY, hh:mm a'))) {
-              return console.log('hello');
-            } else {
-              return console.log('Hola');
-            }
-          } 
-        )
-        ) : (
-          console.log(agenda.length)
-        )
         
-      } else {
-        makeToast('error', 'Debe seleccionar horas y fechas correspondientes')
-        // console.log(fechaInicio)
-        // // console.log(fechaTermino);
-        // console.log(moment(agenda[0].fecha).format('MMMM Do YYYY, hh:mm a'));
-        // console.log(moment(agenda[0].fechaFin).format('MMMM Do YYYY, hh:mm a'));
-        // console.log(moment(agenda[0].fecha).format('MMMM Do YYYY, hh:mm a') < fechaInicio);
-        // console.log(moment(fechaInicio).isBetween(moment(agenda[0].fecha).format('MMMM Do YYYY, hh:mm a'),moment(agenda[0].fechaFin).format('MMMM Do YYYY, hh:mm a')));
-      }
-      
-      // agenda.map((data, i) => (
-      //   // console.log(moment(data.fecha).format('MMMM Do YYYY, hh:mm a'))
-      //   console.log(moment(fechaInicio).isBetween(moment(data.fecha).format('MMMM Do YYYY, hh:mm a'), moment(data.fechaFinal).format('MMMM Do YYYY, h:mm a')))
-      //   // console.log(moment(fechaInicio).isBetween(moment(data.fecha).format('MMMM Do YYYY, hh:mm a'), moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')))
-      
-      //   ))
-      // const dateTermino = moment(selectedDate)
-      //   .set("hour", selectedTermino.getHours())
-      //   .set("minute", selectedTermino.getMinutes())
-      //   .set("seconds", selectedTermino.getSeconds())
-    //     if(!selectedDate || !selectedTermino){
-    //       makeToast('error', 'Debe seleccionar su horario')
-    //   // } else if ( moment(selectedDate).format('MMMM Do YYYY, h:mm a') < moment(dateTermino).format('MMMM Do YYYY, h:mm a') ) {
-    //   //     makeToast('error', 'Hora de termino debe ser superior a la de inicio')
-    //   // 
-    //     } else if (agenda.length > 0 && agenda){ 
-    //       agenda.map((data, i) => (
-            
-    //         (moment(selectedDate).isBetween(moment(data.Fecha).format('MMMM Do YYYY, h:mm a'), moment(data.FechaFin).format('MMMM Do YYYY, h:mm a')) 
-    //         || moment(dateTermino).isBetween(moment(data.Fecha).format('MMMM Do YYYY, h:mm a'), moment(data.FechaFin).format('MMMM Do YYYY, h:mm a')))
-    //         ? (
-    //           // makeToast('error', 'Fecha esta agendada')
-              
-    //           console.log(moment(selectedDate).isBetween(moment(data.Fecha).format('MMMM Do YYYY, h:mm a'), moment(data.FechaFin).format('MMMM Do YYYY, h:mm a')))
-    //         ) : (
-    //           console.log(moment(selectedDate).isBetween(moment(data.Fecha).format('MMMM Do YYYY, h:mm a'), moment(data.FechaFin).format('MMMM Do YYYY, h:mm a')))
-    //           // createHora(dataUser.id, accessToken, selectedDate, dateTermino).then(data => {
-    //           //   if(data.error){
-    //           //     makeToast('error', data.error)
-    //           //   } else {
-    //           //     makeToast('success', data.mensaje)
-    //           //     loadHoras()
-    //           //   }
-    //           // })
-    //         )
-    //       ))}
-    //     }
-    // //   } else {
-    // //         createHora(dataUser.id, accessToken, selectedDate, dateTermino).then(data => {
-    // //           if(data.error){
-    // //             makeToast('error', data.error)
-    // //           } else {
-    // //             makeToast('success', data.mensaje)
-    // //             loadHoras()
-    // //           }
-    // //         })
-    // //       }
-    // // }      
+        if(fechaInicio.hour() + fechaInicio.minutes() > fechaTermino.hour() + fechaTermino.minutes()){
+          makeToast('error', 'La fecha de inicio debe ser menor a la de termino')
+        } else if(fechaInicio.date() !== fechaTermino.date() && fechaInicio.month() !== fechaTermino.month()) {
+            makeToast('error', 'La reserva no puede exceder 24 hrs.')
+        } 
+        if(agenda.length > 0 && !existe){
+            agenda.map((data) => {
+              const fecha = moment(data.fecha).format(formato)
+              const fechaFin = moment(data.fechaFin).format(formato)
+              if((fechaInicio.format(formato) >= fecha && fechaInicio.format(formato) <= fechaFin) 
+              || (fechaTermino.format(formato) >= fecha && fechaTermino.format(formato) <= fechaFin)
+              || (fechaInicio.format(formato) <= fecha && fechaTermino.format(formato) >= fechaFin)) {
+                existe = true
+                makeToast('error', 'Fecha seleccionada ya existe')
+              } 
+            })
+        } 
+        if (existe === true){
+          makeToast('error', 'Hora ya ocupada')
+        } else { 
+          createHora(dataUser.id, accessToken, fechaInicio, fechaTermino).then((data) =>{
+            if(data.error){
+              makeToast('error', data.error)
+            } else {
+              makeToast('success', data.mensaje)
+              loadHoras()
+            }
+          })
+        }
+      }else {
+        makeToast('error', 'Seleccione día y horas correspondientes')
+      } 
     }
+
     const loadHoras = () => {
         readAgenda(dataUser.id, accessToken).then(data => {
           if(data.error){
@@ -129,7 +99,13 @@ const DoReserve = ({match}) => {
         }
       })
     }
+    const useStyles = makeStyles({
+      table: {
+        minWidth: 650,
+      },
+    });
     
+    const classes = useStyles();
 
     const createOfferForm = () => (
         <React.Fragment>
@@ -138,95 +114,123 @@ const DoReserve = ({match}) => {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="dd/MM/yyyy"
-          margin="normal"
-          minDate={Date.now()}
-          maxDate="12/31/2025"
-          id="date-picker-inline"
-          label="Seleccione día"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-        <KeyboardTimePicker
-          margin="normal"
-          id="time-picker"
-          label="Seleccione hora de inicio"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change time',
-          }}
-        />
-        <KeyboardTimePicker
-          margin="normal"
-          id="time-picker"
-          label="Seleccione hora de termino"
-          value={selectedTermino}
-          onChange={handleTerminoChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change time',
-          }}
-        />
-        </MuiPickersUtilsProvider>
-        <Grid item xs={12} align="center">
-         <button onClick={clickSubmit} className="btn btn-primary"><SaveIcon />Agendar hora</button>
-        </Grid>
-        <Typography variant="body2" align="center" style={{color: 'black'}}>
-          *Puedes agendar hasta 5 horas como máximo*
-        </Typography>
-        </Grid >
-        <Grid item xs={12} direction="row"
-            justify="center"
-            alignItems="center">
-        <Typography variant="h6" gutterBottom align="center">
-          Horas agendadas
-        </Typography>
-        <List>
-        {agenda.map((data, i) => (
-          <ListItem>
-              <ListItemAvatar>
-                <AccessTime />
-              </ListItemAvatar>
-            <ListItemText primary="Inicio" secondary={moment(data.fecha).format('MMMM Do YYYY, h:mm a')} variant="h1"/>
-            <ListItemText primary="Termino" secondary={moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')} variant="body2"/>
-            <Link to={`/profile/agenda/offers/${data._id}`}>
-                {
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="dd/MM/yyyy"
+              margin="normal"
+              minDate={Date.now()}
+              maxDate="12/31/2025"
+              id="date-picker-inline"
+              label="Seleccione día"
+              value={selectedDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+            <KeyboardTimePicker
+              margin="normal"
+              id="time-picker"
+              label="Seleccione hora de inicio"
+              value={selectedDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change time',
+              }}
+            />
+            <KeyboardTimePicker
+              margin="normal"
+              id="time-picker"
+              label="Seleccione hora de termino"
+              value={selectedTermino}
+              onChange={handleTerminoChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change time',
+              }}
+            />
+          </MuiPickersUtilsProvider>
+          <Grid item xs={12} align="center">
+            <button onClick={clickSubmit} className="btn btn-primary"><SaveIcon />Agendar hora</button>
+          </Grid>
+          <Typography variant="body2" align="center" style={{color: 'black'}}>
+            *Puedes agendar hasta 10 horas como máximo*
+          </Typography>
+          </Grid >
+          <Grid item xs={12} direction="row"
+              justify="center"
+              alignItems="center">
+          <Typography variant="h6" gutterBottom align="center">
+            Horas agendadas
+          </Typography>
+          </Grid>
+      <TableContainer component={Paper}>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Fecha de inicio</TableCell>
+            <TableCell align="center">Fecha de termino</TableCell>
+            <TableCell align="right">Ofertas</TableCell>
+            <TableCell align="right">Modificar</TableCell>
+            <TableCell align="right">Eliminar</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {agenda.map((data, i) => (
+            <TableRow key={i}>
+              <TableCell component="th" scope="row">
+                <AccessTime fontSize="small"/>
+                {moment(data.fecha).format('MMMM Do YYYY, h:mm a')}
+              </TableCell>
+              <TableCell align="right">
+                <AccessTime fontSize="small"/>
+                {moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')}</TableCell>
+              <TableCell align="right">{
                   data.estado.nombre === 'Agendada' ? (
-                    <Button>
-                      <Done fontSize="small" style={{color: 'green'}}/> 
-                    </Button>
+                    <Link to={`/profile/agenda/offers/${data._id}`}>
+                      <Button>
+                        <Done fontSize="small" style={{color: 'green'}}/> 
+                      </Button>
+                    </Link>
                   ) : (
-                    <Button>
-                      <Badge color="secondary" badgeContent={data.oferta.length}>
-                        <CalendarToday fontSize="small"/>
-                      </Badge>
-                    </Button>
+                    data.oferta.length > 0 ? (
+                      <Link to={`/profile/agenda/offers/${data._id}`}>
+                        <Button>
+                          <Badge color="secondary" badgeContent={data.oferta.length}>
+                            <CalendarToday fontSize="small"/>
+                          </Badge>
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Button onClick={ () => makeToast('error', 'Aún no tienes ofertas')}>
+                        <Badge color="secondary" badgeContent={0} showZero>
+                          <CalendarToday fontSize="small"/>
+                        </Badge>
+                      </Button>
+                    ) 
                   )
                 }
-              
-            </Link>
-              <IconButton aria-label="delete" onClick={deleteHora(data._id)}>
-                <DeleteIcon fontSize="small" color="error"/>
-              </IconButton>
-              <Link to={`/profile/agenda/modificar/${data._id}`}>
-                <IconButton aria-label="delete">
-                  <Edit fontSize="small" color="primary"/>
+              </TableCell>
+              <TableCell align="right">
+                <Link to={`/profile/agenda/modificar/${data._id}`}>
+                  <IconButton aria-label="delete">
+                    <Edit fontSize="small" color="primary"/>
+                  </IconButton>
+                </Link>
+              </TableCell>
+              <TableCell align="right">
+                <IconButton aria-label="delete" onClick={deleteHora(data._id)}>
+                  <DeleteIcon fontSize="small" color="error"/>
                 </IconButton>
-              </Link>
-          </ListItem>       
-            )) 
-            } 
-        </List> 
-        </Grid>
-        
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer> 
       </Grid>
+      
     </React.Fragment>
     );
 

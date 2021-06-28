@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { getProjects } from '../core/apiCore';
 import { isAuthenticated } from '../auth';
-import Card from '../core/cardProjects';
+import CardProject from '../core/cardProjects';
 import Layout from '../core/Layout';
-
+import { Grid } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 const AllProjects = () => {
     const [projects, setProjects] = useState([])
     const {dataUser, accessToken} = isAuthenticated()
@@ -20,19 +21,21 @@ const AllProjects = () => {
     }
     useEffect(() =>{
         loadProjects()
-        
     },[])
 
     return (
         <Layout title="Proyectos" description="Estas viendo los proyectos de inkapp">
-       <h2 className="mb4" align="center">Proyectos</h2>
-       <div className="row">
-            { projects.map((project, id) => (
-                <Card key={id} project={project}/>
-            ))}
-        </div>
-      
-    </Layout>
+            <Grid container spacing={3}>
+                <Grid item xs={12}> 
+                    <Typography variant="h5" component="h2" align="center">Proyectos</Typography>
+                </Grid>
+            
+                { projects.map((project, id) => (
+                    <CardProject key={id} project={project}/>
+                ))}
+            
+            </Grid>
+        </Layout>
     );
 };
 

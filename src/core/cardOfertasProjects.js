@@ -1,92 +1,103 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import ShowImage from './showImage'
 import moment from 'moment'
 import { Button } from '@material-ui/core'
-const Card = ({project}) => {
-    return ( 
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import { CardActions } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography';
+import { Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core'
+import AccessTime from '@material-ui/icons/AccessTime'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+const CardProject = ({project}) => {
+    
+    const useStyles = makeStyles({
+        root: {
+          maxWidth: 345,
+        },
+      });
+    const classes = useStyles();
+    return (     
+        project.oferta.map((data, i) => (
+                    data.estado.nombre === 'En espera' && project.estado.nombre === 'En espera' ? (
+                    <Grid item xs={3} align="center">
+                        <Card className={classes.root}>
+                        <CardContent>
+                            <Typography variant="body2" color="textSecondary" component="p" align="center">
+                                <AccountCircleIcon/>
+                                <Link to={`/profile/${data.ofertante._id}`}>
+                                    <Button color="primary" size="medium">
+                                        {data.ofertante.userName}
+                                    </Button>   
+                                </Link>
+                            </Typography>    
+                            <Typography variant="body2" color="textSecondary" component="p" align="center"> 
+                                {data.descripcion} 
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p" align="center"> 
+                                Oferta: ${data.valor} 
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p" align="center"> 
+                                {data.estado.nombre} 
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p" align="center">
+                                <AccessTime color="action" fontSize="small"/> 
+                                {moment(data.createdAt).fromNow()}
+                            </Typography>
+                            <CardActions>                              
+                                <Link to={`/profile/project/doOffer/${project._id}/${data._id}/${'aceptar'}`}>
+                                    <Button variant="contained" color="primary">
+                                        Aceptar oferta
+                                    </Button>
+                                </Link>                                                                                                                                        
+                                <Link to={`/profile/project/doOffer/${project._id}/${data._id}/${'rechazar'}`}>
+                                    <Button variant="contained" color="secondary">
+                                        Rechazar oferta
+                                    </Button>
+                                </Link>
+                            </CardActions>                                                                                                    
+                        </CardContent>
+                        </Card>
+                    </Grid>
+                    ) : (
+                        data.estado.nombre === 'Aceptado' && project.estado.nombre === 'Terminado' ? (
+                            <Grid item xs={3} align="center">
+                                <Card className={classes.root}>
+                                <CardContent>                       
+                                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                                    Tienes una oferta aceptada, comunicate con:<AccountCircleIcon/>
+                                    <Link to={`/profile/${data.ofertante._id}`}>
+                                        <Button color="primary" size="medium">
+                                            {data.ofertante.userName}
+                                        </Button>   
+                                    </Link>
+                                    </Typography> 
+                                    <Typography variant="body2" color="textSecondary" component="p" align="center"> 
+                                        {data.descripcion} 
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p" align="center"> 
+                                        Oferta: ${data.valor} 
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p" align="center"> 
+                                        {data.estado.nombre} 
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                                        <AccessTime color="action" fontSize="small"/> 
+                                        {moment(data.createdAt).fromNow()}
+                                    </Typography>
+                                    
+                                </CardContent>
+                            </Card>
+                            </Grid>
+                            ) : (
+                                <Grid>
         
-            <div className="card" align="center">
-                <div className="card-header">{project.nombre}</div>
-                <div className="card-body">
-                <ShowImage image={project} url="proyecto" />
-                    <h2> Parte seleccionada: {project.parteCuerpo.nombre}</h2>
-                    <h2> Tamaño: {project.tamaño}</h2>
-                    <h2> Estilo: {project.estiloTatuaje.nombre}</h2>
-                    <h2> Estado: {project.estado.nombre}</h2>
-                    <p>{moment(project.createdAt).fromNow()}</p>
-                    <h1>Ofertas </h1>
-                    {project.oferta.map((data, i) => (
-                            <div>
-                                {data.estado.nombre === 'En espera' && project.estado.nombre === 'En espera' ? (
-                                    <div>
-                                        <div>
-                                            <h2>Username: 
-                                                <Link to={`/profile/${data.ofertante._id}`}>
-                                                    <Button color="primary" size="medium">
-                                                        {data.ofertante.userName}
-                                                    </Button>   
-                                                </Link> 
-                                            </h2>
-                                            <h2>Descripcion: {data.descripcion} </h2>
-                                            <h2>Valor: ${data.valor}</h2>
-                                            <h2>{moment(data.createdAt).fromNow()}</h2>
-                                        </div>
-                                        <div>
-                                            <Link to={`/profile/project/doOffer/${project._id}/${data._id}/${'aceptar'}`}>
-                                                <button className="btn btn-outline-primary mt-2 mb-2">
-                                                    Aceptar oferta
-                                                </button>
-                                            </Link>
-                                            <Link to={`/profile/project/doOffer/${project._id}/${data._id}/${'rechazar'}`}>
-                                                <button className="btn btn-outline-warning mt-2 mb-2">
-                                                    Rechazar oferta
-                                                </button>
-                                            </Link>
-                                        </div>  
-                                    </div>
-                                    
-                                ) : (
-                                    <div>
-
-                                    </div>
-                                )}
-                                {data.estado.nombre === 'Aceptado' && project.estado.nombre === 'Terminado' ? (
-                                    <div>
-                                        <div>
-                                            <h2>Tienes una oferta aceptada, comunicate con:
-                                                <Link to={`/profile/${data.ofertante._id}`}>
-                                                    <Button color="primary" size="medium">
-                                                        {data.ofertante.userName}
-                                                    </Button>   
-                                                </Link> 
-                                            </h2>
-                                            <h2>Descripción: {data.descripcion} </h2>
-                                            <h2>Valor: ${data.valor}</h2>
-                                            <h2>Estado: {data.estado.nombre}</h2>
-                                            <p>{moment(data.createdAt).fromNow()}</p>
-                                        </div>
-                                        <div>
-                                            <Link to={`/`}>
-                                                <button className="btn btn-outline-primary mt-2 mb-2">
-                                                    {data.ofertante.userName}
-                                                </button>
-                                            </Link>
-            
-                                        </div>  
-                                    </div>
-                                    
-                                ) : (
-                                    <div>
-
-                                    </div>
-                                )}
-                            </div>
-                    )) }
-                </div>
-            </div>
-       
+                                </Grid>
+                            ) 
+                        )  
+        ))
         )
 }
 
-export default Card
+export default CardProject
