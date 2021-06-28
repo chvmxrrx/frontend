@@ -5,6 +5,9 @@ import { withRouter } from 'react-router-dom'
 import { isAuthenticated } from '../auth'
 import { API } from '../config' 
 import Layout from '../core/Layout'
+import { Card, Grid, Button, Select, MenuItem, 
+    FormControl, InputLabel, makeStyles, Typography, CardContent, TextField } from '@material-ui/core'
+
 
     const DashboardPage = (props) => {
     
@@ -14,6 +17,21 @@ import Layout from '../core/Layout'
     const {accessToken, dataUser} = isAuthenticated()
     const [socket, setSocket] = React.useState('') 
     
+    const useStyles = makeStyles((theme) => ({
+        formControl: {
+          margin: theme.spacing(1),
+          minWidth: 120,
+        },
+        root: {
+            ...theme.typography.button,
+            backgroundColor: "black",
+            padding: theme.spacing(1),
+            color:'white',
+            textAlign: 'center'
+          },
+        
+      }));
+    const classes = useStyles();
     const setupSocket = () =>{
         
         
@@ -106,9 +124,10 @@ import Layout from '../core/Layout'
             }).then(response => {
                 makeToast('success', 'Se ha eliminado sala con éxito')
                 getChatrooms()
+                setChatroomsId(null)
             }).catch(error => {
                 makeToast('error', 'Ha ocurrido un error')
-                console.log(error);
+               
             })
         }
     }
@@ -150,78 +169,101 @@ import Layout from '../core/Layout'
 
 
     const verificarId = () => {
-        return chatroomsId!=null ? (
-                <button className="join" onClick={ingresarSala}> Ingresar
-                    
-                </button>
-            
+        return chatroomsId!=null ? (    
+            <div align="center">
+                <Button variant="contained" color="primary" onClick={ingresarSala}> Ingresar
+                </Button>
+            </div>
         ) : (
-            <button className="join" onClick={mostrarMensajeError}>Seleccionar sala</button>
+            <div align="center">
+                <Button variant="contained" color="primary" className="join" onClick={mostrarMensajeError}>Seleccionar sala</Button>
+            </div>
         );
     };
 
     const verificarTipo = () => {
         if(dataUser.tipo === 0){
             return (
-                <div className="card">
-                    <div className="cardHeader">Chatrooms</div>
-                        <div className="cardBody">
-                            <div className="inputGroup">
-                             <label className="chatroomName" align ="center">Chatroom</label>
-                            <input 
-                                type="text" 
-                                name="chatroomName" 
-                                id="chatroomName" 
-                                placeholder="Ingresa nombre de la sala"
-                                onChange={handleChangeChatroom('chatroomName')}
-                             />
-                            </div>
-                
-                            <button onClick={clickSubmit}>Crear nueva sala</button>
-                                <div className="center" style={{paddingBottom: 5}}>
-                                    <select className="chatrooms" onChange={handleChange('chatroom')}>
-                                        <option value='nulo'>Seleccionar sala</option>
-                                        {chatrooms.map((chatroom)=> (
-                                        <option key={chatroom._id} className="chatroom" value={chatroom._id}>
-                                            {chatroom.name}
-                                        </option>
-                                        ))}
-                                    </select>
+                <Grid containter spacing={3} justify="center" alignItems="center">
+                <Grid item xs={12}>
+                    <Card>
+                        <CardContent>
+                                <Typography className={classes.root}>{"CHATROOMS DE INKAPP"}</Typography>
+                                <TextField
+                                    name="chatroomName" 
+                                    id="chatroomName"
+                                    label="Nombre de la sala"
+                                    style={{ margin: 8 }}
+                                    placeholder="Agrege un nombre para crear una nueva sala"
+                                    fullWidth
+                                    margin="normal"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    onChange={handleChangeChatroom('chatroomName')}
+                                />
+                                <Grid item xs={12} className="center">
+                                    <div align="center" >
+                                        <Button variant="contained" color="primary" onClick={clickSubmit}>Crear nueva sala</Button>
+                                    </div>
+                                </Grid> 
+                                <div align="center" >
+                                    <FormControl variant="filled" className={classes.formControl}>
+                                        <InputLabel id="demo-simple-select-filled-label">Salas</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-filled-label"
+                                                id="demo-simple-select-filled"
+                                                onChange={handleChange('chatroom')}
+                                            >
+                                            {chatrooms.map((chatroom)=> (
+                                                <MenuItem key={chatroom._id} className="chatroom" value={chatroom._id}>
+                                                    {chatroom.name}
+                                                </MenuItem>
+                                            ))}
+                                            </Select>
+                                    </FormControl>
+                                        {verificarId()}  
+                                        <Button variant="contained" color="secondary" className="join" onClick={eliminarSala}> 
+                                            Eliminar sala 
+                                        </Button> 
                                 </div>
-
-                            {verificarId()}    
-                            <div style={{
-                                padding: 5
-                            }}></div>
-                            <div className="center" >
-                                <button className="join" onClick={eliminarSala}> Eliminar sala </button> 
-                            </div>
-                            
-                        </div>
-                </div>
+                            </CardContent>
+                    </Card>
+                </Grid>
+                </Grid>
             ) 
         }else {
             return (
-                <div className="card">
-                    <div className="cardHeader">Chatrooms</div>
-                        <div className="cardBody">
-                            <div className="inputGroup">
-                             <label className="chatroomName">Chatrooms de Inkapp!</label>
-                            </div>
-                            <div className="center" style={{paddingBottom: 5}}>
-                                <select className="chatrooms" align="center" onChange={handleChange('chatroom')}>
-                                    <option value='nulo'>Seleccionar sala</option>
+                <Grid container spacing={3} alignItems="center" justifiy="center" alignContent="center" style={{marginTop: 50}}>
+                    <Grid item xs={12}>
+                        <Card>
+                            <Typography className={classes.root}>{"CHATROOMS DE INKAPP"}</Typography>
+                                <CardContent className="cardBody">
+                                <div align="center">
+                                    <FormControl variant="filled" className={classes.formControl}>
+                                    <InputLabel id="demo-simple-select-filled-label">Salas</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-filled-label"
+                                            id="demo-simple-select-filled"
+                                            onChange={handleChange('chatroom')}
+                                        >
+                                        <MenuItem>
+                                            <em>Seleccione sala</em>
+                                        </MenuItem>
                                         {chatrooms.map((chatroom)=> (
-                                            <option key={chatroom._id} className="chatroom" value={chatroom._id}>
-                                                {chatroom.name}
-                                            </option>
-                                        ))}
-                                </select>
-                                </div>  
-                                {verificarId()} 
-                                             
-                        </div>
-                </div>
+                                        <MenuItem key={chatroom._id} className="chatroom" value={chatroom._id}>
+                                            {chatroom.name}
+                                        </MenuItem>
+                                    ))}
+                                        
+                                    </Select>
+                                    </FormControl>
+                                </div>
+                                    {verificarId()}               
+                                </CardContent>
+                        </Card>
+                    </Grid>
+                </Grid>
             )
         }
     }
