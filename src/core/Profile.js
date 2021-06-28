@@ -8,7 +8,8 @@ import Card from './Card';
 import makeToast from '../Toaster/Toaster';
 import { InputGroup, FormControl, Button, ListGroup, Accordion } from 'react-bootstrap';
 import { addComentario, addRespuesta, deleteComentario, deleteRespuesta, likePerfil } from '../user/apiUser';
-import { Favorite } from '@material-ui/icons';
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import { IconButton } from '@material-ui/core';
 const Profile = ({ match }) => {
 
     //OBTENER DATOS DEL TOKEN
@@ -158,7 +159,10 @@ const Profile = ({ match }) => {
             }
 
             {/* BOTON DE LIKES SI USUARIO INGRESA UN LIKE SE SUMA, SI REPITE EL LIKE SE RESTA */}
-            <Favorite onClick={likeHandler} color="secondary" />{likes}
+            <IconButton aria-label="add to favorites" onClick={likeHandler}>
+                        <FavoriteIcon />
+            </IconButton>
+                    {likes}
 
             {/* EVALUA QUE EL USUARIO SEA UN TATUADOR PARA QUE APAREZCA EL BOTÓN DE VER AGENDA */}
             {

@@ -42,6 +42,7 @@ import DoOfferReserve from './user/DoOfferReserve';
 import ReserveOffers from './user/ReserveOffers';
 import RespuestaOfertaReserva from './user/RespuestaOfertaReserva';
 import MyReserveOffers from './user/MyReserveOffers';
+
 const Routes = () => {
 
     const [socket, setSocket] = React.useState(null) 
@@ -78,8 +79,8 @@ const Routes = () => {
         <BrowserRouter>
             <Switch>
                 <Route path="/" exact component={Home}/>
-                <Route path="/singin" exact component={Singin}/>
-                <Route path="/singup" exact component={Singup}/>
+                <Route path="/signin" exact component={Singin}/>
+                <Route path="/signup" exact component={Singup}/>
                 <Route path='/chatroomsmenu' 
                 render={ () => <ChatroomsMenuPage setupSocket={setupSocket} exact/>} 
                 />

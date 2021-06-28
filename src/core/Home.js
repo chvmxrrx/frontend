@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Layout from './Layout';
 import { getAllPublicaciones } from './apiCore';
-import Card from './Card';
+import CardHome from './Card';
+import { isAuthenticated } from '../auth';
 
 const Home = () => {
 
@@ -28,11 +29,11 @@ const Home = () => {
             <div className="row">
                 { publicaciones.map((publicacion, i) => (
                     <div className="col-4 mb-3">
-                        <Card key={i} publicacion={publicacion} showVerPublicacionButton={true} showDeletePublicacionButton={false}/>
+                        <CardHome key={i} publicacion={publicacion} />
                     </div>
                 ))}
             </div>
-                        
+            
         </Layout>
     );
 }
