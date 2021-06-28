@@ -37,7 +37,6 @@ import RespuestaOferta from './user/RespuestaOferta';
 import DoReserve from './user/DoReserve';
 import Profile from './core/Profile';
 
-
 const Routes = () => {
 
     const [socket, setSocket] = React.useState(null) 
@@ -74,8 +73,8 @@ const Routes = () => {
         <BrowserRouter>
             <Switch>
                 <Route path="/" exact component={Home}/>
-                <Route path="/singin" exact component={Singin}/>
-                <Route path="/singup" exact component={Singup}/>
+                <Route path="/signin" exact component={Singin}/>
+                <Route path="/signup" exact component={Singup}/>
                 <Route path='/chatroomsmenu' 
                 render={ () => <ChatroomsMenuPage setupSocket={setupSocket} exact/>} 
                 />
