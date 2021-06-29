@@ -11,6 +11,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
+import { CardHeader } from '@material-ui/core';
+import ShowAvatar from './showAvatar';
 const CardProject = ({ project }) => {
     const {dataUser} = isAuthenticated()
     const useStyles = makeStyles({
@@ -23,22 +25,26 @@ const CardProject = ({ project }) => {
         
         <Grid item xs={3}>
             <Card className={classes.root}>
-                    <Grid item xs={6}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {project.nombre}
-                        
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
+            <CardHeader
+                    avatar={
                         <Link to={`/profile/${project.creador._id}`}>
-                            <Button color="primary" size="medium">
-                                {project.creador.userName}
-                            </Button>   
+                            <ShowAvatar image={project.creador} url="perfil"/>
                         </Link>
-                    </Grid>
+                    }
+                    title={ 
+                        project.creador.userName  
+                    }
+                    subheader={
+                        moment(project.createdAt).fromNow()
+                    }
+                />
+                <CardMedia/>
                 <CardMedia />
                 <ShowImage image={project} url="proyecto" />
                 <CardContent>
+                    <Typography gutterBottom variant="h6" component="h2" align="center">
+                            {project.nombre}
+                        </Typography>
                     <Typography variant="body2" color="textSecondary" component="p" align="center">
                         {project.descripcion}
                     </Typography>
@@ -69,9 +75,6 @@ const CardProject = ({ project }) => {
                         }    
                     </Button>
                     </Grid>
-                    <Typography variant="body2" color="textSecondary" component="p" align="center">
-                        <AccessTimeIcon color="action" fontSize="small"/> {moment(project.createdAt).fromNow()}
-                    </Typography>
                 </CardContent>
         
             </Card>

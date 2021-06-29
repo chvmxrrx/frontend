@@ -9,8 +9,13 @@ import { Favorite } from '@material-ui/icons';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import { deletePublicacion, addComentario, getPublicacion, addRespuesta, deleteComentario, deleteRespuesta } from './apiCore';
 import { InputGroup, FormControl, ListGroup, Accordion } from 'react-bootstrap';
-import { Button } from '@material-ui/core';
-
+import { Button, CardContent, Grid, CardHeader, CardMedia  } from '@material-ui/core';
+import ShowAvatar from './showAvatar';
+import { IconButton } from '@material-ui/core';
+import MoreVert from '@material-ui/icons/MoreVert';
+import { Card } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 const CardPublicacionPage = ({ publicacion }) => {
 
     const { accessToken, dataUser } = isAuthenticated();
@@ -142,36 +147,50 @@ const CardPublicacionPage = ({ publicacion }) => {
     }, []);
 
     return(
-        <div>
-            <div className="card">
-            <div className="card-header">
-                <Link to={`/`}>
-                    <Button color="primary" size="medium">
-                        {publicacion.creador.userName}
-                    </Button>    
-                </Link>
-            </div>
-            <div className="card-body">
+        <Grid container justify="center" alignContent="center" alignItems="center">
+            <Grid item xs={6}>
+            <Card>
+            <CardHeader
+                    avatar={
+                        <Link to={`/profile/${publicacion.creador._id}`}>
+                            <ShowAvatar image={publicacion.creador} url="perfil"/>
+                        </Link>
+                    }
+                    action={
+                        publicacion.etiquetado ? (
+                            
+                            <Link to={`/profile/${publicacion.etiquetado._id}`}>
+                                <ShowAvatar image={publicacion.etiquetado} url="perfil"/>
+                            </Link>
+                        ) : (
+                            
+                            <AccountCircle fontSize="large"/>
+                        )
+                         
+                    }
+                    title={ 
+                        publicacion.creador.userName  
+                    }
+                    subheader={moment(publicacion.createdAt).fromNow()}
+                />
+                <CardMedia/>
                 <ShowImage image={publicacion} url="publicacion"/>
-                <p className="lead mt-2">{publicacion.nombre} <Favorite onClick={likeHandler} color="secondary"/>{likes}</p>
-                <p className="lead mt-2">{publicacion.descripcion.substring(0, 100)}</p>
-                <p className="black-9">
-                    Estilo del tatuaje: {publicacion.estiloTatuaje.nombre}
-                </p>
-                
-                <p className="black-8">
-                   <AccessTimeIcon color="action" fontSize="small"/> {moment(publicacion.updatedAt).fromNow()}
-                </p>
-                {isAuthenticated() && isAuthenticated().dataUser.id === publicacion.creador._id ? (
-                    <button className="btn btn-outline-warning mt-2 mb-2" onClick={() => eliminarPublicacion(publicacion._id)}>
-                        Eliminar publicacion
-                    </button>
+                <CardContent>
+                <Typography variant="h6">{publicacion.nombre} <Favorite fontSize="small" onClick={likeHandler} color="secondary"/>{likes}</Typography>
+                <Typography variant="body1" component="p">{publicacion.descripcion.substring(0, 100)}</Typography>
+                <Typography variant="body1" component="p">Estilo: {publicacion.estiloTatuaje.nombre}</Typography>
+                <Typography variant="body1" component="p" align="right">
+                    <AccessTimeIcon color="action" fontSize="small"/> {moment(publicacion.updatedAt).fromNow()}
+                </Typography>
+                {dataUser.id === publicacion.creador._id ? (
+                    <div align="center">
+                        <Button color="secondary" onClick={() => eliminarPublicacion(publicacion._id)}>
+                            Eliminar publicacion
+                        </Button>
+                    </div>
                 ) : ( <div></div> )  
                 }
-                
-            </div>
-
-            <div className="card-footer">
+            
                 <h4>Comentarios</h4>
                 <InputGroup className="mb-3">    
                     <FormControl
@@ -186,8 +205,8 @@ const CardPublicacionPage = ({ publicacion }) => {
                         </InputGroup.Append>
                     </InputGroup>
                                 
-            </div>
-
+            
+                
             { 
                 comentarios.map((comentario) => (
                     
@@ -261,11 +280,13 @@ const CardPublicacionPage = ({ publicacion }) => {
                 ))
             }
 
-        </div>
+            </CardContent>
+            </Card>
+            </Grid>
             {showError()}
             {showSucces()}
             {redirectTo()}
-        </div>
+        </Grid>
         
         
     );

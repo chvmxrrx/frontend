@@ -15,6 +15,7 @@ const AllProjects = () => {
             if(data.error){
                 setError(data.error)
             } else {
+                console.log(data.data);
                 setProjects(data.data)
             }
         })
@@ -29,7 +30,6 @@ const AllProjects = () => {
                 <Grid item xs={12}> 
                     <Typography variant="h5" component="h2" align="center">Proyectos</Typography>
                 </Grid>
-            
                 { projects.map((project, id) => (
                     <CardProject key={id} project={project}/>
                 ))}

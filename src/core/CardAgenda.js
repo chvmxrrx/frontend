@@ -42,7 +42,7 @@ const useStyles = makeStyles({
                 Desde: {moment(horas.fecha).format('h:mm a')}
               </Typography>
               <Typography variant="body2" component="p">
-                Hasta: {moment(horas.fechaFinal).format('h:mm a')}
+                Hasta: {moment(horas.fechaFin).format('h:mm a')}
               </Typography>
             </CardContent>
             <CardActions>

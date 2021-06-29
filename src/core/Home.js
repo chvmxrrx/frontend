@@ -3,7 +3,8 @@ import Layout from './Layout';
 import { getAllPublicaciones } from './apiCore';
 import CardHome from './Card';
 import { isAuthenticated } from '../auth';
-
+import { Grid } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 const Home = () => {
 
     const [publicaciones, setPublicaciones] = useState([]);
@@ -25,14 +26,14 @@ const Home = () => {
 
     return (
         <Layout title="Home Page" description="Aplicacion Inkapp para tatuadores." className="container-fluid">
-            <h2 className="mb-4">Explorar publicaciones...</h2>
-            <div className="row">
+            <Grid container spacing={3} justify="center">
+            <Grid item xs={12}>
+                <Typography variant="h6" component="h2" align="center">Publicaciones</Typography>
+            </Grid>
                 { publicaciones.map((publicacion, i) => (
-                    <div className="col-4 mb-3">
-                        <CardHome key={i} publicacion={publicacion} />
-                    </div>
+                    <CardHome key={i} publicacion={publicacion} />
                 ))}
-            </div>
+            </Grid>
             
         </Layout>
     );

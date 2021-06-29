@@ -20,6 +20,7 @@ import ShowImage from './showImage';
 import { API } from '../config'
 import moment from "moment";
 import { Link } from "react-router-dom";
+import ShowAvatar from "./showAvatar";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -52,13 +53,11 @@ const CardHome = ({ publicacion }) => {
     }
 
     return (
-        <Grid item xs={12}>
+        <Grid item xs={3}>
             <Card>
                 <CardHeader
                     avatar={
-                        <Avatar aria-label="recipe" className={classes.avatar}>
-                            U
-                        </Avatar>
+                        <ShowAvatar image={publicacion.creador} url="perfil"/>
                     }
                     action={
                         <IconButton aria-label="settings">

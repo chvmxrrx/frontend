@@ -13,7 +13,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
 import { Badge } from 'react-bootstrap'
-const CardProject = ({ project }) => {
+
+const CardMyProject = ({ project }) => {
     const {dataUser, accessToken} = isAuthenticated()
     const useStyles = makeStyles({
         root: {
@@ -104,4 +105,4 @@ const CardProject = ({ project }) => {
         
         )
 }
-export default CardProject
+export default CardMyProject

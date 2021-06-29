@@ -3,7 +3,7 @@ import Layout from '../core/Layout';
 import { getMyProjects } from '../core/apiCore';
 import { isAuthenticated } from '../auth';
 import { Link } from 'react-router-dom';
-import CardProject from '../core/cardMyProjects';
+import CardMyProject from '../core/cardMyProjects';
 import { Grid } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 const MisProyectos = () => {
@@ -44,7 +44,7 @@ const MisProyectos = () => {
                 </Typography>
             </Grid>
                 { projects.map((project, id) => (
-                    <CardProject key={id} project={project}/>
+                    <CardMyProject key={id} project={project}/>
                 ))}
       {showError()}
       </Grid>

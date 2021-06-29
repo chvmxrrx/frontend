@@ -6,10 +6,8 @@ import { createOffer, enviarOfertaReserva } from './apiUser';
 import makeToast from '../Toaster/Toaster';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Grid, Modal } from '@material-ui/core';
@@ -77,7 +75,9 @@ const DoOfferReserve = ({ match }) => {
         padding: '16px 32px 24px',
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%)'
+        transform: 'translate(-50%, -50%)',
+        maxHeight: 400,
+        overflow: 'scroll'
     },
     });
 
@@ -138,8 +138,8 @@ const DoOfferReserve = ({ match }) => {
                     <Typography variant="h5">Mis proyectos</Typography>
                 </Grid>
             { projects.map((project, id) => (
-                <Grid item xs= {2} style={{marginTop: 10, width: 20}}>
-                    <Card className={classes.root}>
+                <Grid item xs= {4} style={{marginTop: 10, width: 20}}>
+                    <Card>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
                                 {project.nombre}
@@ -176,7 +176,7 @@ const DoOfferReserve = ({ match }) => {
                         ) : (
                             (oculto === true && projects.length > 0) ? (
                             <Grid item xs={12} align="center" >
-                                <Button onClick={desajuntarProyecto()} variant="contained" color="primary">Dejar de adjuntar proyecto</Button>
+                                <Button onClick={desajuntarProyecto()} variant="contained" color="secondary">Dejar de adjuntar proyecto</Button>
                             </Grid> 
                         ) : (
                             <Grid item xs={12} align="center" >
