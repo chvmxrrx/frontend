@@ -5,6 +5,7 @@ import { readProject } from './apiUser'
 import CardProject from '../core/cardOfertasProjects';
 import { Grid } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
+import makeToast from '../Toaster/Toaster';
 const ProjectsOffers = (props) => {
 
     const {dataUser, accessToken} = isAuthenticated()
@@ -17,6 +18,7 @@ const ProjectsOffers = (props) => {
             if(data.error){
                 setError(data.error)
             } else{
+                
                 setProject(data)
             }
 
@@ -39,7 +41,14 @@ const ProjectsOffers = (props) => {
             <Grid item xs={12}> 
                 <Typography variant="h5" component="h2" align="center">Ofertas del proyecto: {project.nombre}</Typography>
             </Grid>
-                    {project && project.tamaño && <CardProject project={ project } />}
+                    
+                   { project.oferta ? 
+                    (
+                        <CardProject project={project}/>
+                    ) : (
+                        <Typography variant="h5" component="h2" align="center">Lo sentimos, aún no tienes ofertas.</Typography>
+                    ) }
+                    
             </Grid> 
             
         </Layout>

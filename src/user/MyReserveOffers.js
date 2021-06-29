@@ -48,7 +48,7 @@ const MyReserveOffers = () => {
                     ))}
             <Grid item xs={12} align="center"> 
             {showError()}
-                <Link to={`/user/dashboard`}>
+                <Link to={`/`}>
                     <Button variant="contained" color="primary">
                         <ArrowBack>
                         </ArrowBack>

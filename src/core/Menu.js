@@ -69,8 +69,8 @@ const Menu = ({ history }) => (
                                 <NavDropdown.Item href="/profile/offers/myoffers/id">Ofertas de reservas</NavDropdown.Item>
                                 {
                                     ( isAuthenticated().dataUser.tipo === 1) ? 
-                                    <NavDropdown.Item href={`/profile/do-reserve/${isAuthenticated().dataUser.id}`}>Administrar reservas</NavDropdown.Item>
-                                      : <p>Hello</p>
+                                    <NavDropdown.Item href={`/profile/do-reserve/${isAuthenticated().dataUser.id}`}>Administrar agenda</NavDropdown.Item>
+                                      : <p></p>
                                 }
                             </NavDropdown>
                             

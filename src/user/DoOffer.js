@@ -64,7 +64,7 @@ const DoOffert = (props) => {
 
     const redirectUser = () =>{
         if(redirectToReferrer) {
-            return <Redirect to="/user/dashboard" />
+            return <Redirect to={`/profile/offers/myoffers/${dataUser.id}`} />
         }
     }
 

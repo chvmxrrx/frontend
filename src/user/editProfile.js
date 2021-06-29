@@ -283,7 +283,7 @@ const Profile = ({ match }) => {
             {showError()}
             {profileUpdate()}
             {redirectUser()}
-            {JSON.stringify(values)}
+           
         </Layout>
     )
 }

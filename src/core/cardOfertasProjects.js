@@ -10,7 +10,8 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core'
 import AccessTime from '@material-ui/icons/AccessTime'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-const CardProject = ({project}) => {
+
+const CardProject= ({project}) => {
     
     const useStyles = makeStyles({
         root: {
@@ -18,11 +19,11 @@ const CardProject = ({project}) => {
         },
       });
     const classes = useStyles();
-    return (     
+    return (    
         project.oferta.map((data, i) => (
                     data.estado.nombre === 'En espera' && project.estado.nombre === 'En espera' ? (
                     <Grid item xs={3} align="center">
-                        <Card className={classes.root}>
+                        <Card>
                         <CardContent>
                             <Typography variant="body2" color="textSecondary" component="p" align="center">
                                 <AccountCircleIcon/>
@@ -95,7 +96,7 @@ const CardProject = ({project}) => {
         
                                 </Grid>
                             ) 
-                        )  
+                        )             
         ))
         )
 }

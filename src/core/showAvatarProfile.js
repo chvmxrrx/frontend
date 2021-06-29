@@ -8,8 +8,8 @@ const ShowAvatarProfile = ({image, url}) => (
             style={{  height: '200px', 
             width: '200px', 
             objectFit: "cover", 
-            objectPosition: "center center", border: 'solid 1px',
-            boxShadow: `6px 8px 47px -19px rgba(0,0,0,0.55)`}}
+            objectPosition: "center center",
+            boxShadow: `-1px -1px 15px 1px rgba(0,0,0,0.45)`}}
         />
 )
 

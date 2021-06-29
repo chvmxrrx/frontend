@@ -205,8 +205,8 @@ const ModificarReserve = ({match}) => {
               <AccessTime fontSize="small"/>
                 {moment(data.fecha).format('MMMM Do YYYY, h:mm a')}
               </TableCell>
-              <AccessTime fontSize="small"/>
-              <TableCell align="right">{moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')}</TableCell>
+              
+              <TableCell >{moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')}</TableCell>
             </TableRow>
           ))}
         </TableBody>

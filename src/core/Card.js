@@ -92,14 +92,14 @@ const CardHome = ({ publicacion }) => {
                 <CardActions disableSpacing>
                    { dataUser ? (
                         <Grid>  
-                            <IconButton fontSize="small" aria-label="add to favorites" onClick={likeHandler}>
+                            <IconButton fontSize="small" aria-label="add to favorites" style={{color:'red'}} onClick={likeHandler}>
                                 <FavoriteIcon /> 
                             </IconButton>
                             {likes}
                         </Grid> 
                     ) : (
                         <Grid>  
-                            <IconButton fontSize="small" aria-label="add to favorites" onClick={()=> {makeToast('error', 'Necesitas logearte')}}>
+                            <IconButton fontSize="small" aria-label="add to favorites" style={{color:'red'}} onClick={()=> {makeToast('error', 'Necesitas logearte')}}>
                                 <FavoriteIcon />
                             </IconButton>
                             {likes}
