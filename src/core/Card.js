@@ -65,9 +65,14 @@ const CardHome = ({ publicacion }) => {
                         </IconButton>
                     }
                     title={ 
+                    dataUser ? (
                         <Link to={`/profile/${publicacion.creador._id}`}>
                             {publicacion.creador.userName}
                         </Link>
+                    ) : (
+                        publicacion.creador.userName
+                    )
+                        
                     }
                     subheader={moment(publicacion.createdAt).fromNow()}
                 />
@@ -85,10 +90,24 @@ const CardHome = ({ publicacion }) => {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites" onClick={likeHandler}>
-                        <FavoriteIcon />
-                    </IconButton>
-                    {likes}
+                   { dataUser ? (
+                        <Grid>  
+                            <IconButton fontSize="small" aria-label="add to favorites" onClick={likeHandler}>
+                                <FavoriteIcon /> 
+                            </IconButton>
+                            {likes}
+                        </Grid> 
+                    ) : (
+                        <Grid>  
+                            <IconButton fontSize="small" aria-label="add to favorites" onClick={()=> {makeToast('error', 'Necesitas logearte')}}>
+                                <FavoriteIcon />
+                            </IconButton>
+                            {likes}
+                        </Grid> 
+                    )
+                    }
+                    
+                    
                 </CardActions>
             </Card>
         </Grid>
