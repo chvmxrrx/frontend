@@ -62,11 +62,11 @@ const Menu = ({ history }) => (
                                 <NavDropdown.Item href={`/profile/publication/create/${isAuthenticated().dataUser.id}`}>Crear Publicación</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href={`/profile/project/create/${isAuthenticated().dataUser.id}`}>Crear proyecto</NavDropdown.Item>
-                                <NavDropdown.Item href="/profile/myprojects/id">Mis Proyectos</NavDropdown.Item>
-                                <NavDropdown.Item href="/profile/offers/myoffers/id">Mis Ofertas</NavDropdown.Item>
+                                <NavDropdown.Item href={`/profile/myprojects/${isAuthenticated().dataUser.id}`}>Mis Proyectos</NavDropdown.Item>
+                                <NavDropdown.Item href={`/profile/offers/myoffers/${isAuthenticated().dataUser.id}`}>Mis Ofertas</NavDropdown.Item>
                                 <NavDropdown.Item href={`/profile/project/projects/list`}>Proyectos Inkapp</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="/profile/offers/myoffers/id">Ofertas de reservas</NavDropdown.Item>
+                                <NavDropdown.Item href={`/profile/offers/myoffers/${isAuthenticated().dataUser.id}`}>Ofertas de reservas</NavDropdown.Item>
                                 {
                                     ( isAuthenticated().dataUser.tipo === 1) ? 
                                     <NavDropdown.Item href={`/profile/do-reserve/${isAuthenticated().dataUser.id}`}>Administrar agenda</NavDropdown.Item>
