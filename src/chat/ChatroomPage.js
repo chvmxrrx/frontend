@@ -15,14 +15,17 @@ import Layout from '../core/Layout'
 import { Button } from '@material-ui/core';
 const useStyles = makeStyles({
   table: {
+    
     minWidth: 650,
   },
   chatSection: {
     width: '100%',
     height: '73vh',
-    backgroundColor: '#bee77b'
+    backgroundColor: '#f5e3e3',
+    
   },
   headBG: {
+    borderRadius: '19px 0px 19px 0px',
       backgroundColor: '#e0e0e0'
   },
   borderRight500: {
@@ -30,7 +33,8 @@ const useStyles = makeStyles({
   },
   messageArea: {
     height: '70vh',
-    overflowY: 'auto'
+    overflowY: 'auto',
+    boxShadow: '21px -8px 32px -7px rgba(0,0,0,0.4);'
   }
 });
 const useStylesTittle = makeStyles((theme) => ({
@@ -43,7 +47,9 @@ const useStylesTittle = makeStyles((theme) => ({
         backgroundColor: "black",
         padding: theme.spacing(1),
         color:'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        boxShador: '42px -52px 40px -33px rgba(0,0,0,0.28)'
+        
       },
     
   }));
@@ -134,12 +140,20 @@ const ChatroomPage = ({match, socket}) => {
                     
                 </List>
                 <Divider />
-                <Grid container style={{padding: '20px'}}>
+                <Grid container style={{padding: '20px', 
+                backgroundColor:'#f5e3e3',
+                borderRadius: '0px 0px 40px 0px', 
+                boxShadow:'21px 21px 32px -7px rgba(0,0,0,0.48)'
+                }}>
                     <Grid item xs={11} align="center">
-                        <input type="text" name="message" placeholder="Di algo!" ref={messageRef}></input>
+                        <input type="text" name="message" style={{borderTop: 'none', 
+                        borderLeft:'none', 
+                        borderRight:'none', 
+                        width:'100%'}} 
+                        placeholder="Di algo!" ref={messageRef}></input>
                     </Grid>
                     <Grid xs={1} align="right">
-                    <Button className="join" onClick={sendMessage}><Fab color="primary" aria-label="add"><SendIcon /></Fab></Button>
+                    <Button className="join" onClick={sendMessage}><Fab color="primary" fontSize="small" aria-label="add"><SendIcon /></Fab></Button>
                     </Grid>
                 </Grid>
             </Grid>

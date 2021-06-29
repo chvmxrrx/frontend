@@ -5,7 +5,6 @@ import Singin from './user/Singin';
 import Home from './core/Home';
 import PrivateRoute from './auth/PrivateRoute';
 import AdminRoute from './auth/AdminRoute';
-import UserDashboard from './user/userDashboard';
 import AdminDashboard from './user/adminDashboard';
 import AddRegion from './admin/AddRegion';
 import AddParte from './admin/AddParte';
@@ -88,8 +87,6 @@ const Routes = () => {
                 render = {() => <ChatroomPage socket={socket} exact/>}
                  /> 
                 <Route path="/profile/:userId" exact component={Profile}/>
-
-                <PrivateRoute path="/user/dashboard" exact component={UserDashboard} />
 
                 <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
                 <AdminRoute path="/create/region" exact component={AddRegion} />

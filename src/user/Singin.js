@@ -127,7 +127,7 @@ const SignIn = () => {
             if(dataUser && dataUser.tipo === 0){
                 return <Redirect to="/admin/dashboard" />
             }else{
-                return <Redirect to="/user/dashboard" />
+                return <Redirect to="/" />
             }
         }
     }

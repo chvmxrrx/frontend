@@ -240,7 +240,7 @@ const Profile = ({ match }) => {
             overflow:'scroll',
             display:'block',
             maxHeight: 400,
-        },
+        }
     }));
     const classes = useStyles();
     const theme = useTheme();
@@ -384,7 +384,7 @@ const Profile = ({ match }) => {
     }, []); 
     
     return (
-        <Layout title="Home Page" description="Aplicacion Inkapp para tatuadores." className="container-fluid"> 
+        <Layout title={`Perfil de ${user.userName}`}  description="Estas viendo un perfil" className="container-fluid"> 
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" style={{marginTop: 10}}>
         <Grid item xs={12}> 
         <div align="center">
@@ -395,7 +395,7 @@ const Profile = ({ match }) => {
             <Typography variant="h5" component="h2" align="center">{user.userName}
             {/* BOTON DE LIKES SI USUARIO INGRESA UN LIKE SE SUMA, SI REPITE EL LIKE SE RESTA */}
                 <IconButton aria-label="add to favorites" onClick={likeHandler}>
-                    <FavoriteIcon />
+                    <FavoriteIcon style={{color: 'red'}}/>
                     {likes}
                 </IconButton>
             </Typography>
@@ -433,9 +433,9 @@ const Profile = ({ match }) => {
             aria-label="full width tabs example"
             >
                 
-            <Tab icon={<ColorLens/>} label="Publicaciones" {...a11yProps(0)} />
-            <Tab icon={<Camera/>} label="Proyectos" {...a11yProps(1)} />
-            <Tab icon={<QuestionAnswer/>} label="Comentarios"  onClick={() => abrirCerrarModal()} /> 
+            <Tab icon={<ColorLens style={{color: 'darkmagenta',}}/>} label="Publicaciones" {...a11yProps(0)} />
+            <Tab icon={<Camera style={{color: 'darkmagenta',}}/>} label="Proyectos" {...a11yProps(1)} />
+            <Tab icon={<QuestionAnswer style={{color: 'darkmagenta',}}/>} label="Comentarios"  onClick={() => abrirCerrarModal()} /> 
             {/* <Tab icon={<QuestionAnswer/>}label="Comentarios" {...a11yProps(2)} /> */}
             </Tabs>
         </AppBar>
