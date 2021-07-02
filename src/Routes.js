@@ -41,6 +41,7 @@ import DoOfferReserve from './user/DoOfferReserve';
 import ReserveOffers from './user/ReserveOffers';
 import RespuestaOfertaReserva from './user/RespuestaOfertaReserva';
 import MyReserveOffers from './user/MyReserveOffers';
+import ManageUser from './user/ManageUser';
 
 const Routes = () => {
 
@@ -103,6 +104,7 @@ const Routes = () => {
                 <AdminRoute path="/manage/estiloTatuaje/update/:estiloId" exact component={UpdateEstilo} />
 
                 <PrivateRoute path="/profile/edit/:userId" exact component={editProfile} />
+                <PrivateRoute path="/myaccount/manage/:userId" exact component={ManageUser} />
                 <PrivateRoute path="/profile/publication/create/:userId" exact component={createPublicacion} />
                 <PrivateRoute path="/profile/publication/view/:publicacionId" exact component={PublicacionPage} />
                 <PrivateRoute path="/profile/project/create/:userId" exact component={Proyecto} />
@@ -122,6 +124,7 @@ const Routes = () => {
                 <PrivateRoute path="/profile/agenda/offers/:agendaId/:offerId/:response"
                 exact component={RespuestaOfertaReserva} />
                 <PrivateRoute path="/profile/reserve/myoffers/:userId" exact component={MyReserveOffers} />
+                
             </Switch>
         </BrowserRouter>
     );

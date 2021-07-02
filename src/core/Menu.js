@@ -36,6 +36,8 @@ const Menu = ({ history }) => (
                     )}
                     {isAuthenticated() && (isAuthenticated().dataUser.tipo === 1 || isAuthenticated().dataUser.tipo === 2) && (
                         <Fragment>
+                            <Nav.Link href="/chatroomsmenu">Explorar publicaciones</Nav.Link>
+                            <Nav.Link href="/profile/project/projects/list">Proyectos Inkapp</Nav.Link>
                             <Nav.Link href="/chatroomsmenu">Chatrooms</Nav.Link>
                         </Fragment>
                     )}  
@@ -50,15 +52,21 @@ const Menu = ({ history }) => (
                             <NavDropdown title="Mi cuenta" >
     
                                 <NavDropdown.Item href={`/profile/${isAuthenticated().dataUser.id}`}>Mi Perfil</NavDropdown.Item>
-                                <NavDropdown.Item href={`/profile/edit/${isAuthenticated().dataUser.id}`}>Editar mi cuenta</NavDropdown.Item>
-                                <NavDropdown.Item onClick={() =>
-                                singout(() => {
-                                    history.push('/');
-                                })}>Cerrar Sesión
-                                </NavDropdown.Item>
-                            </NavDropdown>
+                                <NavDropdown.Item href={`/myaccount/manage/${isAuthenticated().dataUser.id}`}>Editar mi cuenta</NavDropdown.Item>
+                            </NavDropdown >
+
+                            {
+                                (isAuthenticated().dataUser.tipo === 0) && (
+                                    <NavDropdown title="Administrar">
+                                        <NavDropdown.Item href={`/manage/region`}>Administrar regiones</NavDropdown.Item>
+                                        <NavDropdown.Item href={`/manage/estado`}>Administrar estados</NavDropdown.Item>
+                                        <NavDropdown.Item href={`/manage/parte`}>Administrar partes del cuerpo</NavDropdown.Item>
+                                        <NavDropdown.Item href={`/manage/estiloTatuaje`}>Administrar estilos de tatuaje</NavDropdown.Item>
+                                    </NavDropdown>
+                                )
+                            }
                             
-                            <NavDropdown title={<List/>} >
+                            <NavDropdown title={<List/>} id="collasible-nav-dropdown">
                                 <NavDropdown.Item href={`/profile/publication/create/${isAuthenticated().dataUser.id}`}>Crear Publicación</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href={`/profile/project/create/${isAuthenticated().dataUser.id}`}>Crear proyecto</NavDropdown.Item>
@@ -68,9 +76,9 @@ const Menu = ({ history }) => (
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href={`/profile/offers/myoffers/${isAuthenticated().dataUser.id}`}>Ofertas de reservas</NavDropdown.Item>
                                 {
-                                    ( isAuthenticated().dataUser.tipo === 1) ? 
-                                    <NavDropdown.Item href={`/profile/do-reserve/${isAuthenticated().dataUser.id}`}>Administrar agenda</NavDropdown.Item>
-                                      : <p></p>
+                                    ( isAuthenticated().dataUser.tipo === 1) && (
+                                        <NavDropdown.Item href={`/profile/do-reserve/${isAuthenticated().dataUser.id}`}>Administrar agenda</NavDropdown.Item>
+                                    ) 
                                 }
                             </NavDropdown>
                             
