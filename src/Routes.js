@@ -5,11 +5,6 @@ import Singin from './user/Singin';
 import Home from './core/Home';
 import PrivateRoute from './auth/PrivateRoute';
 import AdminRoute from './auth/AdminRoute';
-import AdminDashboard from './user/adminDashboard';
-import AddRegion from './admin/AddRegion';
-import AddParte from './admin/AddParte';
-import AddEstado from './admin/AddEstado';
-import AddEstiloTatuaje from './admin/AddEstiloTatuaje';
 import editProfile from './user/editProfile';
 import createPublicacion from './user/Publicacion';
 import ManageRegion from './admin/ManageRegion';
@@ -44,6 +39,8 @@ import MyReserveOffers from './user/MyReserveOffers';
 import Pagos from './core/Pagos';
 import UserVip from './user/UserVip';
 import ProjectPage from './core/ProjectPage';
+import ManageUser from './user/ManageUser';
+
 const Routes = () => {
 
     const [socket, setSocket] = React.useState(null) 
@@ -90,21 +87,17 @@ const Routes = () => {
                  /> 
                 <Route path="/profile/:userId" exact component={Profile}/>
 
-                <AdminRoute path="/admin/dashboard" exact component={AdminDashboard} />
-                <AdminRoute path="/create/region" exact component={AddRegion} />
                 <AdminRoute path="/manage/region" exact component={ManageRegion} />
                 <AdminRoute path="/manage/region/update/:regionId" exact component={UpdateRegion} />
-                <AdminRoute path="/create/parte" exact component={AddParte} />
                 <AdminRoute path="/manage/parte" exact component={ManageParte} />
                 <AdminRoute path="/manage/parte/update/:parteId" exact component={UpdateParte} />
-                <AdminRoute path="/create/estado" exact component={AddEstado} />
                 <AdminRoute path="/manage/estado" exact component={ManageEstado} />
                 <AdminRoute path="/manage/estado/update/:estadoId" exact component={UpdateEstado} />
-                <AdminRoute path="/create/estiloTatuaje" exact component={AddEstiloTatuaje} />
                 <AdminRoute path="/manage/estiloTatuaje" exact component={ManageEstilo} />
                 <AdminRoute path="/manage/estiloTatuaje/update/:estiloId" exact component={UpdateEstilo} />
 
                 <PrivateRoute path="/profile/edit/:userId" exact component={editProfile} />
+                <PrivateRoute path="/myaccount/manage/:userId" exact component={ManageUser} />
                 <PrivateRoute path="/profile/publication/create/:userId" exact component={createPublicacion} />
                 <PrivateRoute path="/profile/publication/view/:publicacionId" exact component={PublicacionPage} />
                 <PrivateRoute path="/profile/project/create/:userId" exact component={Proyecto} />

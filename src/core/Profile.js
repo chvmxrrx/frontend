@@ -391,7 +391,7 @@ const Profile = ({ match }) => {
     }, []); 
     
     return (
-        <Layout title={`Perfil de ${user.userName}`}  description="Estas viendo un perfil" className="container-fluid"> 
+        <Layout title={`Perfil de ${user.userName}`}  description="Estas viendo un perfil" className="container-fluid" jumbotron="false"> 
         <Grid container spacing={3} justify="center" alignContent="center" alignItems="center" style={{marginTop: 10}}>
         <Grid item xs={12}> 
         <div align="center">

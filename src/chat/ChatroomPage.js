@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     width: '100%',
     height: '73vh',
     backgroundColor: '#f5e3e3',
-    
+    marginBottom: '10%'
   },
   headBG: {
     borderRadius: '19px 0px 19px 0px',
