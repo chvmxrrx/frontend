@@ -196,7 +196,7 @@ const SignUp = () => {
     //REDIRIGIR DESPUES DE CREAR EL USUARIO
     const redirectUser = () =>{
         if(redirectToReferrer) {
-            return <Redirect to="/user/dashboard" />
+            return <Redirect to="/" />
         }
     }
 

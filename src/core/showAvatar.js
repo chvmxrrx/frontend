@@ -3,7 +3,6 @@ import React from 'react'
 import { API } from '../config'
 
 const ShowAvatar = ({image, url}) => (
-    
         <Avatar
             src={`${API}/${url}/imagen/${image._id}`}
             alt={image.name}

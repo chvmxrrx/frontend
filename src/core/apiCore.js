@@ -12,7 +12,7 @@ export const getPublicaciones = (idU, accesToken) => {
         return response.json()
     })
     .catch(err => {
-        console.log(err);
+        return err
     })
 };
 
@@ -41,7 +41,7 @@ export const getPublicacion = (idP, idU, accesToken) => {
         return response.json()
     })
     .catch(err => {
-        console.log(err);
+        return err
     })
 };
 
@@ -57,7 +57,7 @@ export const deletePublicacion = (idP, idU, accessToken) => {
         return response.json(); 
     })
     .catch( err => {
-        console.log(err);
+        return err
     });
 };
 
@@ -79,6 +79,21 @@ export const getProjects = (id, accessToken) => {
         return err
     });
 }
+
+export const getProyecto = (idP, idU, accesToken) => {
+    return fetch(`${API}/proyecto/buscar/${idP}/${idU}`, {
+        method: "GET",
+        headers: {
+            Authorization: `${accesToken}`
+        }
+    })
+    .then( response => {
+        return response.json()
+    })
+    .catch(err => {
+        return err
+    })
+};
 
 export const getMyProjects = (id, accessToken) => {
     
@@ -214,6 +229,42 @@ export const getMyOffersReserve = (id, accessToken) => {
     })
     .then( response => {
         return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+};
+
+export const pagoMembresia = (title, price) => {
+    
+    return fetch(`${API}/checkout`, {
+        method: "POST",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({title: title, price: price})
+    })
+    .then( response => {
+        return response.json()
+    })
+    .catch( err => {
+        return err;
+    });
+};
+
+export const hacerVip = (id, accessToken) => {
+    
+    return fetch(`${API}/perfil/vip/${id}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accessToken}`
+        }
+    })
+    .then( response => {
+        return response.json()
     })
     .catch( err => {
         return err;

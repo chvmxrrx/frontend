@@ -9,8 +9,8 @@ const Layout = ({ title = "Title", description = "Description", className, child
             <h2>{title}</h2>
             <p className="lead">{description}</p>
         </div>
-        <div className={className}>{children}</div>
-    </div>
+        <div className={className}>{children}</div>       
+    </div>  
 );
 
 export default Layout;

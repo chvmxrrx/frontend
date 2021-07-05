@@ -107,7 +107,7 @@ const ChatroomPage = ({match, socket}) => {
   return (
     <Layout
                 title="Chatrooms de inkapp"
-                description="Sietete libre de chatear con los demás usuarios"
+                description="Sientete libre de chatear con los demás usuarios"
                 className="container col-md-8 offset-md-2"
             >
       <div>

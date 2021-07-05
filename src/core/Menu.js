@@ -3,12 +3,9 @@ import { withRouter } from 'react-router-dom';
 import { singout, isAuthenticated } from './../auth/index';
 import { Navbar, Nav, NavDropdown, ToggleButton } from 'react-bootstrap';
 import logo from '../assets/images/InkappLogo.jpeg';
-import { ExitToApp, List } from '@material-ui/icons';
+import { ExitToApp, List, Star } from '@material-ui/icons';
+import makeToast from '../Toaster/Toaster';
 
-<style>
-.dropdown-toggle::after 
-    display:none
-</style>
 const Menu = ({ history }) => (
     
     
@@ -34,10 +31,17 @@ const Menu = ({ history }) => (
                             <Nav.Link href="/signup">Registrarse</Nav.Link>
                         </Fragment>
                     )}
-                    {isAuthenticated() && (isAuthenticated().dataUser.tipo === 1 || isAuthenticated().dataUser.tipo === 2) && (
-                        <Fragment>
+                    {isAuthenticated() &&  (
+                        isAuthenticated().dataUser.membresia === true || isAuthenticated().dataUser.tipo === 0 ? (
+                            <Fragment>
                             <Nav.Link href="/chatroomsmenu">Chatrooms</Nav.Link>
                         </Fragment>
+                        ) : (
+                            
+                                <Nav.Link onClick={ () => makeToast('error', 'Debes adquirir una membresía')}>Chatrooms</Nav.Link>
+                            
+                        )
+                        
                     )}  
                 </Nav>
             </Navbar.Collapse>
@@ -46,31 +50,46 @@ const Menu = ({ history }) => (
                     <div>
                         
                         <Nav >
-                        
                             <NavDropdown title="Mi cuenta" >
-    
                                 <NavDropdown.Item href={`/profile/${isAuthenticated().dataUser.id}`}>Mi Perfil</NavDropdown.Item>
                                 <NavDropdown.Item href={`/profile/edit/${isAuthenticated().dataUser.id}`}>Editar mi cuenta</NavDropdown.Item>
-                                <NavDropdown.Item onClick={() =>
-                                singout(() => {
-                                    history.push('/');
-                                })}>Cerrar Sesión
-                                </NavDropdown.Item>
+                                {
+                                    ( isAuthenticated().dataUser.membresia === true) ? (
+                                        <NavDropdown.Item> <Star style={{color: 'orange'}}/>Miembro VIP</NavDropdown.Item>
+                                    ) : (
+                                        <NavDropdown.Item href={`/profile/pagos/${isAuthenticated().dataUser.id}`}>Hacerme vip</NavDropdown.Item>
+                                    )
+                                }
+                                        
                             </NavDropdown>
                             
                             <NavDropdown title={<List/>} >
                                 <NavDropdown.Item href={`/profile/publication/create/${isAuthenticated().dataUser.id}`}>Crear Publicación</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href={`/profile/project/create/${isAuthenticated().dataUser.id}`}>Crear proyecto</NavDropdown.Item>
+                                {isAuthenticated().dataUser.membresia === true || isAuthenticated().dataUser.tipo === 0 ? (
+                                    <NavDropdown.Item href={`/profile/project/create/${isAuthenticated().dataUser.id}`}>Crear proyecto</NavDropdown.Item>
+                                ) : (
+                                    <NavDropdown.Item onClick={() => makeToast('error', 'Debes adquirir una membresía')}>Crear proyecto</NavDropdown.Item>
+                                )}
+                                
                                 <NavDropdown.Item href={`/profile/myprojects/${isAuthenticated().dataUser.id}`}>Mis Proyectos</NavDropdown.Item>
                                 <NavDropdown.Item href={`/profile/offers/myoffers/${isAuthenticated().dataUser.id}`}>Mis Ofertas</NavDropdown.Item>
                                 <NavDropdown.Item href={`/profile/project/projects/list`}>Proyectos Inkapp</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href={`/profile/offers/myoffers/${isAuthenticated().dataUser.id}`}>Ofertas de reservas</NavDropdown.Item>
+                                <NavDropdown.Item href={`/profile/reserve/myoffers/${isAuthenticated().dataUser.id}`}>Ofertas de reservas</NavDropdown.Item>
                                 {
-                                    ( isAuthenticated().dataUser.tipo === 1) ? 
-                                    <NavDropdown.Item href={`/profile/do-reserve/${isAuthenticated().dataUser.id}`}>Administrar agenda</NavDropdown.Item>
-                                      : <p></p>
+                                    ( isAuthenticated().dataUser.tipo === 1) ? (
+                                        isAuthenticated().dataUser.membresia === true ? (
+                                            <NavDropdown.Item href={`/profile/do-reserve/${isAuthenticated().dataUser.id}`}>
+                                                Administrar agenda
+                                            </NavDropdown.Item>
+                                        ) : (
+                                            <NavDropdown.Item onClick={ () => makeToast('error', 'Debes adquirir una membresía')}>
+                                                Administrar agenda
+                                            </NavDropdown.Item>
+                                        )
+                                        
+                                     ) : null
                                 }
                             </NavDropdown>
                             

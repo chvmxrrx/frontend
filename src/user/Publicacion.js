@@ -91,7 +91,6 @@ const Publicacion = () => {
 
     const labusqueda = () => {
         search(user).then(data =>{
-            
             if(data.error){
                 makeToast("error",data.error)
             }else{
@@ -153,8 +152,8 @@ const Publicacion = () => {
                 >
                     <option >Seleccione un estilo de tatuaje...</option>
                     {EstilosTatuaje.map((data, i) => (
-                            <option key={i} value={data._id}>{data.nombre}</option>
-                        )) 
+                        <option key={i} value={data._id}>{data.nombre}</option>
+                    )) 
                     }
                 </select>
             </div>
@@ -165,16 +164,14 @@ const Publicacion = () => {
                     onChange={handleChangeSearch('busqueda')} 
                     type="text" 
                     className="form-control" 
-                    value={user}
+                    value={etiquetado}
                 />
                 <br/>
-
                 {users && users.map((data, i) => ( 
                     <button key={i} value={data._id} onClick={(event) => {
                         event.preventDefault()
                         setUser(data.userName)
                         setValues({...values, etiquetado: data._id, busqueda: user})
-                        
                     }}>
                         {data.userName}
                 </button>
@@ -199,6 +196,7 @@ const Publicacion = () => {
         >
             {createPublicationForm()}
             {redirectUser()} 
+            {JSON.stringify(etiquetado)}
         </Layout>
     );
 

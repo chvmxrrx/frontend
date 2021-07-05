@@ -90,7 +90,7 @@ const DoOffert = (props) => {
             <div className="form-group">
                 <label className="text-muted">Valor de tu oferta</label>
                 <input 
-                    placeholder="Ej. 200000"
+                    placeholder="Ej. 200.000"
                     onChange={HandleChange('valor')} 
                     type="text" 
                     className="form-control" 

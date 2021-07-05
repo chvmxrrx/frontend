@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from './Layout';
-import { listarAgenda, read } from '../user/apiUser';
+import { read } from '../user/apiUser';
 import { isAuthenticated } from '../auth';
 import { getMyProjects, getPublicaciones } from './apiCore';
-import Card from './Card';
 import makeToast from '../Toaster/Toaster';
 import { InputGroup, FormControl, Button, ListGroup, Accordion } from 'react-bootstrap';
 import { addComentario, addRespuesta, deleteComentario, deleteRespuesta, likePerfil } from '../user/apiUser';
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { Grid } from '@material-ui/core';
 import ShowAvatarProfile from './showAvatarProfile';
-import { Typography, GridList, GridListTile, GridListTileBar, Modal, IconButton } from '@material-ui/core';
+import { Typography, GridList, GridListTile, Modal, IconButton } from '@material-ui/core';
 import { Camera, ColorLens, Email, QuestionAnswer } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
@@ -20,12 +19,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import CardProject from './cardProjects';
-import CardMyProject from './cardMyProjects';
 import { Today } from '@material-ui/icons';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import InfoIcon from '@material-ui/icons/Info';
 import ShowImage from './showImage';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Profile = ({ match }) => {
 
@@ -46,6 +42,10 @@ const Profile = ({ match }) => {
     const { comentario, respuesta } = values;
     const [proyectos, setProyectos] = useState([])
     const [modal, setModal]= useState(false)
+    //loading publicaciones
+    const [loadingPub, setLoadingPub] = useState(false)
+    //loading proyectos
+    const [loadingPro, setLoadingPro] = useState(false)
     //FUNCIONALIDADES
 
     //HANDLE CHANGE
@@ -113,9 +113,17 @@ const Profile = ({ match }) => {
     const loadPublicaciones = (userId) => {
         getPublicaciones(userId, accessToken).then(data => {
             if(data.error){
-                setError(true);
+                if(dataUser.id === userId){
+                    setError(data.error)
+                    setTimeout(function () {setLoadingPub(true)}, 3000)
+                } else {
+                    setError('Este usuario aún no tiene publicaciones')
+                    setTimeout(function () {setLoadingPub(true)}, 3000)
+                }
+                 
             } else {
                 setPublicaciones(data.data);
+                setLoadingPub(true)
             }
         })
     }
@@ -123,30 +131,32 @@ const Profile = ({ match }) => {
     const loadProyectos = (userId) => {
         getMyProjects(userId, accessToken).then(data => {
             if(data.error){
-                setErrorProyecto(true)
+                if(dataUser.id === userId){
+                    setErrorProyecto(data.error)
+                    setTimeout(function () {setLoadingPro(true)}, 3000) 
+                } else {
+                    setErrorProyecto('Este usuario aún no tiene proyectos')
+                    setTimeout(function () {setLoadingPro(true)}, 3000)
+                }
+                
+                
             } else {
                 setProyectos(data.data);
+                setLoadingPro(true)
             }
         })
     }
-    // MENSAJE DE ERROR SI NO TIENE PUBLICACIONES
     const showError = () => (
         <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
             {error}
-            <Link to={`/profile/publication/create/${dataUser.id}`}>
-                <p>Crear mi primera publicacion ahora.</p>
-            </Link>
-        </div>
-    )
-    const showErrorProyecto = () => (
-        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
-            {errorProyecto}
-            <Link to={`/profile/project/create/${dataUser.id}`}>
-                <p>Crear mi primera publicacion ahora.</p>
-            </Link>
         </div>
     )
 
+    const showErrorProyecto = () => (
+        <div className="alert alert-danger" style={{display: errorProyecto ? '' : 'none'}}>
+            {errorProyecto}
+        </div>
+    )
     //BUSCAR AL USUARIO DEL PERFIL POR ID, SETEAR DATOS, COMENTARIOS Y PUBLICACIONES.
     const init = (userId) => {
         read(userId, accessToken).then(data => {
@@ -375,9 +385,6 @@ const Profile = ({ match }) => {
         
     )
         
-    // const mostrarComentarios = () => {
-        
-    // }  
     useEffect (() => {
         init(match.params.userId);
         
@@ -405,7 +412,19 @@ const Profile = ({ match }) => {
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p" align="center">{user.edad} años</Typography>
             <Typography variant="body2" color="textSecondary" component="p" align="center"><Email fontSize="small"/> {user.email}</Typography>
-            {/* <Typography variant="body2" color="textSecondary" component="p" align="center"> {user.region.nombre}</Typography> */}
+            {
+                user.region && user.tipo === 1 ? (
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">Atiende en {user.region.nombre}</Typography>
+                ) : (
+                    user.region && user.tipo === 2 ? (
+                        <Typography variant="body2" color="textSecondary" component="p" align="center">Reside en {user.region.nombre}</Typography>
+                    ) : (
+                        <Typography variant="body2" color="textSecondary" component="p" align="center">dirección desconocida</Typography>
+                    )
+                    
+                )
+            }
+            
             <Grid item xs={12} alignItems="center"> 
             {/* EVALUA QUE EL USUARIO SEA UN TATUADOR PARA QUE APAREZCA EL BOTÓN DE VER AGENDA */}
             {
@@ -417,7 +436,7 @@ const Profile = ({ match }) => {
                     </Link>
                     </div>
                 ) : (
-                <p></p>
+                null
                 )
             }
             </Grid> 
@@ -436,7 +455,6 @@ const Profile = ({ match }) => {
             <Tab icon={<ColorLens style={{color: 'darkmagenta',}}/>} label="Publicaciones" {...a11yProps(0)} />
             <Tab icon={<Camera style={{color: 'darkmagenta',}}/>} label="Proyectos" {...a11yProps(1)} />
             <Tab icon={<QuestionAnswer style={{color: 'darkmagenta',}}/>} label="Comentarios"  onClick={() => abrirCerrarModal()} /> 
-            {/* <Tab icon={<QuestionAnswer/>}label="Comentarios" {...a11yProps(2)} /> */}
             </Tabs>
         </AppBar>
         <SwipeableViews
@@ -445,33 +463,48 @@ const Profile = ({ match }) => {
             onChangeIndex={handleChangeIndex}
         >
             <TabPanel value={value} index={0} dir={theme.direction}>
-                <Grid container spacing={0.5} justify="center" alignContent="center" direction="row">
-                    <GridList cellHeight="200" cols={3} style={{width: 800, height: 600}}>
-                    
-                        {publicaciones.map((publicacion) => (
-                        <GridListTile key={publicacion._id} cols={1}>
-                            <Link to={`/profile/publication/view/${publicacion._id}`}> 
-                                <ShowImage image={publicacion} url="publicacion"></ShowImage>
-                            </Link>
-                        </GridListTile>
-                        ))}
-                    </GridList>
+                <Grid container spacing={1} justify="center" alignContent="center">
+                    {publicaciones && loadingPub ? (
+                        publicaciones.map((publicacion) => (
+                            <Grid item xs={4}>
+                                    <Link to={`/profile/publication/view/${publicacion._id}`}> 
+                                        <ShowImage image={publicacion} url="publicacion"></ShowImage>
+                                    </Link>
+                            </Grid>  
+                        ) 
+                        )) : ( 
+                            <div align="center">
+                                <CircularProgress disableShrink/> 
+                            </div>
+                        )
+                    }
+                {
+                    loadingPub ? (showError()) : null
+                }
                 </Grid>
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-            <Grid spacing={1} container justify="center" alignContent="center">
-                { proyectos.map((proyectos, i) => (
-                    dataUser.id === match.params.userId ? (
-                        <CardMyProject key={i} project={proyectos}/>
-                    ) : (
-                        <CardProject key={i} project={proyectos}/>
-                    )
-                ))}
-                
-            </Grid>
+                <Grid spacing={1} container justify="center" alignContent="center" >
+                        { proyectos && loadingPro ? (
+                            proyectos.map((proyectos, i) => (
+                                    <Grid item xs={4}>
+                                        <Link to={`/profile/project/view/${proyectos._id}`}> 
+                                            <ShowImage image={proyectos} url="proyecto"></ShowImage>
+                                        </Link>
+                                    </Grid>
+                                ))
+                            ) : (  
+                                <div align="center">
+                                    <CircularProgress disableShrink/> 
+                                </div>  
+                            )
+                        }
+                {
+                    loadingPro ? (showErrorProyecto()) : null
+                }
+                </Grid>
             </TabPanel>
             <TabPanel value={value} index={2} dir={theme.direction}>
-            
             </TabPanel>
         </SwipeableViews>
         </div>

@@ -21,14 +21,14 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import { LinearProgress } from '@material-ui/core';
 const DoReserve = ({match}) => {
   moment.locale('es')
     const [selectedDate, handleDateChange] = useState()
     const [selectedTermino, handleTerminoChange] = useState()
     const [agenda, setAgenda] = useState([])
     const { dataUser, accessToken } = isAuthenticated();
-    
+    const [loading, setLoading] = useState(false)
     useEffect(() => {
         loadHoras()
     }, []);
@@ -82,8 +82,11 @@ const DoReserve = ({match}) => {
         readAgenda(dataUser.id, accessToken).then(data => {
           if(data.error){
             makeToast('error', data.error)
+            setTimeout( function () {setLoading(true)}, 3000)
+            
           }else{
             setAgenda(data.data)
+            setTimeout( function () {setLoading(true)}, 2000)
           }
         })
     }
@@ -99,11 +102,17 @@ const DoReserve = ({match}) => {
         }
       })
     }
-    const useStyles = makeStyles({
+    const useStyles = makeStyles((theme) => ({
       table: {
         minWidth: 650,
       },
-    });
+      root: {
+        width: '100%',
+        '& > * + *': {
+          marginTop: theme.spacing(2),
+        },
+      }
+    }));
     
     const classes = useStyles();
 
@@ -177,55 +186,62 @@ const DoReserve = ({match}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {agenda.map((data, i) => (
-            <TableRow key={i}>
-              <TableCell component="th" scope="row">
-                <AccessTime fontSize="small"/>
-                {moment(data.fecha).format('MMMM Do YYYY, h:mm a')}
-              </TableCell>
-              <TableCell align="right">
-                <AccessTime fontSize="small"/>
-                {moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')}</TableCell>
-              <TableCell align="right">{
-                  data.estado.nombre === 'Agendada' ? (
-                    <Link to={`/profile/agenda/offers/${data._id}`}>
-                      <Button>
-                        <Done fontSize="small" style={{color: 'green'}}/> 
-                      </Button>
+          {agenda && loading ? (
+              agenda.map((data, i) => (
+                <TableRow key={i}>
+                  <TableCell component="th" scope="row">
+                    <AccessTime fontSize="small"/>
+                    {moment(data.fecha).format('MMMM Do YYYY, h:mm a')}
+                  </TableCell>
+                  <TableCell align="right">
+                    <AccessTime fontSize="small"/>
+                    {moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')}</TableCell>
+                  <TableCell align="right">{
+                      data.estado.nombre === 'Agendada' ? (
+                        <Link to={`/profile/agenda/offers/${data._id}`}>
+                          <Button>
+                            <Done fontSize="small" style={{color: 'green'}}/> 
+                          </Button>
+                        </Link>
+                      ) : (
+                        data.oferta.length > 0 ? (
+                          <Link to={`/profile/agenda/offers/${data._id}`}>
+                            <Button>
+                              <Badge color="secondary" badgeContent={data.oferta.length}>
+                                <CalendarToday fontSize="small"/>
+                              </Badge>
+                            </Button>
+                          </Link>
+                        ) : (
+                          <Button onClick={ () => makeToast('error', 'Aún no tienes ofertas')}>
+                            <Badge color="secondary" badgeContent={0} showZero>
+                              <CalendarToday fontSize="small"/>
+                            </Badge>
+                          </Button>
+                        ) 
+                      )
+                    }
+                  </TableCell>
+                  <TableCell align="right">
+                    <Link to={`/profile/agenda/modificar/${data._id}`}>
+                      <IconButton aria-label="delete">
+                        <Edit fontSize="small" color="primary"/>
+                      </IconButton>
                     </Link>
-                  ) : (
-                    data.oferta.length > 0 ? (
-                      <Link to={`/profile/agenda/offers/${data._id}`}>
-                        <Button>
-                          <Badge color="secondary" badgeContent={data.oferta.length}>
-                            <CalendarToday fontSize="small"/>
-                          </Badge>
-                        </Button>
-                      </Link>
-                    ) : (
-                      <Button onClick={ () => makeToast('error', 'Aún no tienes ofertas')}>
-                        <Badge color="secondary" badgeContent={0} showZero>
-                          <CalendarToday fontSize="small"/>
-                        </Badge>
-                      </Button>
-                    ) 
-                  )
-                }
-              </TableCell>
-              <TableCell align="right">
-                <Link to={`/profile/agenda/modificar/${data._id}`}>
-                  <IconButton aria-label="delete">
-                    <Edit fontSize="small" color="primary"/>
-                  </IconButton>
-                </Link>
-              </TableCell>
-              <TableCell align="right">
-                <IconButton aria-label="delete" onClick={deleteHora(data._id)}>
-                  <DeleteIcon fontSize="small" color="error"/>
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton aria-label="delete" onClick={deleteHora(data._id)}>
+                      <DeleteIcon fontSize="small" color="error"/>
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <div className={classes.root}>
+                <LinearProgress color="secondary" />
+              </div>
+            )
+          }
         </TableBody>
       </Table>
     </TableContainer> 

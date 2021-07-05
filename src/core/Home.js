@@ -25,7 +25,7 @@ const Home = () => {
     }, []);
 
     return (
-        <Layout title="Home Page" description="Aplicacion Inkapp para tatuadores." className="container-fluid">
+        <Layout title="Página principal" description="Aplicacion Inkapp para tatuadores." className="container-fluid">
             <Grid container spacing={3} justify="center">
             <Grid item xs={12}>
                 <Typography variant="h6" component="h2" align="center">Publicaciones</Typography>

@@ -4,20 +4,25 @@ import { getMyProjects } from '../core/apiCore';
 import { isAuthenticated } from '../auth';
 import { Link } from 'react-router-dom';
 import CardMyProject from '../core/cardMyProjects';
-import { Grid } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+import { LinearProgress } from '@material-ui/core';
+import ShowAvatar from '../core/showAvatar';
+import makeToast from '../Toaster/Toaster';
 const MisProyectos = () => {
 
     const [projects, setProjects] = useState([])
     const {dataUser, accessToken} = isAuthenticated()
     const [error, setError] = useState(false)
-
+    const [loading, setLoading] = useState(false)
     const loadProjects = () => {
         getMyProjects(dataUser.id, accessToken).then( data => {
             if(data.error){
                 setError(data.error)
             } else {
                 setProjects(data.data)
+                setLoading(true)
             }
         })
     }
@@ -25,29 +30,68 @@ const MisProyectos = () => {
         loadProjects()
         
     },[])
-
+    const useStyles = makeStyles((theme) => ({
+        cardGrid: {
+          paddingTop: theme.spacing(8),
+          paddingBottom: theme.spacing(8)
+        },
+        root: {
+            width: '100%',
+            '& > * + *': {
+              marginTop: theme.spacing(2),
+            },
+          },
+        text: {
+            textDecoration: 'none',
+            color: 'black'
+        }
+      }));
     const showError = () => (
         <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
             {error}
-            <Link to={`/profile/project/create/${dataUser.id}`}>
-                <p>Crear un nuevo proyecto</p>
-            </Link>
+            {
+                dataUser.membresia === false ? (
+                    <Link onClick={() => makeToast('error', 'Debes adquirir una membresía')}>
+                        <p>Crear un nuevo proyecto</p>
+                    </Link>
+                ) 
+                : (
+                    <Link to={`/profile/project/create/${dataUser.id}`}>
+                        <p>Crear un nuevo proyecto</p>
+                    </Link>
+                )    
+            }
+            
         </div>
     )
-    
+    const classes = useStyles()
    return ( 
    <Layout title="Mis proyectos" description="Estas viendo tus proyectos!">
-       <Grid container spacing={3} direction="row" justify="center" alignItems="center">
-            <Grid item xs={12}>
-                <Typography variant="h5" component="h2" align="center">
-                    Proyectos de {dataUser.user}
-                </Typography>
-            </Grid>
-                { projects.map((project, id) => (
-                    <CardMyProject key={id} project={project}/>
-                ))}
-      {showError()}
-      </Grid>
+       <Container className={classes.cardGrid} maxWidth="md">
+        <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                        Proyectos de <Link to={`/profile/${dataUser.id}`} className={classes.text}>{dataUser.user}</Link>
+                    </Typography>
+                </Grid>
+                    { projects && loading ? (
+                            projects.map((project, id) => (
+                                <Grid item key={project._id} xs={12} md={4}>
+                                    <CardMyProject key={id} project={project}/>
+                                </Grid>
+                            ))
+                        ) : (
+                            error ? null : (
+                            <div className={classes.root}>
+                                <LinearProgress color="secondary" />
+                            </div>
+                            )
+                            
+                        )
+                    } 
+            {showError()}
+        </Grid>
+      </Container>
     </Layout>
     )
 

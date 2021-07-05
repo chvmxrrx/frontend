@@ -5,33 +5,45 @@ import { Redirect } from 'react-router-dom';
 import makeToast from '../Toaster/Toaster';
 import { listarAgenda } from '../user/apiUser';
 import CardAgenda from './CardAgenda';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, LinearProgress, Typography, makeStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { ArrowBack } from '@material-ui/icons';
 const AgendaTatuadores = ({match}) => {
    
     const { dataUser, accessToken } = isAuthenticated();
     const [horas, setHoras] = useState([]);
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+
     const init = (userId) => {
         listarAgenda(dataUser.id, accessToken, userId).then(data => {
             if(data.error){
-                makeToast('error', data.error)
+                setError(data.error)
+                setTimeout( function () {setLoading(true)}, 2000)
             } else {
                 setHoras(data.data)
+                setTimeout( function () {setLoading(true)}, 2000)
             }
         })
-}
-
+    }
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            width: '100%',
+            '& > * + *': {
+              marginTop: theme.spacing(2),
+            },
+          }
+      }));
     useEffect(() => {
       init(match.params.userId)
     }, []);
 
-    
-    const clickSubmit = event => {
-        event.preventDefault();
-    }
-
-
+    const showError = () => (
+        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    )
+    const classes = useStyles()
     return (
         <Layout
             title="Agenda"
@@ -45,13 +57,18 @@ const AgendaTatuadores = ({match}) => {
                         Agenda
                     </Typography>
                 </Grid>
-                     {horas.length > 0 ? (
+                     {horas && loading ? (
                             horas.map((horas, i) => (
                                 <CardAgenda key={i} horas={horas} />
                             ))
                         ) : (
-                            <Grid item xs={12}>Lo sentimos, este usuario aún no crea su agenda.</Grid>
+                            <div className={classes.root}>
+                                <LinearProgress color="secondary"/>
+                            </div>
                         )}
+                {
+                    loading ? showError() : null
+                }
                 <Grid item xs={12} align="center">
                     <Link className="btn btn-primary" to={`/profile/${match.params.userId}`}><ArrowBack />Volver</Link>
                 </Grid> 

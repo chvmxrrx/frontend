@@ -20,7 +20,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import { LinearProgress } from '@material-ui/core';
 const ModificarReserve = ({match}) => {
 
     const { dataUser, accessToken } = isAuthenticated();
@@ -30,6 +30,7 @@ const ModificarReserve = ({match}) => {
     const [agenda, setAgenda] = useState([])
     const [fechaInicio, setFechaInicio] = useState()
     const [fechaFin, setFechaFin] = useState()
+    const [loading, setLoading] = useState()
     const modificarHora = idHora => event => {
       event.preventDefault();
       var existe = false   
@@ -88,6 +89,7 @@ const ModificarReserve = ({match}) => {
             }else{
                 setFechaInicio(data.fecha)
                 setFechaFin(data.fechaFin)
+                setTimeout( function (){setLoading(true)} , 2000) 
             }
         })
     }
@@ -199,16 +201,23 @@ const ModificarReserve = ({match}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {agenda.map((data, i) => (
-            <TableRow key={i}>
-              <TableCell component="th" scope="row">
-              <AccessTime fontSize="small"/>
-                {moment(data.fecha).format('MMMM Do YYYY, h:mm a')}
-              </TableCell>
-              
-              <TableCell >{moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')}</TableCell>
-            </TableRow>
-          ))}
+          {
+            agenda && loading ? (
+              agenda.map((data, i) => (
+                <TableRow key={i}>
+                  <TableCell component="th" scope="row">
+                  <AccessTime fontSize="small"/>
+                    {moment(data.fecha).format('MMMM Do YYYY, h:mm a')}
+                  </TableCell>
+                  
+                  <TableCell >{moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <LinearProgress color="secondary" />
+            )
+          }
+          
         </TableBody>
       </Table>
     </TableContainer>  

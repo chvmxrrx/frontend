@@ -41,7 +41,9 @@ import DoOfferReserve from './user/DoOfferReserve';
 import ReserveOffers from './user/ReserveOffers';
 import RespuestaOfertaReserva from './user/RespuestaOfertaReserva';
 import MyReserveOffers from './user/MyReserveOffers';
-
+import Pagos from './core/Pagos';
+import UserVip from './user/UserVip';
+import ProjectPage from './core/ProjectPage';
 const Routes = () => {
 
     const [socket, setSocket] = React.useState(null) 
@@ -108,6 +110,7 @@ const Routes = () => {
                 <PrivateRoute path="/profile/project/create/:userId" exact component={Proyecto} />
                 <PrivateRoute path="/profile/project/update/:projectId" exact component={UpdateProject} />
                 <PrivateRoute path="/profile/myprojects/:userId" exact component={MisProyectos} />
+                <PrivateRoute path="/profile/project/view/:proyectoId" exact component={ProjectPage} />
                 <PrivateRoute path="/profile/project/offers/:projectId" exact component={ProjectsOffers} />
                 <PrivateRoute path="/profile/project/projects/list" exact component={AllProjects} />
                 <PrivateRoute path="/profile/project/doOffer/:projectId" exact component={DoOffer} />
@@ -122,6 +125,8 @@ const Routes = () => {
                 <PrivateRoute path="/profile/agenda/offers/:agendaId/:offerId/:response"
                 exact component={RespuestaOfertaReserva} />
                 <PrivateRoute path="/profile/reserve/myoffers/:userId" exact component={MyReserveOffers} />
+                <PrivateRoute path="/profile/pagos/:userId" exact component={Pagos} />
+                <PrivateRoute path="/profile/user/vip" exact component={UserVip} />
             </Switch>
         </BrowserRouter>
     );

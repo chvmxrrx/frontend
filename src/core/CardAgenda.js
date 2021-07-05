@@ -9,8 +9,11 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
+import makeToast from '../Toaster/Toaster';
+
 
 const CardProject = ({ horas }) => {
+  const {dataUser} = isAuthenticated()
 const useStyles = makeStyles({
     root: {
       minWidth: 190,
@@ -46,9 +49,18 @@ const useStyles = makeStyles({
               </Typography>
             </CardContent>
             <CardActions>
-              <Link to={`/profile/do-reserve-hour/${horas._id}`}>
-                <Button size="small" >Agendar</Button>
-              </Link>
+              {
+                dataUser.membresia === true ? (
+                <Link to={`/profile/do-reserve-hour/${horas._id}`}>
+                  <Button size="small" >Agendar</Button>
+                </Link>
+              ) : (
+                <Link onClick={() => {makeToast('error', 'Debes adquirir una membresía')}}>
+                  <Button size="small" >Agendar</Button>
+                </Link>
+              )
+              }
+              
             </CardActions>
           </Card>
       </Grid>
@@ -66,17 +78,13 @@ const useStyles = makeStyles({
                 Desde: {moment(horas.fecha).format('h:mm a')}
               </Typography>
               <Typography variant="body2" component="p">
-                Hasta: {moment(horas.fechaFinal).format('h:mm a')}
+                Hasta: {moment(horas.fechaFin).format('h:mm a')}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
       )
-    ) : (
-      <Typography>
-        Lo sentimos, este usuario aún no crea su agenda.
-      </Typography>
-    )
+    ) : null
   
   );
 }

@@ -147,7 +147,7 @@ const CardPublicacionPage = ({ publicacion }) => {
     }, []);
 
     return(
-        <Grid container justify="center" alignContent="center" alignItems="center">
+        
             <Grid item xs={6}>
             <Card>
             <CardHeader
@@ -158,12 +158,10 @@ const CardPublicacionPage = ({ publicacion }) => {
                     }
                     action={
                         publicacion.etiquetado ? (
-                            
                             <Link to={`/profile/${publicacion.etiquetado._id}`}>
                                 <ShowAvatar image={publicacion.etiquetado} url="perfil"/>
                             </Link>
                         ) : (
-                            
                             <AccountCircle fontSize="large"/>
                         )
                          
@@ -173,7 +171,6 @@ const CardPublicacionPage = ({ publicacion }) => {
                     }
                     subheader={moment(publicacion.createdAt).fromNow()}
                 />
-                <CardMedia/>
                 <ShowImage image={publicacion} url="publicacion"/>
                 <CardContent>
                 <Typography variant="h6">{publicacion.nombre} <Favorite fontSize="small" onClick={likeHandler} color="secondary"/>{likes}</Typography>
@@ -282,11 +279,12 @@ const CardPublicacionPage = ({ publicacion }) => {
 
             </CardContent>
             </Card>
-            </Grid>
             {showError()}
             {showSucces()}
             {redirectTo()}
-        </Grid>
+            </Grid>
+            
+        
         
         
     );
