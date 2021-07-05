@@ -33,7 +33,19 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         backgroundColor: red[500]
-    }
+    },
+    cardGrid: {
+        paddingTop: theme.spacing(8),
+        paddingBottom: theme.spacing(8),
+      },
+      card: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      cardContent: {
+        flexGrow: 1,
+      },
 }));
 
 const CardHome = ({ publicacion }) => {
@@ -53,8 +65,8 @@ const CardHome = ({ publicacion }) => {
     }
 
     return (
-        <Grid item xs={3}>
-            <Card>
+        <Grid item key={publicacion} xs={12} sm={6} md={4}>
+            <Card >
                 <CardHeader
                     avatar={
                         <ShowAvatar image={publicacion.creador} url="perfil"/>

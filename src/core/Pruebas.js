@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from './../auth/index';
 import { Link } from 'react-router-dom';
-import { getEstilosTatuajes, deleteEstiloTatuaje, createEstiloTatuaje } from './apiAdmin'
+import { getRegiones, deleteRegion, createRegion } from './apiAdmin'
 import makeToast from '../Toaster/Toaster';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -39,66 +39,66 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ManageEstilo = () => {
+const ManageRegion = () => {
     //LLAMADO A LOS ESITLOS
     const classes = useStyles();
 
     //VARIABLES A UTILIZAR
+    const [regiones, setRegiones] = useState([]);
     const [nombre, setNombre] = useState('');
-    const [estilos, setEstilos] = useState([]);
 
     //DESESTRUCTURAR INFORMACIÓN DEL USUARIO DESDE EL SESSION STORAGE
-    const { dataUser, accessToken } = isAuthenticated();
+    const { accessToken, dataUser } = isAuthenticated();
 
-    //FUNCION CARGAR ESTADOS
-    const loadEstilos = () => {
-        getEstilosTatuajes(dataUser.id, accessToken).then(data => {
+    //FUNCION CARGAR REGIONES
+    const loadRegiones = () => {
+        getRegiones().then(data => {
             if (data.error) {
                 console.log(data.error);
             } else {
-                setEstilos(data.data);
+                setRegiones(data.data);
             }
         })
     }
 
-    //FUNCION DESTRUIR ESTADO
-    const destroyEstilo = idR => {
-        deleteEstiloTatuaje(idR, dataUser.id, accessToken).then(data => {
+    //FUNCION DESTRUIR REGIONES
+    const destroyRegion = idR => {
+        deleteRegion(idR, dataUser.id, accessToken).then(data => {
             if (data.error) {
-                makeToast("error", "Error al eliminar")
+                console.log(data.eror);
             } else {
-                makeToast("success", "El estilo se ha borrado con éxito")
-                loadEstilos();
+                makeToast("success", "La region se ha borrado con éxito")
+                loadRegiones();
             }
         })
     }
 
     useEffect(() => {
-        loadEstilos();
+        loadRegiones();
     }, [])
 
-    //HANDLE CHANGE PARA CREAR ESTILOS
+    //HANDLE CHANGE PARA CREAR REGIONES
     const handleChange = (e) => {
         setNombre(e.target.value);
     }
 
-    //FUNCION DEL BOTÓN CREAR ESTILO
+    //FUNCION DEL BOTÓN CREAR REGIÓN
     const clickSubmit = (e) => {
         e.preventDefault();
         //Request to API
-        createEstiloTatuaje( dataUser.id, accessToken, {nombre}).then(data => {
+        createRegion( dataUser.id, accessToken, {nombre}).then(data => {
             if(data.error) {
-                makeToast("error", "El estilo ingresada ya existe")
+                makeToast("error", "La región ingresada ya existe")
             }else {
-                makeToast("success", `El estilo ${nombre} se ha creado con éxito.`)
+                makeToast("success", `La región ${nombre} se ha creado con éxito.`)
                 setNombre('')
-                loadEstilos();
+                loadRegiones();
             }
         });
     };
 
-    //FORMULARIO NUEVO ESTADO
-    const newEstiloForm = () => (
+    //FORMULARIO NUEVA REGIÓN
+    const newRegionForm = () => (
         <Container component="main" >
             <CssBaseline />
                 <form className={classes.form} >
@@ -108,7 +108,8 @@ const ManageEstilo = () => {
                                 variant="standard"
                                 required
                                 fullWidth
-                                label="Nombre del Estilo de tatuaje"
+                                label="Nombre de la región"
+                                name="userName"
                                 onChange={handleChange}
                                 value={nombre}
                             />
@@ -122,7 +123,7 @@ const ManageEstilo = () => {
                         className={classes.submit}
                         onClick={clickSubmit}
                     >
-                        Crear estilo de tatuaje
+                        Crear región
                     </Button>
                         </Grid>
                     </Grid>
@@ -133,19 +134,17 @@ const ManageEstilo = () => {
 
     return (
         <Layout
-            title="Administrar Estilos de tatuaje"
-            description="CRUD de Estilos de tatuaje."
+            title="Administrar regiones"
+            description="CRUD de regiones."
             className="container flui"
         >
             <Typography variant="h5" component="h2" align="center">
-                Crear estilos de tatuaje
+                Crea una nueva región
             </Typography>
-            {newEstiloForm()}
-
+            {newRegionForm()}
             <Typography variant="h5" component="h2" align="center">
-                Administrar Estilos de tatuaje
+                Administrar Regiones
             </Typography>
-
             <TableContainer component={Paper}>
 
                 <Table className={classes.table} size="small" aria-label="a dense table">
@@ -157,25 +156,22 @@ const ManageEstilo = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {estilos.map((estilo) => (
-                            <TableRow key={estilo.nombre}>
+                        {regiones.map((region) => (
+                            <TableRow key={region.nombre}>
                                 <TableCell component="th" scope="row">
-                                    {estilo.nombre}
+                                    {region.nombre}
                                 </TableCell>
                                 <TableCell align="left" >
-                                    <Link to={`/manage/estiloTatuaje/update/${estilo._id}`}>
+                                    <Link to={`/manage/region/update/${region._id}`}>
                                         <EditIcon style={{ marginLeft: "7%", cursor: "pointer" }} />
                                     </Link>
 
 
                                 </TableCell>
                                 <TableCell align="left">
-                                    <Link onClick={() => destroyEstilo(estilo._id)}>
+                                    <Link onClick={() => destroyRegion(region._id)}>
                                         <DeleteIcon style={{ marginLeft: "7%", cursor: "pointer" }} />
                                     </Link>
-
-
-
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -187,4 +183,4 @@ const ManageEstilo = () => {
     );
 }
 
-export default ManageEstilo;
+export default ManageRegion;

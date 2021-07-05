@@ -34,7 +34,7 @@ const Menu = ({ history }) => (
                             <Nav.Link href="/signup">Registrarse</Nav.Link>
                         </Fragment>
                     )}
-                    {isAuthenticated() && (isAuthenticated().dataUser.tipo === 1 || isAuthenticated().dataUser.tipo === 2) && (
+                    {isAuthenticated() && (
                         <Fragment>
                             <Nav.Link href="/chatroomsmenu">Explorar publicaciones</Nav.Link>
                             <Nav.Link href="/profile/project/projects/list">Proyectos Inkapp</Nav.Link>

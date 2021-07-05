@@ -7,7 +7,7 @@ const ShowImage = ({image, url}) => (
             src={`${API}/${url}/imagen/${image._id}`}
             alt={image.name}
             className="mb-3"
-            style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "cover", objectPosition: "center center" }}
+            style={{ width:"300px", height:"300px", objectFit: "cover", objectPosition: "center center" }}
         />
     </div>
 )

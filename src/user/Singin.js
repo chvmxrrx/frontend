@@ -125,7 +125,7 @@ const SignIn = () => {
     const redirectUser = () =>{
         if(redirectToReferrer) {
             if(dataUser && dataUser.tipo === 0){
-                return <Redirect to="/admin/dashboard" />
+                return <Redirect to="/" />
             }else{
                 return <Redirect to="/" />
             }
