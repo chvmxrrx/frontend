@@ -175,7 +175,7 @@ const ModificarReserve = ({match}) => {
             <ListItemText primary="Termino" secondary={moment(fechaFin).locale('es').format('MMMM Do YYYY, h:mm a')} />
           </ListItem> 
         <Typography variant="body2" gutterBottom align="center">
-            (Selecciona una fecha del calendario y luego presiona botón modificar)
+            (Selecciona una fecha del calendario y el rango de horas)
         </Typography>      
         </List> 
         </Grid>
@@ -200,25 +200,43 @@ const ModificarReserve = ({match}) => {
             <TableCell align="center">Fecha de termino</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {
-            agenda && loading ? (
-              agenda.map((data, i) => (
-                <TableRow key={i}>
-                  <TableCell component="th" scope="row">
-                  <AccessTime fontSize="small"/>
-                    {moment(data.fecha).format('MMMM Do YYYY, h:mm a')}
-                  </TableCell>
-                  
-                  <TableCell >{moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')}</TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <LinearProgress color="secondary" />
-            )
-          }
-          
-        </TableBody>
+        {
+          agenda && loading ? (
+            <TableBody>
+              {agenda.map((data, i) => (
+                    <TableRow key={i}>
+                      <TableCell component="th" scope="row">
+                      <AccessTime fontSize="small"/>
+                        {moment(data.fecha).format('MMMM Do YYYY, h:mm a')}
+                      </TableCell>
+                      
+                      <TableCell component="th" scope="row" >
+                        {moment(data.fechaFin).format('MMMM Do YYYY, h:mm a')}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+            </TableBody>
+          ) : (
+            <TableBody>
+              {agenda.map((data, i) => (
+                    <TableRow key={i}>
+                      <TableCell component="th" scope="row">
+                        <div>
+                          <LinearProgress color="primary"/>
+                        </div>
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        <div>
+                          <LinearProgress color="primary"/>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+            </TableBody>
+            
+          )
+        }
+        
       </Table>
     </TableContainer>  
         </Grid>

@@ -115,10 +115,10 @@ const Profile = ({ match }) => {
             if(data.error){
                 if(dataUser.id === userId){
                     setError(data.error)
-                    setTimeout(function () {setLoadingPub(true)}, 3000)
+                    setTimeout(function () {setLoadingPub(true)}, 2000)
                 } else {
                     setError('Este usuario aún no tiene publicaciones')
-                    setTimeout(function () {setLoadingPub(true)}, 3000)
+                    setTimeout(function () {setLoadingPub(true)}, 2000)
                 }
                  
             } else {
@@ -133,10 +133,10 @@ const Profile = ({ match }) => {
             if(data.error){
                 if(dataUser.id === userId){
                     setErrorProyecto(data.error)
-                    setTimeout(function () {setLoadingPro(true)}, 3000) 
+                    setTimeout(function () {setLoadingPro(true)}, 2000) 
                 } else {
                     setErrorProyecto('Este usuario aún no tiene proyectos')
-                    setTimeout(function () {setLoadingPro(true)}, 3000)
+                    setTimeout(function () {setLoadingPro(true)}, 2000)
                 }
                 
                 
@@ -479,7 +479,7 @@ const Profile = ({ match }) => {
                         )
                     }
                 {
-                    loadingPub ? (showError()) : null
+                    loadingPub && publicaciones.length === 0 ? (showError()) : null
                 }
                 </Grid>
             </TabPanel>
@@ -500,7 +500,7 @@ const Profile = ({ match }) => {
                             )
                         }
                 {
-                    loadingPro ? (showErrorProyecto()) : null
+                    loadingPro && proyectos.length === 0 ? (showErrorProyecto()) : null
                 }
                 </Grid>
             </TabPanel>

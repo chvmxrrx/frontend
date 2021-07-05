@@ -20,6 +20,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { LinearProgress } from '@material-ui/core';
 
 //ESTILOS A UTILIZAR
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1, 0, 3),
         backgroundColor: "black"
     },
+    root: {
+        width: '100%',
+        '& > * + *': {
+          marginTop: theme.spacing(2),
+        },
+    }
 }));
 
 const ManageEstilo = () => {
@@ -46,7 +53,8 @@ const ManageEstilo = () => {
     //VARIABLES A UTILIZAR
     const [nombre, setNombre] = useState('');
     const [estilos, setEstilos] = useState([]);
-
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     //DESESTRUCTURAR INFORMACIÓN DEL USUARIO DESDE EL SESSION STORAGE
     const { dataUser, accessToken } = isAuthenticated();
 
@@ -54,21 +62,30 @@ const ManageEstilo = () => {
     const loadEstilos = () => {
         getEstilosTatuajes(dataUser.id, accessToken).then(data => {
             if (data.error) {
-                console.log(data.error);
+                setError(data.error)
+                setTimeout( function () {setLoading(true)}, 2000) 
             } else {
                 setEstilos(data.data);
+                setTimeout( function () {setLoading(true)}, 2000) 
             }
         })
     }
+    const showError = () => (
+        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    )
 
     //FUNCION DESTRUIR ESTADO
     const destroyEstilo = idR => {
         deleteEstiloTatuaje(idR, dataUser.id, accessToken).then(data => {
             if (data.error) {
                 makeToast("error", "Error al eliminar")
+                setTimeout( function () {setLoading(true)}, 2000)
             } else {
                 makeToast("success", "El estilo se ha borrado con éxito")
                 loadEstilos();
+                setTimeout( function () {setLoading(true)}, 2000)
             }
         })
     }
@@ -93,6 +110,7 @@ const ManageEstilo = () => {
                 makeToast("success", `El estilo ${nombre} se ha creado con éxito.`)
                 setNombre('')
                 loadEstilos();
+                setTimeout( function () {setLoading(true)}, 2000)
             }
         });
     };
@@ -156,33 +174,64 @@ const ManageEstilo = () => {
                             <TableCell className={classes.celda} align="left">Eliminar</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {estilos.map((estilo) => (
-                            <TableRow key={estilo.nombre}>
-                                <TableCell component="th" scope="row">
-                                    {estilo.nombre}
+                    {
+                        estilos && loading ? (
+                        <TableBody>
+                            {estilos.map((estilo) => (
+                                <TableRow key={estilo.nombre}>
+                                    <TableCell component="th" scope="row">
+                                        {estilo.nombre}
+                                    </TableCell>
+                                    <TableCell align="left" >
+                                        <Link to={`/manage/estiloTatuaje/update/${estilo._id}`}>
+                                            <EditIcon style={{ marginLeft: "7%", cursor: "pointer" }} />
+                                        </Link>
+
+
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <Link onClick={() => destroyEstilo(estilo._id)}>
+                                            <DeleteIcon style={{ marginLeft: "7%", cursor: "pointer" }} />
+                                        </Link>
+
+
+
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                        ) : (
+                            loading ? 
+                            null
+                         : (
+                             <TableBody>
+                                <TableCell>
+                                    <div className={classes.root}>
+                                        <LinearProgress color="primary"/>
+                                    </div>
                                 </TableCell>
-                                <TableCell align="left" >
-                                    <Link to={`/manage/estiloTatuaje/update/${estilo._id}`}>
-                                        <EditIcon style={{ marginLeft: "7%", cursor: "pointer" }} />
-                                    </Link>
-
-
+                                <TableCell>
+                                    <div className={classes.root}>
+                                        <LinearProgress color="primary"/>
+                                    </div>
                                 </TableCell>
-                                <TableCell align="left">
-                                    <Link onClick={() => destroyEstilo(estilo._id)}>
-                                        <DeleteIcon style={{ marginLeft: "7%", cursor: "pointer" }} />
-                                    </Link>
-
-
-
+                                <TableCell>
+                                    <div className={classes.root}>
+                                        <LinearProgress color="primary"/>
+                                    </div>
                                 </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
+                            </TableBody>
+                        )
+                        )
+                    }
+                    
                 </Table>
             </TableContainer>
-
+            {
+                loading && estilos.length === 0 ? 
+                    showError()
+                :  null                
+            }
         </Layout>
     );
 }

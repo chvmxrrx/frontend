@@ -63,13 +63,13 @@ const MyReserveOffers = () => {
                             ))
                         ) : (
                             <div className={classes.root}>
-                                <LinearProgress color="secondary" />
+                                <LinearProgress color="primary" />
                             </div>
                         )
                     }
             <Grid item xs={12} align="center"> 
             {
-                loading ? (showError()) : null
+                loading && offers.length === 0 ? (showError()) : null
             }
                 <Link to={`/`}>
                     <Button variant="contained" color="primary">

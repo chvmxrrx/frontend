@@ -20,6 +20,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { LinearProgress } from '@material-ui/core';
 
 //ESTILOS A UTILIZAR
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1, 0, 3),
         backgroundColor: "black"
     },
+    root: {
+        width: '100%',
+        '& > * + *': {
+          marginTop: theme.spacing(2),
+        },
+    }
 }));
 
 const ManageRegion = () => {
@@ -46,7 +53,8 @@ const ManageRegion = () => {
     //VARIABLES A UTILIZAR
     const [regiones, setRegiones] = useState([]);
     const [nombre, setNombre] = useState('');
-
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     //DESESTRUCTURAR INFORMACIÓN DEL USUARIO DESDE EL SESSION STORAGE
     const { accessToken, dataUser } = isAuthenticated();
 
@@ -54,21 +62,29 @@ const ManageRegion = () => {
     const loadRegiones = () => {
         getRegiones().then(data => {
             if (data.error) {
-                console.log(data.error);
+                setError(data.error)
+                setTimeout( function () {setLoading(true)}, 2000) 
             } else {
                 setRegiones(data.data);
+                setTimeout( function () {setLoading(true)}, 2000) 
             }
         })
     }
-
+    const showError = () => (
+        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    )
     //FUNCION DESTRUIR REGIONES
     const destroyRegion = idR => {
         deleteRegion(idR, dataUser.id, accessToken).then(data => {
             if (data.error) {
-                console.log(data.eror);
+                makeToast('error', data.error)
+                setTimeout( function () {setLoading(true)}, 2000)
             } else {
                 makeToast("success", "La region se ha borrado con éxito")
                 loadRegiones();
+                setTimeout( function () {setLoading(true)}, 2000)
             }
         })
     }
@@ -93,6 +109,7 @@ const ManageRegion = () => {
                 makeToast("success", `La región ${nombre} se ha creado con éxito.`)
                 setNombre('')
                 loadRegiones();
+                setTimeout( function () {setLoading(true)}, 2000)
             }
         });
     };
@@ -154,30 +171,61 @@ const ManageRegion = () => {
                             <TableCell className={classes.celda} align="left">Eliminar</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {regiones.map((region) => (
-                            <TableRow key={region.nombre}>
-                                <TableCell component="th" scope="row">
-                                    {region.nombre}
-                                </TableCell>
-                                <TableCell align="left" >
-                                    <Link to={`/manage/region/update/${region._id}`}>
-                                        <EditIcon style={{ marginLeft: "7%", cursor: "pointer" }} />
-                                    </Link>
+                    {
+                        regiones && loading ? (
+                        <TableBody>
+                            {regiones.map((region) => (
+                                <TableRow key={region.nombre}>
+                                    <TableCell component="th" scope="row">
+                                        {region.nombre}
+                                    </TableCell>
+                                    <TableCell align="left" >
+                                        <Link to={`/manage/region/update/${region._id}`}>
+                                            <EditIcon style={{ marginLeft: "7%", cursor: "pointer" }} />
+                                        </Link>
 
 
-                                </TableCell>
-                                <TableCell align="left">
-                                    <Link onClick={() => destroyRegion(region._id)}>
-                                        <DeleteIcon style={{ marginLeft: "7%", cursor: "pointer" }} />
-                                    </Link>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <Link onClick={() => destroyRegion(region._id)}>
+                                            <DeleteIcon style={{ marginLeft: "7%", cursor: "pointer" }} />
+                                        </Link>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                         </TableBody>
+                        ) : (
+                            loading ? 
+                                null
+                             : (
+                                 <TableBody>
+                                    <TableCell>
+                                        <div className={classes.root}>
+                                            <LinearProgress color="primary"/>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className={classes.root}>
+                                            <LinearProgress color="primary"/>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className={classes.root}>
+                                            <LinearProgress color="primary"/>
+                                        </div>
+                                    </TableCell>
+                                </TableBody>
+                            )
+                        )
+                    }
+                    
                 </Table>
             </TableContainer>
-
+            {
+                loading && regiones.length === 0 ? 
+                    showError()
+                :  null                
+            }
         </Layout>
     );
 }

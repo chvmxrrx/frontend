@@ -63,7 +63,7 @@ const AgendaTatuadores = ({match}) => {
                             ))
                         ) : (
                             <div className={classes.root}>
-                                <LinearProgress color="secondary"/>
+                                <LinearProgress color="primary"/>
                             </div>
                         )}
                 {

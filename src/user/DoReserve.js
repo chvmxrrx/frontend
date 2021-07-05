@@ -29,10 +29,15 @@ const DoReserve = ({match}) => {
     const [agenda, setAgenda] = useState([])
     const { dataUser, accessToken } = isAuthenticated();
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     useEffect(() => {
         loadHoras()
     }, []);
-
+    const showError = () => (
+      <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+          {error}
+      </div>
+  )
     const  clickSubmit = event => {
       event.preventDefault();
       var existe = false   
@@ -67,9 +72,11 @@ const DoReserve = ({match}) => {
           createHora(dataUser.id, accessToken, fechaInicio, fechaTermino).then((data) =>{
             if(data.error){
               makeToast('error', data.error)
+              setTimeout( function () {setLoading(true)}, 2000)
             } else {
               makeToast('success', data.mensaje)
               loadHoras()
+              setTimeout( function () {setLoading(true)}, 2000)
             }
           })
         }
@@ -82,8 +89,8 @@ const DoReserve = ({match}) => {
         readAgenda(dataUser.id, accessToken).then(data => {
           if(data.error){
             makeToast('error', data.error)
-            setTimeout( function () {setLoading(true)}, 3000)
-            
+            setTimeout( function () {setLoading(true)}, 2000)
+            setError(data.error)
           }else{
             setAgenda(data.data)
             setTimeout( function () {setLoading(true)}, 2000)
@@ -99,6 +106,7 @@ const DoReserve = ({match}) => {
         }else {
           makeToast('success', data.mensaje)
           loadHoras()
+          setTimeout( function () {setLoading(true)}, 2000)
         }
       })
     }
@@ -185,9 +193,9 @@ const DoReserve = ({match}) => {
             <TableCell align="right">Eliminar</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {agenda && loading ? (
-              agenda.map((data, i) => (
+        { agenda && loading ? (
+            <TableBody>
+              {agenda.map((data, i) => (
                 <TableRow key={i}>
                   <TableCell component="th" scope="row">
                     <AccessTime fontSize="small"/>
@@ -235,18 +243,45 @@ const DoReserve = ({match}) => {
                     </IconButton>
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <div className={classes.root}>
-                <LinearProgress color="secondary" />
-              </div>
+              ))}
+            </TableBody>
+          ) : (
+            loading ? 
+                null
+              : (
+                  <TableBody>
+                    <TableCell>
+                        <div className={classes.root}>
+                            <LinearProgress color="primary"/>
+                        </div>
+                    </TableCell>
+                    <TableCell>
+                        <div className={classes.root}>
+                            <LinearProgress color="primary"/>
+                        </div>
+                    </TableCell>
+                    <TableCell>
+                        <div className={classes.root}>
+                            <LinearProgress color="primary"/>
+                        </div>
+                    </TableCell>
+                    <TableCell>
+                        <div className={classes.root}>
+                            <LinearProgress color="primary"/>
+                        </div>
+                    </TableCell>
+                    <TableCell>
+                        <div className={classes.root}>
+                            <LinearProgress color="primary"/>
+                        </div>
+                    </TableCell>
+                </TableBody>
             )
-          }
-        </TableBody>
+          )
+        }
       </Table>
     </TableContainer> 
       </Grid>
-      
     </React.Fragment>
     );
 
@@ -257,6 +292,10 @@ const DoReserve = ({match}) => {
           className="container col-md-8 offset-md-2"
         >
             {createOfferForm()}
+            <br/>
+            {
+              loading && agenda.length === 0 ? showError() : null
+            }
         </Layout>
     );
 

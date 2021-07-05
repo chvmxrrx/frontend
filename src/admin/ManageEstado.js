@@ -20,6 +20,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { LinearProgress } from '@material-ui/core';
 
 //ESTILOS A UTILIZAR
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +37,12 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(1, 0, 3),
         backgroundColor: "black"
-    },
+    },root: {
+        width: '100%',
+        '& > * + *': {
+          marginTop: theme.spacing(2),
+        },
+      },
 }));
 
 const ManageEstado = () => {
@@ -46,7 +52,8 @@ const ManageEstado = () => {
     //VARIABLES A UTILIZAR
     const [estados, setEstados] = useState([]);
     const [nombre, setNombre] = useState('');
-
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     //DESESTRUCTURAR INFORMACIÓN DEL USUARIO DESDE EL SESSION STORAGE
     const { dataUser, accessToken } = isAuthenticated();
 
@@ -54,9 +61,12 @@ const ManageEstado = () => {
     const loadEstados = () => {
         getEstados(dataUser.id, accessToken).then(data => {
             if(data.error) {
-                console.log(data.error);
+                makeToast('error', data.error)
+                setTimeout( function () {setLoading(true)}, 2000) 
+                setError(data.error)
             }else{
                 setEstados(data.data);
+                setTimeout( function () {setLoading(true)}, 2000) 
             }
         })
     }
@@ -65,13 +75,21 @@ const ManageEstado = () => {
     const destroyEstado = idE => {
         deleteEstado(idE, dataUser.id, accessToken).then(data => {
             if(data.error){
-                console.log(data.eror);
+                makeToast('error', data.error)
+                setTimeout( function () {setLoading(true)}, 2000) 
             }else{
                 makeToast("success", "El estado se ha borrado con éxito")
                 loadEstados();
+                setTimeout( function () {setLoading(true)}, 2000) 
             }
         })
     }
+
+    const showError = () => (
+        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    )
 
     useEffect(() =>{
         loadEstados();
@@ -94,6 +112,7 @@ const ManageEstado = () => {
                 makeToast("success", `El estado ${nombre} se ha creado con éxito.`)
                 setNombre('')
                 loadEstados();
+                setTimeout( function () {setLoading(true)}, 2000) 
             }
         });
     };
@@ -112,6 +131,7 @@ const ManageEstado = () => {
                                 label="Nombre del Estado"
                                 onChange={handleChange}
                                 value={nombre}
+                                
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -122,6 +142,7 @@ const ManageEstado = () => {
                         color="secondary"
                         className={classes.submit}
                         onClick={clickSubmit}
+                        
                     >
                         Crear estado
                     </Button>
@@ -159,7 +180,9 @@ const ManageEstado = () => {
                             <TableCell className={classes.celda} align="left">Eliminar</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    {
+                        estados && loading ? (
+                        <TableBody>
                         {estados.map((estado) => (
                             <TableRow key={estado.nombre}>
                                 <TableCell component="th" scope="row">
@@ -183,9 +206,37 @@ const ManageEstado = () => {
                             </TableRow>
                         ))}
                     </TableBody>
+                        ) : (
+                            loading ? 
+                                null
+                             : (
+                                 <TableBody>
+                                    <TableCell>
+                                        <div className={classes.root}>
+                                            <LinearProgress color="primary"/>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className={classes.root}>
+                                            <LinearProgress color="primary"/>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className={classes.root}>
+                                            <LinearProgress color="primary"/>
+                                        </div>
+                                    </TableCell>
+                                </TableBody>
+                            )
+                            
+                        )
+                    }
+                    
                 </Table>
             </TableContainer>
-
+            {
+                loading && estados.length === 0 ? showError() : null
+            }
         </Layout>
     );
 }

@@ -17,15 +17,22 @@ const AllProjects = () => {
         getProjects(dataUser.id, accessToken).then( data => {
             if(data.error){
                 setError(data.error)
+                setTimeout( function () { setLoading(true) } , 2000) 
             } else {
                 setProjects(data.data)
-                setLoading(true)
+                setTimeout( function () { setLoading(true) } , 2000) 
             }
         })
     }
     useEffect(() =>{
         loadProjects()
     },[])
+
+    const showError = () => (
+        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    )
     const useStyles = makeStyles((theme) => ({
         cardGrid: {
           paddingTop: theme.spacing(8),
@@ -56,13 +63,16 @@ const AllProjects = () => {
                             ))
                         ) : (
                             <div className={classes.root}>
-                                <LinearProgress color="secondary" />
+                                <LinearProgress color="primary" />
                             </div>
                         )
                     } 
                 
                 </Grid>
             </Container>
+            {
+                projects.length === 0 && loading ? showError() : null 
+            }
         </Layout>
     );
 };

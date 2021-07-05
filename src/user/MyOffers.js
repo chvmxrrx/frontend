@@ -57,14 +57,14 @@ const MisOfertas = () => {
                     ))
                 ) : (
                     <div className={classes.root}>
-                         <LinearProgress color="secondary"/>
+                         <LinearProgress color="primary"/>
                     </div>
                    
                 )
                 }
         </Grid>
         {
-            loading ? (showError()) : null 
+            loading && offers.length === 0 ? (showError()) : null 
         }
     </Layout>
     )

@@ -20,6 +20,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { LinearProgress } from '@material-ui/core';
 
 //ESTILOS A UTILIZAR
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1, 0, 3),
         backgroundColor: "black"
     },
+    root: {
+        width: '100%',
+        '& > * + *': {
+          marginTop: theme.spacing(2),
+        },
+    }
 }));
     
 const ManageParte = () => {
@@ -46,7 +53,8 @@ const ManageParte = () => {
     //VARIABLES A UTILIZAR
     const [partes, setPartes] = useState([]);
     const [nombre, setNombre] = useState('');
-
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     //DESESTRUCTURAR INFORMACIÓN DEL USUARIO DESDE EL SESSION STORAGE
     const { dataUser, accessToken } = isAuthenticated();
 
@@ -55,20 +63,30 @@ const ManageParte = () => {
         getPartes().then(data => {
             if(data.error) {
                 makeToast('error', data.error)
+                setError(data.error)
+                setTimeout( function () {setLoading(true)}, 2000) 
             }else{
                 setPartes(data.data);
+                setTimeout( function () {setLoading(true)}, 2000)
             }
         })
     }
-
+    
+    const showError = () => (
+        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    )
     //FUNCION DESTRUIR ESTADO
     const destroyParte = idR => {
         deleteParte(idR, dataUser.id, accessToken).then(data => {
             if(data.error){
                 makeToast('error', data.error)
+                setTimeout( function () {setLoading(true)}, 2000)
             }else{
                 makeToast("success", data.mensaje)
                 loadPartes();
+                setTimeout( function () {setLoading(true)}, 2000)
             }
         })
     }
@@ -93,6 +111,7 @@ const ManageParte = () => {
                 makeToast("success", `La parte ${nombre} se ha creado con éxito.`)
                 setNombre('')
                 loadPartes();
+                setTimeout( function () {setLoading(true)}, 2000)
             }
         });
     };
@@ -155,33 +174,62 @@ const ManageParte = () => {
                             <TableCell className={classes.celda} align="left">Eliminar</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {partes.map((parte) => (
-                            <TableRow key={parte.nombre}>
-                                <TableCell component="th" scope="row">
-                                    {parte.nombre}
-                                </TableCell>
-                                <TableCell align="left" >
-                                <Link to={`/manage/parte/update/${parte._id}`}>
-                                    <EditIcon style={{ marginLeft: "7%", cursor:"pointer" }} />
-                                </Link>
-                                    
-                                    
-                                </TableCell>
-                                <TableCell align="left">
-                                <Link onClick={() => destroyParte(parte._id)}>
-                                    <DeleteIcon style={{ marginLeft: "7%", cursor:"pointer" }} />
-                                </Link>
-                                    
-                                    
+                    {
+                        partes && loading ? (
+                            <TableBody>
+                                {partes.map((parte) => (
+                                    <TableRow key={parte.nombre}>
+                                        <TableCell component="th" scope="row">
+                                            {parte.nombre}
+                                        </TableCell>
+                                        <TableCell align="left" >
+                                        <Link to={`/manage/parte/update/${parte._id}`}>
+                                            <EditIcon style={{ marginLeft: "7%", cursor:"pointer" }} />
+                                        </Link>
+                                            
+                                            
+                                        </TableCell>
+                                        <TableCell align="left">
+                                        <Link onClick={() => destroyParte(parte._id)}>
+                                            <DeleteIcon style={{ marginLeft: "7%", cursor:"pointer" }} />
+                                        </Link>
+                                            
+                                            
 
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        ) : (
+                            loading ? 
+                            null
+                         : (
+                             <TableBody>
+                                <TableCell>
+                                    <div className={classes.root}>
+                                        <LinearProgress color="primary"/>
+                                    </div>
                                 </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
+                                <TableCell>
+                                    <div className={classes.root}>
+                                        <LinearProgress color="primary"/>
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                    <div className={classes.root}>
+                                        <LinearProgress color="primary"/>
+                                    </div>
+                                </TableCell>
+                            </TableBody>
+                        )
+                        )
+                    }
+                    
                 </Table>
             </TableContainer>
-
+                    {
+                        loading && partes.length === 0 ? showError() : null
+                    }
         </Layout>
     );
 }

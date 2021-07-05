@@ -20,9 +20,10 @@ const MisProyectos = () => {
         getMyProjects(dataUser.id, accessToken).then( data => {
             if(data.error){
                 setError(data.error)
+                setTimeout(function () { setLoading(true) } , 2000 ) 
             } else {
                 setProjects(data.data)
-                setLoading(true)
+                setTimeout(function () { setLoading(true) } , 2000 ) 
             }
         })
     }
@@ -81,17 +82,20 @@ const MisProyectos = () => {
                                 </Grid>
                             ))
                         ) : (
-                            error ? null : (
+                            
                             <div className={classes.root}>
-                                <LinearProgress color="secondary" />
+                                <LinearProgress color="primary" />
                             </div>
-                            )
+                            
                             
                         )
                     } 
-            {showError()}
+            
         </Grid>
       </Container>
+      {
+        loading && projects.length === 0 ? showError() : null
+      }
     </Layout>
     )
 

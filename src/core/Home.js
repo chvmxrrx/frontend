@@ -8,7 +8,7 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import makeToast from '../Toaster/Toaster';
-
+import { LinearProgress } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     image: {
         backgroundRepeat: 'no-repeat',
@@ -23,23 +23,39 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(8),
         paddingBottom: theme.spacing(8),
     },
+    root: {
+        width: '100%',
+        '& > * + *': {
+          marginTop: theme.spacing(2),
+        },
+      },
 }));
 
 const Home = () => {
     const classes = useStyles();
 
     const [publicaciones, setPublicaciones] = useState([]);
+    const [error, setError] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const loadAllPublicaciones = () => {
         getAllPublicaciones().then(data => {
             if (data.error) {
                 makeToast("warning", data.error)
+                setError(data.error)
+                setTimeout( function () {setLoading(true)}, 2000) 
             } else {
                 setPublicaciones(data.data);
+                setTimeout( function () {setLoading(true)}, 2000) 
             }
         })
     }
 
+    const showError = () => (
+        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    )
     useEffect(() => {
         loadAllPublicaciones();
     }, []);
@@ -48,11 +64,23 @@ const Home = () => {
         <Layout title="Home Page" description="Aplicacion Inkapp para tatuadores." className="container-fluid" jumbotron="false" slide="true">
             <Container className={classes.cardGrid} maxWidth="md">
             <Grid container spacing={4}>
-                {publicaciones.map((publicacion, i) => (
-                    <CardHome key={i} publicacion={publicacion} />
-                ))}
+                {
+                    loading && publicaciones ? (
+                        publicaciones.map((publicacion, i) => (
+                            <CardHome key={i} publicacion={publicacion} />
+                        ))
+                    ) : (
+                        <div className={classes.root}>
+                            <LinearProgress color="primary" />
+                        </div>
+                    )
+                }
+                
             </Grid>
             </Container>
+            {
+                loading && publicaciones.length === 0 ? showError() : null 
+            }
         </Layout>
     );
 }
