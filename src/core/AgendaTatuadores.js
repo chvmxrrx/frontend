@@ -8,6 +8,7 @@ import CardAgenda from './CardAgenda';
 import { Grid, LinearProgress, Typography, makeStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { ArrowBack } from '@material-ui/icons';
+import CardSkeletonReservas from './CardSkeletonReservas';
 const AgendaTatuadores = ({match}) => {
    
     const { dataUser, accessToken } = isAuthenticated();
@@ -32,7 +33,11 @@ const AgendaTatuadores = ({match}) => {
             '& > * + *': {
               marginTop: theme.spacing(2),
             },
-          }
+          },
+          cardGrid: {
+            paddingTop: theme.spacing(8),
+            paddingBottom: theme.spacing(8)
+          },
       }));
     useEffect(() => {
       init(match.params.userId)
@@ -52,20 +57,27 @@ const AgendaTatuadores = ({match}) => {
         >
             
             <Grid container spacing={3} direction="row" justify="center" alignContent="center" alignItems="center">
-                <Grid item xs={12}>
-                    <Typography variant="h5" component="h2" align="center">
+                <Grid item xs={12} className={classes.cardGrid}>
+                    <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                         Agenda
                     </Typography>
                 </Grid>
-                     {horas && loading ? (
+                    {horas && loading ? (
                             horas.map((horas, i) => (
                                 <CardAgenda key={i} horas={horas} />
                             ))
                         ) : (
-                            <div className={classes.root}>
-                                <LinearProgress color="primary"/>
-                            </div>
-                        )}
+                            !error ? (
+                                horas.map(() => (
+                                    <CardSkeletonReservas/>
+                                ))
+                            ) : (
+                                <div className={classes.root}>
+                                    <LinearProgress color="secondary"/>
+                                </div>
+                            )
+                        )
+                    }
                 {
                     loading ? showError() : null
                 }

@@ -32,7 +32,11 @@ const MisOfertas = () => {
             '& > * + *': {
               marginTop: theme.spacing(2),
             },
-          }
+          },
+          cardGrid: {
+            paddingTop: theme.spacing(8),
+            paddingBottom: theme.spacing(8)
+          },
       }));
 
     const classes = useStyles()  
@@ -47,7 +51,7 @@ const MisOfertas = () => {
 
    return ( 
    <Layout title="Mis ofertas" description="Estas viendo las ofertas que haz realizado">
-       <Grid container spacing= {3}  justify="center" direction="row" alignItem="center">
+       <Grid container className={classes.cardGrid} spacing= {3}  justify="center" direction="row" alignItem="center">
             <Grid item xs={12}> 
                 <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>Ofertas que haz enviado</Typography>
             </Grid>
@@ -57,9 +61,15 @@ const MisOfertas = () => {
                         <CardOffer key={id} offer={offer}/>
                     ))
                 ) : (
-                    offers.map(() => (
+                    !error ? (
+                        offers.map(() => 
                         <CardSkeletonReservas/>
-                    ))
+                    )  
+                    ) : (
+                        <div className={classes.root}>
+                            <LinearProgress color="secondary"/>
+                        </div>
+                    )   
                 )
                 }
         </Grid>

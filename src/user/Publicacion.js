@@ -196,7 +196,6 @@ const Publicacion = () => {
         >
             {createPublicationForm()}
             {redirectUser()} 
-            {JSON.stringify(etiquetado)}
         </Layout>
     );
 

@@ -16,7 +16,11 @@ const useStyles = makeStyles((theme) => ({
         '& > * + *': {
           marginTop: theme.spacing(2),
         },
-    }
+    },
+    cardGrid: {
+        paddingTop: theme.spacing(8),
+        paddingBottom: theme.spacing(8)
+      },
 }));
 
 const ReserveOffers = (props) => {
@@ -55,40 +59,36 @@ const ReserveOffers = (props) => {
     )
 
     return ( 
-                <Layout title={`Agendando hora`} 
-                description={`Desde: ${moment(reserva.fecha).format('MMMM Do YYYY, h:mm a')} Hasta: ${moment(reserva.fechaFin).format('MMMM Do YYYY, h:mm a')}`} 
-                className="containter-fluid">
-                    <Grid container spacing={3} >
-                        <Grid item xs={12}> 
-                            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>Ofertas</Typography>
-                        </Grid>
-                            {reserva.oferta && loading ? (
-                                <Card reserva={ reserva } />
-                            ) : ( 
-                                <div className={classes.root}>
-                                    <LinearProgress color="primary"/>
-                                </div>
-                            ) 
-                            }
-                        {
-                            loading && !reserva.oferta ? showError() : null
-                        }
-                        <Grid item xs={12} align="center"> 
-                            <Link to={`/profile/do-reserve/${dataUser.id}`}>
-                                <Button variant="contained" color="primary">
-                                    <ArrowBack>
-                                    </ArrowBack>
-                                    Volver
-                                </Button>
-                            </Link>
-                        </Grid>
-                    </Grid>
-                </Layout>
+        <Layout title={`Agendando hora`} 
+        description={`Desde: ${moment(reserva.fecha).format('MMMM Do YYYY, h:mm a')} Hasta: ${moment(reserva.fechaFin).format('MMMM Do YYYY, h:mm a')}`} 
+        className="containter-fluid">
+            <Grid container spacing={3} className={classes.cardGrid}>
+                <Grid item xs={12}> 
+                    <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>Ofertas</Typography>
+                </Grid>
+                    {reserva.oferta && loading ? (
+                        <Card reserva={ reserva } />
+                    ) : ( 
+                        <div className={classes.root}>
+                            <LinearProgress color="primary"/>
+                        </div>
+                    ) 
+                    }
+                {
+                    loading && !reserva.oferta ? showError() : null
+                }
+                <Grid item xs={12} align="center"> 
+                    <Link to={`/profile/do-reserve/${dataUser.id}`}>
+                        <Button variant="contained" color="primary">
+                            <ArrowBack>
+                            </ArrowBack>
+                            Volver
+                        </Button>
+                    </Link>
+                </Grid>
+            </Grid>
+        </Layout>
     )
-         
-    
-    
-    
 };
 
 export default ReserveOffers;

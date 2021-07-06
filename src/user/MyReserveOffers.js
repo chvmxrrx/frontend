@@ -4,9 +4,8 @@ import { getMyOffersReserve } from '../core/apiCore';
 import { isAuthenticated } from '../auth';
 import Card from '../core/cardMyReserveOffers';
 import { Link } from 'react-router-dom';
-import { Grid, Typography, Button } from '@material-ui/core';
+import { Grid, Typography, Button, LinearProgress, makeStyles } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/core';
 import CardSkeletonReservas from '../core/CardSkeletonReservas';
 
 const MyReserveOffers = () => {
@@ -33,7 +32,11 @@ const MyReserveOffers = () => {
             '& > * + *': {
               marginTop: theme.spacing(2),
             },
-          }
+          },
+        cardGrid: {
+            paddingTop: theme.spacing(8),
+            paddingBottom: theme.spacing(8)
+          },
       }));
 
     useEffect(() =>{
@@ -53,7 +56,8 @@ const MyReserveOffers = () => {
    <Layout title="Mis ofertas" description="Estas viendo las ofertas que haz realizado">
        <Grid container spacing={3} direction="row"
             justify="center"
-            alignItems="center">
+            alignItems="center"
+            className={classes.cardGrid}>
             <Grid item xs={12}> 
                 <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>Ofertas</Typography>
             </Grid> 
@@ -63,9 +67,16 @@ const MyReserveOffers = () => {
                                 <Card key={id} offer={offer}/>
                             ))
                         ) : (
-                            offers.map(() => (
-                                <CardSkeletonReservas/>
-                            ))
+                            !error ? (
+                                offers.map(() => (
+                                    <CardSkeletonReservas/>
+                                ))
+                            ) : (
+                                <div className={classes.root}>
+                                    <LinearProgress color="secondary"/>
+                                </div>
+                            )
+                            
                         )
                     }
             <Grid item xs={12} align="center"> 

@@ -83,9 +83,16 @@ const MisProyectos = () => {
                                 </Grid>
                             ))
                         ) : (
-                            projects.map(() => 
+                            !error ? (
+                                projects.map(() => 
                                 <CardSkeletonProyectos/>
-                            )   
+                            )  
+                            ) : (
+                                <div className={classes.root}>
+                                    <LinearProgress color="secondary"/>
+                                </div>
+                            )
+                             
                         )
                     } 
             

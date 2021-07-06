@@ -71,9 +71,15 @@ const Home = () => {
                             <CardHome key={i} publicacion={publicacion} />
                         ))
                     ) : (        
-                        publicaciones.map(() => 
+                        !error ? (
+                            publicaciones.map(() => 
                             <CardSkeleton/>
-                        )                       
+                        )  
+                        ) : (
+                            <div className={classes.root}>
+                                <LinearProgress color="secondary"/>
+                            </div>
+                        )                     
                     )
                 }
                 
