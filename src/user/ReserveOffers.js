@@ -60,7 +60,7 @@ const ReserveOffers = (props) => {
                 className="containter-fluid">
                     <Grid container spacing={3} >
                         <Grid item xs={12}> 
-                            <Typography variant="h5" component="h2" align="center">Ofertas</Typography>
+                            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>Ofertas</Typography>
                         </Grid>
                             {reserva.oferta && loading ? (
                                 <Card reserva={ reserva } />

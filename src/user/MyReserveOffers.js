@@ -3,10 +3,11 @@ import Layout from '../core/Layout';
 import { getMyOffersReserve } from '../core/apiCore';
 import { isAuthenticated } from '../auth';
 import Card from '../core/cardMyReserveOffers';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Grid, Typography, Button } from '@material-ui/core';
 import { ArrowBack } from '@material-ui/icons';
-import { LinearProgress, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import CardSkeletonReservas from '../core/CardSkeletonReservas';
 
 const MyReserveOffers = () => {
 
@@ -54,7 +55,7 @@ const MyReserveOffers = () => {
             justify="center"
             alignItems="center">
             <Grid item xs={12}> 
-                <Typography variant="h5" component="h2" align="center">Ofertas de reservas</Typography>
+                <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>Ofertas</Typography>
             </Grid> 
                     {
                         offers && loading ? (
@@ -62,9 +63,9 @@ const MyReserveOffers = () => {
                                 <Card key={id} offer={offer}/>
                             ))
                         ) : (
-                            <div className={classes.root}>
-                                <LinearProgress color="primary" />
-                            </div>
+                            offers.map(() => (
+                                <CardSkeletonReservas/>
+                            ))
                         )
                     }
             <Grid item xs={12} align="center"> 

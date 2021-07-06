@@ -31,9 +31,6 @@ const useStyles = makeStyles((theme) => ({
         height: 0,
         paddingTop: "56.25%" // 16:9
     },
-    avatar: {
-        backgroundColor: red[500]
-    },
     cardGrid: {
         paddingTop: theme.spacing(8),
         paddingBottom: theme.spacing(8),
@@ -65,8 +62,8 @@ const CardHome = ({ publicacion }) => {
     }
 
     return (
-        <Grid item key={publicacion} xs={12} sm={6} md={4}>
-            <Card >
+        <Grid item key={publicacion} xs={12} sm={6} md={4} className={classes.cardGrid}>
+            <Card className={classes.card}>
                 <CardHeader
                     avatar={
                         <ShowAvatar image={publicacion.creador} url="perfil"/>
@@ -88,9 +85,8 @@ const CardHome = ({ publicacion }) => {
                     }
                     subheader={moment(publicacion.createdAt).fromNow()}
                 />
-                <CardMedia/>
                 <ShowImage image={publicacion} url="publicacion"/>
-                <CardContent>
+                <CardContent className={classes.cardContent}>
                     <Typography variant="body1" color="textSecondary" component="p">
                         {publicacion.nombre}
                     </Typography>
@@ -118,8 +114,6 @@ const CardHome = ({ publicacion }) => {
                         </Grid> 
                     )
                     }
-                    
-                    
                 </CardActions>
             </Card>
         </Grid>

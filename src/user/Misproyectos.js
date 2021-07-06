@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 import { LinearProgress } from '@material-ui/core';
 import ShowAvatar from '../core/showAvatar';
 import makeToast from '../Toaster/Toaster';
+import CardSkeletonProyectos from '../core/CardSkeletonProyectos';
 const MisProyectos = () => {
 
     const [projects, setProjects] = useState([])
@@ -82,12 +83,9 @@ const MisProyectos = () => {
                                 </Grid>
                             ))
                         ) : (
-                            
-                            <div className={classes.root}>
-                                <LinearProgress color="primary" />
-                            </div>
-                            
-                            
+                            projects.map(() => 
+                                <CardSkeletonProyectos/>
+                            )   
                         )
                     } 
             

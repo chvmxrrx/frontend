@@ -5,6 +5,7 @@ import { isAuthenticated } from '../auth';
 import { Link } from 'react-router-dom';
 import { Grid, LinearProgress, Typography, makeStyles } from '@material-ui/core';
 import CardOffer from '../core/cardMyOffers';
+import CardSkeletonReservas from '../core/CardSkeletonReservas';
 const MisOfertas = () => {
 
     const [offers, setOffers] = useState([])
@@ -48,7 +49,7 @@ const MisOfertas = () => {
    <Layout title="Mis ofertas" description="Estas viendo las ofertas que haz realizado">
        <Grid container spacing= {3}  justify="center" direction="row" alignItem="center">
             <Grid item xs={12}> 
-                <Typography variant="h5" component="h2" align="center">Ofertas que haz enviado</Typography>
+                <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>Ofertas que haz enviado</Typography>
             </Grid>
                 { 
                 offers && loading ? (
@@ -56,10 +57,9 @@ const MisOfertas = () => {
                         <CardOffer key={id} offer={offer}/>
                     ))
                 ) : (
-                    <div className={classes.root}>
-                         <LinearProgress color="primary"/>
-                    </div>
-                   
+                    offers.map(() => (
+                        <CardSkeletonReservas/>
+                    ))
                 )
                 }
         </Grid>

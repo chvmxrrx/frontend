@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import makeToast from '../Toaster/Toaster';
 import { LinearProgress } from '@material-ui/core';
+import CardSkeleton from './CardSkeleton';
 const useStyles = makeStyles((theme) => ({
     image: {
         backgroundRepeat: 'no-repeat',
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         '& > * + *': {
           marginTop: theme.spacing(2),
         },
-      },
+    },
 }));
 
 const Home = () => {
@@ -69,10 +70,10 @@ const Home = () => {
                         publicaciones.map((publicacion, i) => (
                             <CardHome key={i} publicacion={publicacion} />
                         ))
-                    ) : (
-                        <div className={classes.root}>
-                            <LinearProgress color="primary" />
-                        </div>
+                    ) : (        
+                        publicaciones.map(() => 
+                            <CardSkeleton/>
+                        )                       
                     )
                 }
                 
