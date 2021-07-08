@@ -24,17 +24,7 @@ import ShowAvatar from "./showAvatar";
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        maxWidth: 500,
-    },
-    media: {
-        height: 0,
-        paddingTop: "56.25%" // 16:9
-    },
-    cardGrid: {
-        paddingTop: theme.spacing(8),
-        paddingBottom: theme.spacing(8),
-      },
+
       card: {
         height: '100%',
         display: 'flex',
