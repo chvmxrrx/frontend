@@ -32,6 +32,7 @@ const PublicacionPage = props => {
             title={`Publicación`} 
             description={""} 
             className="container-fluid"
+            jumbotron={false}
         >
             <Grid container justify="center" alignContent="center" alignItems="center">
                 {
@@ -39,9 +40,7 @@ const PublicacionPage = props => {
                         <CardPublicacionPage publicacion={publicacion}/>
                     ) : (
                         <CardSkeleton/>
-                    )
-                    
-                    
+                    )  
                 }
             </Grid>                       
         </Layout>

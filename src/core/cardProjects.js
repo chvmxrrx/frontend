@@ -41,9 +41,8 @@ const CardProject = ({ project }) => {
       }));
     const classes = useStyles();
     return ( 
-        
             <Card className={classes.card}>
-                <ShowImage image={project} url="proyecto" />
+                <ShowImage image={project} url="proyecto" w="100%" h="350px"/>
                 <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h6" component="h2" align="center">
                             {project.nombre} 

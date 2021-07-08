@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../auth/index';
 import { Redirect } from 'react-router-dom';
-import { createPublication } from './apiUser';
 import { getEstilosTatuajes } from '../admin/apiAdmin';
 import makeToast from '../Toaster/Toaster';
-import { Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -16,7 +14,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { Form } from 'react-bootstrap';
+import { getPublicacion, updatePublicacion } from '../core/apiCore';
+import { Typography } from '@material-ui/core';
 
 //ESTILOS A UTILIZAR
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CreatePublicacion = () => {
+const UpdatePublication = ({ match }) => {
     //LLAMADO A LOS ESITLOS
     const classes = useStyles();
 
@@ -42,7 +41,6 @@ const CreatePublicacion = () => {
     const [values, setValues] = useState({
         nombre: "",
         descripcion: "",
-        img: "",
         EstilosTatuaje: [],
         estiloTatuaje: "",
         loading: false,
@@ -55,10 +53,8 @@ const CreatePublicacion = () => {
     const {
         nombre,
         descripcion,
-        img,
         EstilosTatuaje,
         estiloTatuaje,
-        etiquetado,
         loading,
         error,
         redirectToReferrer,
@@ -67,19 +63,37 @@ const CreatePublicacion = () => {
 
     const { dataUser, accessToken } = isAuthenticated();
 
+    const init = (publicacionId) => {
+        getPublicacion(publicacionId, dataUser.id, accessToken).then(data => {
+            if (data.error) {
+                makeToast('error', data.error)
+            } else {
+                setValues({
+                    ...values,
+                    nombre: data.nombre,
+                    descripcion: data.descripcion,
+                    tamaño: data.tamaño,
+                    formData: new FormData()
+                }
+                )
+                initEstilos()
+            }
+        })
+    }
+
     //Cargar estilos y setear formData
-    const init = () => {
+    const initEstilos = () => {
         getEstilosTatuajes(dataUser.id, accessToken).then(data => {
             if (data.error) {
                 setValues({ ...values, error: data.error })
             } else {
-                setValues({ ...values, EstilosTatuaje: data.data, formData: new FormData() })
+                setValues({ EstilosTatuaje: data.data, formData: new FormData() })
             }
         })
     }
 
     useEffect(() => {
-        init()
+        init(match.params.publicacionId)
     }, []);
 
     const HandleChange = name => event => {
@@ -92,12 +106,13 @@ const CreatePublicacion = () => {
     const clickSubmit = event => {
         event.preventDefault();
         setValues({ ...values, error: '', loading: true })
-        createPublication(dataUser.id, accessToken, formData)
+        updatePublicacion(dataUser.id, accessToken, match.params.publicacionId, formData)
             .then(data => {
                 if (data.error) {
-                    makeToast("error", data.error);
+                    makeToast('error', data.error)
+                    setValues({ ...values, error: data.error });
                 } else {
-                    makeToast("success", "La publicación se ha creado correctamente.")
+                    makeToast('success', "La publicación se ha actualizado correctamente.")
                     setValues({
                         ...values,
                         redirectToReferrer: true
@@ -108,7 +123,7 @@ const CreatePublicacion = () => {
 
     const redirectUser = () => {
         if (redirectToReferrer) {
-            return <Redirect to={`/profile/${dataUser.id}`} />
+            return <Redirect to={`/profile/publication/view/${match.params.publicacionId}`} />
         }
     }
 
@@ -118,35 +133,21 @@ const CreatePublicacion = () => {
             <form className={classes.form} >
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
-                        <Form>
-                            <Typography variant="caption" display="block" gutterBottom>
-                                Agregar una foto *
-                            </Typography>
-                            <Form.File
-                                id="custom-file"    
-                                custom
-                                onChange={HandleChange('img')}
-                                type="file"
-                                name="img"
-                                accept="image/*"
-                            />
-                        </Form>
-                    </Grid>
-                    <Grid item xs={12}>
+                        <Typography>Título de la publicación</Typography>
                         <TextField
                             variant="standard"
                             autoFocus
                             required
                             fullWidth
-                            label="Título de la publicación"
                             onChange={HandleChange('nombre')}
                             value={nombre}
                         />
                     </Grid>
                     <Grid item xs={12}>
+                        <Typography>Descripción</Typography>
                         <TextField
                             id="standard-multiline-static"
-                            label="Descripción de la publicación"
+                            variant="filled"
                             multiline
                             fullWidth
                             required
@@ -183,7 +184,7 @@ const CreatePublicacion = () => {
                             className={classes.submit}
                             onClick={clickSubmit}
                         >
-                            Crear publicación
+                            modificar
                         </Button>
                     </Grid>
                 </Grid>
@@ -194,7 +195,7 @@ const CreatePublicacion = () => {
     return (
         <Layout
             title="Publicación"
-            description="Crear una nueva publicación."
+            description="Editar mi publicación."
             className="container col-md-8 offset-md-2"
         >
             {createPublicationForm()}
@@ -204,4 +205,4 @@ const CreatePublicacion = () => {
 
 };
 
-export default CreatePublicacion;
+export default UpdatePublication;

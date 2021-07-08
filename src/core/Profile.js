@@ -468,7 +468,7 @@ const Profile = ({ match }) => {
                         publicaciones.map((publicacion) => (
                             <Grid item xs={4}>
                                     <Link to={`/profile/publication/view/${publicacion._id}`}> 
-                                        <ShowImage image={publicacion} url="publicacion"></ShowImage>
+                                        <ShowImage image={publicacion} url="publicacion" w="200px" h="200px"></ShowImage>
                                     </Link>
                             </Grid>  
                         ) 
@@ -489,7 +489,7 @@ const Profile = ({ match }) => {
                             proyectos.map((proyectos, i) => (
                                     <Grid item xs={4}>
                                         <Link to={`/profile/project/view/${proyectos._id}`}> 
-                                            <ShowImage image={proyectos} url="proyecto"></ShowImage>
+                                            <ShowImage image={proyectos} url="proyecto" w="200px" h="200px"></ShowImage>
                                         </Link>
                                     </Grid>
                                 ))

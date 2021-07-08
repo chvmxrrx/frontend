@@ -103,12 +103,11 @@ const CardProyectoPage = ({ project }) => {
                                 </Menu>
                             </div>
                         ) : (
-                            <p></p>
+                            null
                         )
                     }
                 />
-                <CardMedia />
-                <ShowImage image={project} url="proyecto" />
+                <ShowImage image={project} url="proyecto" w="100%" h="100%"/>
                 <CardContent>
                     <Typography gutterBottom variant="h6" component="h2" align="center">
                             {project.nombre}

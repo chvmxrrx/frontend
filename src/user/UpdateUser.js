@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import makeToast from '../Toaster/Toaster';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -158,18 +157,15 @@ const UpdateUser = () => {
         <Container component="main" maxWidth="s">
             <CssBaseline />
             <div className={classes.paper}>
-                <Typography component="h1" variant="h5">
-                    Actualiza tu información
-                </Typography>
                 <form className={classes.form} >
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
+                        <Typography>Nombre de usuario</Typography>
                             <TextField
                                 variant="standard"
                                 required
                                 fullWidth
                                 id="userName"
-                                label="Nombre de usuario"
                                 name="userName"
                                 autoFocus
                                 onChange={handleChange('userName')}
@@ -177,44 +173,44 @@ const UpdateUser = () => {
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
+                        <Typography>Nombre</Typography>
                             <TextField
                                 name="nombre"
                                 variant="standard"
                                 required
                                 fullWidth
                                 id="nombre"
-                                label="Nombre"
                                 onChange={handleChange('nombre')}
                                 value={nombre}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
+                        <Typography>Apellido</Typography>
                             <TextField
                                 variant="standard"
                                 required
                                 fullWidth
                                 id="apellido"
-                                label="Apellido"
                                 name="apellido"
                                 onChange={handleChange('apellido')}
                                 value={apellido}
                             />
                         </Grid>
                         <Grid item xs={12}>
+                        <Typography>Email</Typography>
                             <TextField
                                 variant="standard"
                                 required
                                 fullWidth
                                 id="email"
-                                label="Email"
                                 name="email"
                                 onChange={handleChange('email')}
                                 value={email}
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
+                        <Typography>Sexo</Typography>
                             <FormControl className={classes.formControl}>
-                                <InputLabel id="demo-simple-select-label">Sexo</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
@@ -229,13 +225,13 @@ const UpdateUser = () => {
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={4}>
+                        <Typography>Edad</Typography>
                             <TextField
                                 variant="standard"
                                 type="number"
                                 required
                                 fullWidth
                                 id="edad"
-                                label="Edad"
                                 name="edad"
                                 onChange={handleChange('edad')}
                                 value={edad}
@@ -243,8 +239,8 @@ const UpdateUser = () => {
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
+                        <Typography>Región</Typography>
                             <FormControl className={classes.formControl}>
-                                <InputLabel id="demo-simple-select-label">Región</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
@@ -260,8 +256,8 @@ const UpdateUser = () => {
                             </FormControl>
                         </Grid>
                         <Grid item xs={12}>
+                        <Typography>¿Que tipo de usuario quieres ser?</Typography>
                             <FormControl className={classes.formControl}>
-                                <InputLabel id="demo-simple-select-label">¿Que tipo de usuario quieres ser?</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
