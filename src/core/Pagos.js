@@ -61,9 +61,9 @@ const useStyles = makeStyles((theme) => ({
         if(dataUser.tipo === 1){
             pagoMembresia('Membresía tatuador', 6990).then(data => {
                 if(data.error){
-                    makeToast('error', 'Ha ocurrido un error')
+                  makeToast('error', 'Ha ocurrido un error')
                 } else {
-                    window.location.href = data
+                  window.location.href = data
                 }
             })
         } else {
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
               if(data.error){
                   makeToast('error', 'Ha ocurrido un error')
               } else {
-                  window.location.href = data
+                window.location.href = data
               }
           })
         }

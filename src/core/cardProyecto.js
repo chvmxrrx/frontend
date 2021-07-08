@@ -63,11 +63,23 @@ const CardProyectoPage = ({ project }) => {
             }
           })
     }
+    const useStyles = makeStyles( (theme)=> ({
+          card: {
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+          },
+          cardContent: {
+            flexGrow: 1,
+          }
+      }));
+
+    const classes = useStyles()
 
     return ( 
         
         <Grid item xs={6}>
-            <Card>
+            <Card className={classes.card}>
             <CardHeader
                     avatar={
                         <Link to={`/profile/${project.creador._id}`}>
@@ -107,9 +119,8 @@ const CardProyectoPage = ({ project }) => {
                         )
                     }
                 />
-                <CardMedia />
-                <ShowImage image={project} url="proyecto" />
-                <CardContent>
+                <ShowImage image={project} url="proyecto"/>
+                <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h6" component="h2" align="center">
                             {project.nombre}
                         </Typography>

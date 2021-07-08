@@ -13,20 +13,10 @@ import { Grid } from '@material-ui/core';
 import { CardActions } from '@material-ui/core'
 import ShowAvatar from './showAvatar';
 import makeToast from '../Toaster/Toaster';
+
 const CardProject = ({ project }) => {
     const {dataUser} = isAuthenticated()
     const useStyles = makeStyles( (theme)=> ({
-        heroContent: {
-            backgroundColor: theme.palette.background.paper,
-            padding: theme.spacing(8, 0, 6),
-          },
-          heroButtons: {
-            marginTop: theme.spacing(4),
-          },
-          cardGrid: {
-            paddingTop: theme.spacing(8),
-            paddingBottom: theme.spacing(8),
-          },
           card: {
             height: '100%',
             display: 'flex',
@@ -39,6 +29,7 @@ const CardProject = ({ project }) => {
             flexGrow: 1,
           }
       }));
+    
     const classes = useStyles();
     return ( 
         
@@ -67,6 +58,9 @@ const CardProject = ({ project }) => {
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p" align="center">
                         {project.estado.nombre}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" align="center">
+                        <AccessTimeIcon/> {moment(project.updatedAt).fromNow()}
                     </Typography>
                 </CardContent>
                 <CardActions>

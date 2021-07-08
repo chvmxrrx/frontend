@@ -4,11 +4,10 @@ import { getProyecto } from './apiCore';
 import { isAuthenticated } from '../auth';
 import CardProyectoPage from './cardProyecto';
 import makeToast from '../Toaster/Toaster';
-import { Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import CardSkeleton from './CardSkeleton';
-import CircularProgress from '@material-ui/core/CircularProgress';
-
+import Container from '@material-ui/core/Container';
 const ProjectPage = props => {
 
     const [proyecto, setProyecto] = useState({});
@@ -30,13 +29,26 @@ const ProjectPage = props => {
         const proyectoId = props.match.params.proyectoId
         loadProyecto(proyectoId)
     }, [])
-
+    const useStyles = makeStyles((theme) => ({
+        cardGrid: {
+          paddingTop: theme.spacing(8),
+          paddingBottom: theme.spacing(8)
+        },
+        root: {
+            width: '100%',
+            '& > * + *': {
+              marginTop: theme.spacing(2),
+            },
+          },
+      }));
+    const classes = useStyles()
     return (
         <Layout 
             title={`Proyecto`} 
             description={""} 
             className="container-fluid"
         >
+        <Container className={classes.cardGrid} maxWidth="md">
             <Grid container justify="center" style={{marginTop: '5%'}}>
                 {
                     (proyecto && loading) ? (
@@ -46,7 +58,7 @@ const ProjectPage = props => {
                     )
                 }
             </Grid>
-            
+        </Container>
         </Layout>
     );
 }
