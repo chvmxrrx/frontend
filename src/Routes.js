@@ -6,7 +6,7 @@ import Home from './core/Home';
 import PrivateRoute from './auth/PrivateRoute';
 import AdminRoute from './auth/AdminRoute';
 import editProfile from './user/editProfile';
-import createPublicacion from './user/Publicacion';
+import CreatePublicacion from './user/CreatePublicacion';
 import ManageRegion from './admin/ManageRegion';
 import ManageParte from './admin/ManageParte';
 import ManageEstado from './admin/ManageEstado';
@@ -18,7 +18,7 @@ import UpdateEstado from './admin/updateEstado';
 import PublicacionPage from './core/PublicacionPage';
 import ChatroomPage from './chat/ChatroomPage';
 import ChatroomsMenuPage from './chat/ChatroomsMenuPage';
-import Proyecto from './user/Proyecto'
+import CreateProyecto from './user/CreateProyecto'
 import UpdateProject from './user/UpdateProject'
 import MisProyectos from './user/Misproyectos';
 import ProjectsOffers from './user/ProjectsOfferts';
@@ -40,6 +40,8 @@ import Pagos from './core/Pagos';
 import UserVip from './user/UserVip';
 import ProjectPage from './core/ProjectPage';
 import ManageUser from './user/ManageUser';
+import Publicaciones from './core/Publicaciones';
+import UpdatePublication from './user/updatePublication';
 
 const Routes = () => {
 
@@ -98,9 +100,10 @@ const Routes = () => {
 
                 <PrivateRoute path="/profile/edit/:userId" exact component={editProfile} />
                 <PrivateRoute path="/myaccount/manage/:userId" exact component={ManageUser} />
-                <PrivateRoute path="/profile/publication/create/:userId" exact component={createPublicacion} />
+                <PrivateRoute path="/profile/publication/create/:userId" exact component={CreatePublicacion} />
+                <PrivateRoute path="/profile/publication/update/:publicacionId" exact component={UpdatePublication} />
                 <PrivateRoute path="/profile/publication/view/:publicacionId" exact component={PublicacionPage} />
-                <PrivateRoute path="/profile/project/create/:userId" exact component={Proyecto} />
+                <PrivateRoute path="/profile/project/create/:userId" exact component={CreateProyecto} />
                 <PrivateRoute path="/profile/project/update/:projectId" exact component={UpdateProject} />
                 <PrivateRoute path="/profile/myprojects/:userId" exact component={MisProyectos} />
                 <PrivateRoute path="/profile/project/view/:proyectoId" exact component={ProjectPage} />
@@ -120,6 +123,7 @@ const Routes = () => {
                 <PrivateRoute path="/profile/reserve/myoffers/:userId" exact component={MyReserveOffers} />
                 <PrivateRoute path="/profile/pagos/:userId" exact component={Pagos} />
                 <PrivateRoute path="/profile/user/vip" exact component={UserVip} />
+                <PrivateRoute path="/publicaciones" exact component={Publicaciones} />
             </Switch>
         </BrowserRouter>
     );

@@ -1,5 +1,21 @@
 import { API } from '../config';
 
+//LISTADO DE TODOS LOS USUARIOS
+export const getUsers = (idU, accesToken) => {
+    return fetch(`${API}/perfil/listado/${idU}`, {
+        method: "GET",
+        headers: {
+            Authorization: `${accesToken}`
+        }
+    })
+    .then( response => {
+        return response.json()
+    })
+    .catch(err => {
+        return err
+    })
+};
+
 //LISTADO MIS PUBLICACIONES
 export const getPublicaciones = (idU, accesToken) => {
     return fetch(`${API}/publicacion/misPublicaciones/${idU}`, {
@@ -16,9 +32,48 @@ export const getPublicaciones = (idU, accesToken) => {
     })
 };
 
+//MODIFICAR PROYECTO
+export const updatePublicacion = (id, accessToken, publicacionId, publicacion) => {
+    return fetch(`${API}/publicacion/modificar/${publicacionId}/${id}`, {
+        method: "PUT",
+        headers: {
+            Accept: 'aplication/json',
+            Authorization: `${accessToken}`
+        },
+        body: publicacion
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err;
+    });
+};
+
+//LISTADO FILTRADO
+export const getPublicacionesFiltrado = (skip, limit, filters = {}) => {
+    const data = {
+        limit, skip, filters
+    };
+    return fetch(`${API}/inicio/busqueda`, {
+        method: "POST",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err
+    });
+};
+
 //LISTADO TODAS LAS PUBLICACIONES
-export const getAllPublicaciones = () => {
-    return fetch(`${API}/inicio/`, {
+export const getAllPublicaciones = sortBy => {
+    return fetch(`${API}/inicio/?sortBy=${sortBy}&order=desc&limit=6`, {
         method: "GET"
     })
     .then( response => {
@@ -93,6 +148,28 @@ export const getProyecto = (idP, idU, accesToken) => {
     .catch(err => {
         return err
     })
+};
+
+//LISTADO FILTRADO
+export const getProyectosFiltrado = (id, accesToken, skip, limit, filters = {}) => {
+    const data = {
+        limit, skip, filters
+    };
+    return fetch(`${API}/proyecto/listado/busqueda/${id}`, {
+        method: "POST",
+        headers: {
+            Accept: 'aplication/json',
+            "Content-Type": "application/json",
+            Authorization: `${accesToken}`
+        },
+        body: JSON.stringify(data)
+    })
+    .then( response => {
+        return response.json(); 
+    })
+    .catch( err => {
+        return err
+    });
 };
 
 export const getMyProjects = (id, accessToken) => {

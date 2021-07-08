@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
-import {  isAuthenticated } from './../auth/index';
+import {  isAuthenticated } from '../auth/index';
 import { Redirect } from 'react-router-dom';
-import {  updateProject , readProject} from './apiUser';
-import { getEstilosTatuajes, getPartes } from '../admin/apiAdmin';
+import { createProject } from './apiUser';
+import {  getEstilosTatuajes, getPartes } from '../admin/apiAdmin';
 import makeToast from '../Toaster/Toaster';
 import { Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
@@ -16,7 +16,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
+import { Form } from 'react-bootstrap';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 //ESTILOS A UTILIZAR
 const useStyles = makeStyles((theme) => ({
@@ -33,8 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const UpdateProject = ({match}) => {
-    //LLAMADO A LOS ESITLOS
+const CreateProyecto = () => {
     const classes = useStyles();
 
     const [PartesCuerpo, setPartesCuerpo ] = useState([])
@@ -42,9 +42,10 @@ const UpdateProject = ({match}) => {
         nombre: "",
         descripcion: "",
         tamaño: "",
-        parteCuerpo: "",
+        img: "",
         EstilosTatuaje: [],
         estiloTatuaje: "",
+        parteCuerpo: "",
         loading: false,
         error: "",
         redirectToReferrer: false,
@@ -56,9 +57,10 @@ const UpdateProject = ({match}) => {
         nombre,
         descripcion,
         tamaño,
-        parteCuerpo,
+        img,
         EstilosTatuaje,
         estiloTatuaje,
+        parteCuerpo,
         loading, 
         error,
         redirectToReferrer,
@@ -67,46 +69,33 @@ const UpdateProject = ({match}) => {
 
     const { dataUser, accessToken } = isAuthenticated();
 
-    const init = (projectId) => {
-        readProject(dataUser.id, accessToken, projectId).then(data => {
-            if(data.error){
-                makeToast('error', data.error)
-            } else {
-                setValues({
-                    ...values, 
-                    nombre: data.nombre,
-                    descripcion: data.descripcion,
-                    tamaño: data.tamaño,
-                    formData: new FormData()     
-                }
-                )
-                initEstilos()
-                initPartesCuerpo()
-            }
-        })
-    }
-    const initEstilos = () => {
+    const init = () => {
+
         getEstilosTatuajes(dataUser.id, accessToken).then(data => {
             if(data.error){
                 setValues({...values, error: data.error})
             }else {
-                setValues({ EstilosTatuaje: data.data, formData: new FormData()}) 
+                setValues({...values, EstilosTatuaje: data.data, formData: new FormData()}) 
+                
             }
         })
-    }
-    const initPartesCuerpo = () => {
-        getPartes(dataUser.id, accessToken).then(data => {
-            if(data.error){
-                makeToast('error', data.error)
-                setValues({...values, error: data.error})
-            }else {
-                setPartesCuerpo(data.data) 
-            }
-        })
+       
     }
 
+    const initPartesCuerpo = () => {
+        getPartes().then(data => {
+            if(data.error){
+                setValues({...values, error: data.error})
+            }else {
+                setPartesCuerpo(data.data);
+            }
+        })
+    } 
+
+
     useEffect(() => {
-      init(match.params.projectId)
+      init()
+      initPartesCuerpo()
     }, []);
 
     const HandleChange = name => event => {
@@ -119,15 +108,16 @@ const UpdateProject = ({match}) => {
     const clickSubmit = event => {
         event.preventDefault();
         setValues({...values , error: '', loading:true })
-        updateProject(dataUser.id, accessToken, match.params.projectId,formData)
+        createProject(dataUser.id, accessToken, formData)
         .then(data => {
             if(data.error) {
                 makeToast('error', data.error)
-                 setValues({...values, error: data.error});
+                setValues({...values, error: data.error, redirectToReferrer: false});
             }else{
                 makeToast('success', data.mensaje)
                 setValues({
                     ...values, 
+                    error: false,
                     redirectToReferrer: true
                 });
             }
@@ -139,30 +129,45 @@ const UpdateProject = ({match}) => {
             if(!error){
                 return <Redirect to={`/profile/myprojects/${dataUser.id}`} />
             }
+            
         }
     }
+    const createProjectForm = () => (
 
-    const updateProjectForm = () => (
-         <Container component="main" >
+        <Container component="main" >
             <CssBaseline />
             <form className={classes.form} >
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
-                        <Typography>Título del proyecto</Typography>
+                        <Form>
+                            <Typography variant="caption" display="block" gutterBottom>
+                                Agregar una foto *
+                            </Typography>
+                            <Form.File
+                                id="custom-file"    
+                                custom
+                                onChange={HandleChange('img')}
+                                type="file"
+                                name="img"
+                                accept="image/*"
+                            />
+                        </Form>
+                    </Grid>
+                    <Grid item xs={12}>
                         <TextField
                             variant="standard"
                             autoFocus
                             required
                             fullWidth
+                            label="Título del proyecto"
                             onChange={HandleChange("nombre")}
                             value={nombre}
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Typography>Descripción</Typography>
                         <TextField
                             id="standard-multiline-static"
-                            variant="filled"
+                            label="Describe tu proyecto"
                             multiline
                             fullWidth
                             required
@@ -172,12 +177,12 @@ const UpdateProject = ({match}) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Typography>Tamaño</Typography>
                         <TextField
                             variant="standard"
                             autoFocus
                             required
                             fullWidth
+                            label="Tamaño deseado del tatuaje"
                             onChange={HandleChange("tamaño")}
                             value={tamaño}
                         />
@@ -188,8 +193,8 @@ const UpdateProject = ({match}) => {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={estiloTatuaje}
-                                onChange={HandleChange('estiloTatuaje')}
+                                value={parteCuerpo}
+                                onChange={HandleChange('parteCuerpo')}
                             >
                                 <MenuItem>Seleccione una parte del cuerpo te gustaria realizar este proyecto...</MenuItem>
                                 {PartesCuerpo.map((data, i) => (
@@ -205,8 +210,8 @@ const UpdateProject = ({match}) => {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={parteCuerpo}
-                                onChange={HandleChange('parteCuerpo')}
+                                value={estiloTatuaje}
+                                onChange={HandleChange('estiloTatuaje')}
                             >
                                 <MenuItem>Seleccione un estilo...</MenuItem>
                                 {EstilosTatuaje.map((data, i) => (
@@ -226,25 +231,26 @@ const UpdateProject = ({match}) => {
                             className={classes.submit}
                             onClick={clickSubmit}
                         >
-                            modificar
+                            Crear Proyecto
                         </Button>
                     </Grid>
                 </Grid>
             </form>
         </Container>
+
     );
 
     return (
         <Layout
-            title="Proyecto"
-            description="Editar tu proyecto"
+            title="Proyectos"
+            description="Estás creando un nuevo proyecto"
             className="container col-md-8 offset-md-2"
         >
-            {updateProjectForm()}
+            {createProjectForm()}
             {redirectUser()}
         </Layout>
     );
 
 };
 
-export default UpdateProject;
+export default CreateProyecto;

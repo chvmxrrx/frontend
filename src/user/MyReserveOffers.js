@@ -58,9 +58,6 @@ const MyReserveOffers = () => {
             justify="center"
             alignItems="center"
             className={classes.cardGrid}>
-            <Grid item xs={12}> 
-                <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>Ofertas</Typography>
-            </Grid> 
                     {
                         offers && loading ? (
                             offers.map((offer, id) => (

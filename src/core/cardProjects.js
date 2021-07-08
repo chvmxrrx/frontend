@@ -12,7 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
 import { CardActions } from '@material-ui/core'
 import ShowAvatar from './showAvatar';
-import makeToast from '../Toaster/Toaster';
 
 const CardProject = ({ project }) => {
     const {dataUser} = isAuthenticated()
@@ -22,9 +21,6 @@ const CardProject = ({ project }) => {
             display: 'flex',
             flexDirection: 'column',
           },
-          cardMedia: {
-            paddingTop: '56.25%', // 16:9
-          },
           cardContent: {
             flexGrow: 1,
           }
@@ -32,9 +28,10 @@ const CardProject = ({ project }) => {
     
     const classes = useStyles();
     return ( 
-        
             <Card className={classes.card}>
-                <ShowImage image={project} url="proyecto" />
+                <Link to={`/profile/project/view/${project._id}`}>
+                    <ShowImage image={project} url="proyecto" w="100%" h="300px"/>
+                </Link>
                 <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h6" component="h2" align="center">
                             {project.nombre} 
