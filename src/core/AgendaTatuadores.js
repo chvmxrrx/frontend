@@ -56,12 +56,8 @@ const AgendaTatuadores = ({match}) => {
             className="container col-md-8 offset-md-2"
         >
             
-            <Grid container spacing={3} direction="row" justify="center" alignContent="center" alignItems="center">
-                <Grid item xs={12} className={classes.cardGrid}>
-                    <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                        Agenda
-                    </Typography>
-                </Grid>
+            <Grid container spacing={3} direction="row" justify="center" alignContent="center" alignItems="center" style= {{marginTop: '5%'}}>
+
                     {horas && loading ? (
                             horas.map((horas, i) => (
                                 <CardAgenda key={i} horas={horas} />

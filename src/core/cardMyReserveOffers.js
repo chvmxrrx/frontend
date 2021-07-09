@@ -64,7 +64,7 @@ export default function SimpleCard( {offer} ) {
                         <Typography gutterBottom variant="h6" component="h2" align="center">
                             {offer.proyecto.nombre}
                         </Typography>
-                            <ShowImage image={offer.proyecto} url="proyecto" />
+                            <ShowImage image={offer.proyecto} url="proyecto" h={'250px'} w={'100%'}/>
                         <Typography variant="body2" color="textSecondary" component="p">
                             {offer.descripcion}
                         </Typography>

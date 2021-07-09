@@ -119,7 +119,7 @@ const ModificarReserve = ({match}) => {
       
     <React.Fragment>
       <Typography variant="h4" gutterBottom align="center">
-        Estas modificando tu agenda
+        Estás modificando tu agenda
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={4} sm={6} align="center">

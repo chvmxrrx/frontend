@@ -76,7 +76,7 @@ const DoOfferReserve = ({ match }) => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        maxHeight: 400,
+        maxHeight: '470px',
         overflow: 'scroll'
     },
     });
@@ -135,7 +135,7 @@ const DoOfferReserve = ({ match }) => {
             justify="center"
             alignItems="center">
                 <Grid xs={12} align="center">
-                    <Typography variant="h5">Mis proyectos</Typography>
+                    <Typography variant="h5">Mís proyectos</Typography>
                 </Grid>
             { projects.map((project, id) => (
                 <Grid item xs= {4} style={{marginTop: 10, width: 20}}>
@@ -144,7 +144,7 @@ const DoOfferReserve = ({ match }) => {
                             <Typography gutterBottom variant="h5" component="h2">
                                 {project.nombre}
                             </Typography>
-                            <ShowImage image={project} url="proyecto" />
+                            <ShowImage image={project} url="proyecto" h={'200px'} w={'100%'}/>
                                 <Typography variant="body2" color="textSecondary" component="p">
                                     {project.descripcion}
                                 </Typography>

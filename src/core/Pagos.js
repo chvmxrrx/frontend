@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
   return (
     <React.Fragment>
-    <Layout title="Home Page" description="Aplicacion Inkapp para tatuadores." className="container-fluid">
+    <Layout title="Home Page" description="Aplicacion Inkapp para tatuadores." className="container-fluid" jumbotron={false}>
       <CssBaseline />
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>

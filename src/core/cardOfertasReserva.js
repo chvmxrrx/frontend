@@ -46,7 +46,7 @@ export default function SimpleCard( {reserva} ) {
                                                 </Link>  
                                                 <Done fontSize="medium" style={{color: 'green'}}/>
                                                 </Typography>
-                                                <ShowImage image={data.proyecto} url="proyecto" />
+                                                <ShowImage image={data.proyecto} url="proyecto" h={'350px'} w={'100%'}/>
                                                 <Typography variant="body2" color="textSecondary" component="p">
                                                     Proyecto: {data.proyecto.nombre}
                                                 </Typography>
@@ -98,7 +98,7 @@ export default function SimpleCard( {reserva} ) {
                                             <Typography gutterBottom variant="h5" component="h2" align="center">
                                                 {data.proyecto.nombre} 
                                             </Typography>
-                                            <ShowImage image={data.proyecto} url="proyecto" />
+                                            <ShowImage image={data.proyecto} url="proyecto" h={'250px'} w={'100%'}/>
                                             <Typography variant="body2" color="textSecondary" component="p">
                                             Oferta de 
                                                 <Link to={`/profile/${data.ofertante._id}`}>

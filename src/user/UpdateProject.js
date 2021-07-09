@@ -188,8 +188,8 @@ const UpdateProject = ({match}) => {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={estiloTatuaje}
-                                onChange={HandleChange('estiloTatuaje')}
+                                value={parteCuerpo}
+                                onChange={HandleChange('parteCuerpo')}
                             >
                                 <MenuItem>Seleccione una parte del cuerpo te gustaria realizar este proyecto...</MenuItem>
                                 {PartesCuerpo.map((data, i) => (
@@ -205,8 +205,8 @@ const UpdateProject = ({match}) => {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={parteCuerpo}
-                                onChange={HandleChange('parteCuerpo')}
+                                value={estiloTatuaje}
+                                onChange={HandleChange('estiloTatuaje')}
                             >
                                 <MenuItem>Seleccione un estilo...</MenuItem>
                                 {EstilosTatuaje.map((data, i) => (

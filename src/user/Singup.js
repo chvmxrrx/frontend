@@ -402,7 +402,7 @@ const SignUp = () => {
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link href="/signin" variant="body2">
-                                ¿Ya estás registrado? Inicia sesión ahora!
+                                ¿Ya estás registrado? ¡Inicia sesión ahora!
                             </Link>
                         </Grid>
                     </Grid>

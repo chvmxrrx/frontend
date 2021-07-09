@@ -190,7 +190,7 @@ const SignIn = () => {
                             </Grid>
                             <Grid item>
                                 <Link href="/signup" variant="body2">
-                                    ¿Aun no tienes cuenta? Registrate ahora!
+                                    ¿Aún no tienes cuenta? ¡Regístrate ahora!
                                 </Link>
                             </Grid>
                         </Grid>

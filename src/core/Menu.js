@@ -70,7 +70,7 @@ const Menu = ({ history }) => {
                                         isAuthenticated().dataUser.membresia === true || isAuthenticated().dataUser.tipo === 0 ? (
                                             <Nav.Link href="/chatroomsmenu">Chatrooms</Nav.Link>
                                         ) : (
-                                            <Nav.Link onClick={makeToast('error', 'Debes adquirir una membresía')}>Chatrooms</Nav.Link>
+                                            <Nav.Link onClick={ () => makeToast('error', 'Debes adquirir una membresía')}>Chatrooms</Nav.Link>
                                         )
                                     }
                                 </Fragment>
@@ -130,7 +130,7 @@ const Menu = ({ history }) => {
                                             (isAuthenticated().dataUser.membresia === true) ? (
                                                 <NavDropdown.Item> <Star style={{ color: 'orange' }} />Miembro VIP</NavDropdown.Item>
                                             ) : (
-                                                isAuthenticated().dataUser.tipo === 1 && isAuthenticated().dataUser.tipo === 1 ? (
+                                                isAuthenticated().dataUser.tipo === 1 || isAuthenticated().dataUser.tipo === 2 ? (
                                                     <NavDropdown.Item href={`/profile/pagos/${isAuthenticated().dataUser.id}`}>Hacerme vip</NavDropdown.Item>
                                                 ) : null
                                             )

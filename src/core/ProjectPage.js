@@ -47,6 +47,7 @@ const ProjectPage = props => {
             title={`Proyecto`} 
             description={""} 
             className="container-fluid"
+            jumbotron={false}
         >
         <Container className={classes.cardGrid} maxWidth="md">
             <Grid container justify="center" style={{marginTop: '5%'}}>

@@ -53,7 +53,7 @@ const MyReserveOffers = () => {
         </div>
     )
    return ( 
-   <Layout title="Mis ofertas" description="Estas viendo las ofertas que haz realizado">
+   <Layout title="Mís ofertas" description="Estas viendo las ofertas que haz realizado">
        <Grid container spacing={3} direction="row"
             justify="center"
             alignItems="center"
