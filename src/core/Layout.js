@@ -33,14 +33,14 @@ const Layout = ({ title = "Title", description = "Description", jumbotron = "tru
                                 {ShowSlide("2")}
                                 <Carousel.Caption>
                                     <h3>Un espacio para todos</h3>
-                                    <p>Comparte con tus tatuajes, ideas o diseños y conectate con tatuadores.</p>
+                                    <p>Comparte tus tatuajes, ideas o diseños con el resto de usuarios y conectate con tatuadores.</p>
                                 </Carousel.Caption>
                             </Carousel.Item>
                             <Carousel.Item>
                                 {ShowSlide("3")}
                                 <Carousel.Caption>
-                                    <h3>Si eres tatuador, ¡Registrate con nosotros!</h3>
-                                    <p>Conectate con tus clientes a través de INKAPP y gestiona tu trabajo.</p>
+                                    <h3>Si eres tatuador, encuentra personas</h3>
+                                    <p>Conectate con posibles clientes a través de INKAPP y gestiona tus horas de trabajo.</p>
                                 </Carousel.Caption>
                             </Carousel.Item>
                         </Carousel>
