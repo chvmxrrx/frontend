@@ -54,12 +54,12 @@ export default function Album() {
                     </Typography>
                     <nav>
                         <Typography variant="subtitle1" align="left" color="white" component="p">
-                            <Link href="http://facebook.com" variant="subtitle1" color="inherit">
+                            <Link href="https://www.facebook.com/Inkapp-101042588929097" variant="subtitle1" color="inherit">
                                 Facebook
                             </Link>
                         </Typography>
                         <Typography variant="subtitle2" align="left" color="white" component="p">
-                            <Link href="http://instagram.com" variant="subtitle1" color="inherit">
+                            <Link href="http://instagram.com/somosinkapp" variant="subtitle1" color="inherit">
                                 Instagram
                             </Link>
                         </Typography>
@@ -73,7 +73,10 @@ export default function Album() {
                         soporte@inkapp.cl
                     </Typography>
                     <Typography variant="subtitle1" align="left" color="white" component="p">
-                        +569 99999999 
+                        +569 90947518
+                    </Typography>
+                    <Typography variant="subtitle1" align="left" color="white" component="p">
+                        +569 62745960
                     </Typography>
                 </Grid>
             </Grid>

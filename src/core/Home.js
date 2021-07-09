@@ -15,7 +15,7 @@ import { isAuthenticated } from '../auth';
 import logo from '../assets/images/InkappLogo.jpeg'
 import { Button } from '@material-ui/core';
 import { Fragment } from 'react';
-
+import makeToast from '../Toaster/Toaster';
 //ESTILOS A UTILIZAR
 const useStyles = makeStyles((theme) => ({
     cardGrid: {
@@ -88,7 +88,14 @@ const Home = () => {
                                         Accede a los proyectos...
                                     </Typography>
                                     <Button href={"/profile/project/projects/list"}>Ver proyectos</Button> {"/"}
-                                    <Button href={`/profile/project/create/${dataUser.id}`}>crear proyecto</Button>
+                                    {
+                                        dataUser.membresia === false ? (
+                                            <Button onClick = {() => makeToast('error', 'Necesitas adquirir membresía')}>crear proyecto</Button>
+                                        ) : (
+                                            <Button href={`/profile/project/create/${dataUser.id}`}>crear proyecto</Button>
+                                        )
+                                    }
+                                    
                                 </Grid>
 
                                 <Grid item xs={6}>
