@@ -81,7 +81,7 @@ const Home = () => {
                                         Accede a las publicaciones...
                                     </Typography>
                                     <Button href={"/publicaciones"} >Ver publicaciones</Button> {"/"}
-                                    <Button href={`/profile/publication/create/${dataUser.id}`} >crear publicacion</Button>
+                                    <Button href={`/profile/publication/create/${dataUser.id}`} >crear publicación</Button>
                                 </Grid>
                                 <Grid item xs={6} className={classes.textBox}>
                                     <Typography variant="h5" gutterBottom>
