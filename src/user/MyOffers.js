@@ -50,7 +50,7 @@ const MisOfertas = () => {
     )
 
    return ( 
-   <Layout title="Mis ofertas" description="Estas viendo las ofertas que haz realizado">
+   <Layout title="Mis ofertas" description="Estás viendo las ofertas que haz realizado">
        <Grid container className={classes.cardGrid} spacing= {3}  justify="center" direction="row" alignItem="center">
             <Grid item xs={12}> 
                 <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>Ofertas que haz enviado</Typography>

@@ -66,7 +66,7 @@ const MisProyectos = () => {
     )
     const classes = useStyles()
    return ( 
-   <Layout title="Mis proyectos" description="Estas viendo tus proyectos!">
+   <Layout title="Mis proyectos" description="Estás viendo tus proyectos">
        <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={3}>
                     { projects && loading ? (

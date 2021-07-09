@@ -125,7 +125,7 @@ const AllProjects = () => {
             if (data.error) {
                 makeToast('error', data.error)
             } else {
-                console.log(data);
+                
                 setFilteredResult(data.data);
                 setFilteredResultSize(data.size);
                 setTimeout( function () { setLoading(true) } , 2000) 
@@ -134,7 +134,7 @@ const AllProjects = () => {
     }
 
     return (
-        <Layout title="Proyectos" description="Estas viendo los proyectos de inkapp"  className="container-fluid" jumbotron="true" >
+        <Layout title="Proyectos" description="Estás viendo los proyectos de inkapp"  className="container-fluid" jumbotron="true" >
             <Container className={classes.cardGrid} maxWidth="100%">
                 <Grid container>
                     <Grid item xs={2}>
@@ -167,7 +167,7 @@ const AllProjects = () => {
                                 filteredResultsSize === 0 ? (
                                     <Grid item xs={12}>
                                         <Alert variant={"warning"}>
-                                            Aún no hay publicaciones de este estilo.
+                                            Aún no hay proyectos de este estilo.
                                         </Alert>
                                     </Grid>
 

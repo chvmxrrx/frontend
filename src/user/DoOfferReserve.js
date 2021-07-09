@@ -135,7 +135,7 @@ const DoOfferReserve = ({ match }) => {
             justify="center"
             alignItems="center">
                 <Grid xs={12} align="center">
-                    <Typography variant="h5">Mís proyectos</Typography>
+                    <Typography variant="h5">Mis proyectos</Typography>
                 </Grid>
             { projects.map((project, id) => (
                 <Grid item xs= {4} style={{marginTop: 10, width: 20}}>

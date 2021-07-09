@@ -171,9 +171,6 @@ const DoReserve = ({match}) => {
           <Grid item xs={12} align="center">
             <button onClick={clickSubmit} className="btn btn-primary"><SaveIcon />Agendar hora</button>
           </Grid>
-          <Typography variant="body2" align="center" style={{color: 'black'}}>
-            *Puedes agendar hasta 10 horas como máximo*
-          </Typography>
           </Grid >
           <Grid item xs={12} direction="row"
               justify="center"
